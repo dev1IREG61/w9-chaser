@@ -38,7 +38,6 @@ function App() {
       }
     };
 
-    // Check route on mount
     checkRoute();
 
     // Listen for hash changes (for navigation without page reload)
