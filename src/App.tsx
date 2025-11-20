@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import LandingPage from "./pages/LandingPage";
 import { FeaturesPage } from "../src/components/features/features-page/FeaturesPage"; // Updated import
 import DebugFeaturesAPI from "./pages/DebugFeaturesApi";
+import DebugLandingAPI from "./pages/DebugLandingApi";
 
 function App() {
   const [currentView, setCurrentView] = useState<{
-    type: "landing" | "features" | "debug";
+    type: "landing" | "features" | "debug-features" | "debug-landing";
     slug?: string;
   }>({ type: "landing" });
 
@@ -15,9 +16,20 @@ function App() {
       const path = window.location.pathname;
       const hash = window.location.hash;
 
-      // Debug page
+      // Debug pages
+      if (path.includes("/debug-features") || hash.includes("#debug-features")) {
+        setCurrentView({ type: "debug-features" });
+        return;
+      }
+      
+      if (path.includes("/debug-landing") || hash.includes("#debug-landing")) {
+        setCurrentView({ type: "debug-landing" });
+        return;
+      }
+      
+      // Legacy debug route defaults to features
       if (path.includes("/debug") || hash.includes("#debug")) {
-        setCurrentView({ type: "debug" });
+        setCurrentView({ type: "debug-features" });
         return;
       }
 
@@ -55,8 +67,12 @@ function App() {
     return <FeaturesPage slug={currentView.slug} />;
   }
 
-  if (currentView.type === "debug") {
+  if (currentView.type === "debug-features") {
     return <DebugFeaturesAPI />;
+  }
+
+  if (currentView.type === "debug-landing") {
+    return <DebugLandingAPI />;
   }
 
   return <LandingPage />;
