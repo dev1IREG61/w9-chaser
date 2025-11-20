@@ -28,7 +28,7 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
       <div key={card.id} className="group relative h-full">
         {/* Card container */}
         <div
-          className="relative h-full p-6 rounded-2xl transition-all duration-500 hover:shadow-lg border backdrop-blur-sm overflow-hidden"
+          className="relative h-full p-6 rounded-2xl transition-all duration-500 hover:shadow-lg border backdrop-blur-sm overflow-hidden flex flex-col"
           style={{
             backgroundColor: bgColor,
             borderColor: `${primaryColor}12`,
@@ -50,19 +50,17 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
             }}
           />
 
-          {/* Card Image */}
+          {/* Card Image - IMPROVED */}
           {card.card_image && (
-            <div className="mb-4">
-              <div className="w-full h-32 rounded-xl overflow-hidden transition-all duration-300 group-hover:scale-105 relative">
+            <div className="mb-4 -mx-6 -mt-6">
+              <div className="w-full h-48 rounded-t-2xl rounded-b-none overflow-hidden transition-all duration-300 group-hover:scale-[1.02] relative">
                 <img
                   src={`https://esign-admin.signmary.com${card.card_image.url}`}
                   alt={card.card_image.title || card.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                {/* Overlay */}
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
               </div>
             </div>
           )}
@@ -94,64 +92,67 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
             </div>
           )}
 
-          {/* Title */}
-          <h3
-            className="text-xl font-bold mb-3 leading-tight transition-colors duration-300 line-clamp-2"
-            style={{ color: textColor }}
-          >
-            {card.title}
-          </h3>
-
-          {/* Description */}
-          {card.description && (
-            <p
-              className="text-sm leading-relaxed mb-4 text-pretty line-clamp-3"
-              style={{ color: neutralColor }}
+          {/* Content area */}
+          <div className="flex-1 flex flex-col">
+            {/* Title */}
+            <h3
+              className="text-xl font-bold mb-3 leading-tight transition-colors duration-300 line-clamp-2"
+              style={{ color: textColor }}
             >
-              {card.description}
-            </p>
-          )}
+              {card.title}
+            </h3>
 
-          {/* Features List */}
-          {card.features && card.features.length > 0 && (
-            <ul className="space-y-2 mb-4">
-              {card.features.map((feature, idx) => (
-                <li key={idx} className="flex items-start gap-2 group/item">
-                  <div
-                    className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-200 group-hover/item:scale-110"
-                    style={{ backgroundColor: `${accentColor}15` }}
-                  >
-                    <EasyIcon icon="FiCheck" size={10} color={accentColor} />
-                  </div>
-                  <span
-                    className="text-sm leading-relaxed text-pretty"
-                    style={{ color: neutralColor }}
-                  >
-                    {feature}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {/* Button */}
-          {card.button_text && card.button_url && (
-            <div className="mt-auto pt-4">
-              <a
-                href={card.button_url}
-                className="inline-flex items-center gap-1.5 font-semibold text-sm transition-all duration-300 hover:gap-2 group/btn"
-                style={{ color: primaryColor }}
+            {/* Description */}
+            {card.description && (
+              <p
+                className="text-sm leading-relaxed mb-4 text-pretty line-clamp-3 flex-1"
+                style={{ color: neutralColor }}
               >
-                {card.button_text}
-                <EasyIcon
-                  icon="FiArrowRight"
-                  size={14}
-                  color={primaryColor}
-                  className="transition-transform duration-300 group-hover/btn:translate-x-0.5"
-                />
-              </a>
-            </div>
-          )}
+                {card.description}
+              </p>
+            )}
+
+            {/* Features List */}
+            {card.features && card.features.length > 0 && (
+              <ul className="space-y-2 mb-4">
+                {card.features.map((feature, idx) => (
+                  <li key={idx} className="flex items-start gap-2 group/item">
+                    <div
+                      className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-200 group-hover/item:scale-110"
+                      style={{ backgroundColor: `${accentColor}15` }}
+                    >
+                      <EasyIcon icon="FiCheck" size={10} color={accentColor} />
+                    </div>
+                    <span
+                      className="text-sm leading-relaxed text-pretty"
+                      style={{ color: neutralColor }}
+                    >
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* Button */}
+            {card.button_text && card.button_url && (
+              <div className="mt-auto pt-4">
+                <a
+                  href={card.button_url}
+                  className="inline-flex items-center gap-1.5 font-semibold text-sm transition-all duration-300 hover:gap-2 group/btn"
+                  style={{ color: primaryColor }}
+                >
+                  {card.button_text}
+                  <EasyIcon
+                    icon="FiArrowRight"
+                    size={14}
+                    color={primaryColor}
+                    className="transition-transform duration-300 group-hover/btn:translate-x-0.5"
+                  />
+                </a>
+              </div>
+            )}
+          </div>
 
           {/* Bottom accent bar - appears on hover */}
           <div className="absolute bottom-0 left-0 right-0 h-0.5 overflow-hidden rounded-b-2xl">
@@ -223,7 +224,7 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
         )}
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 max-w-6xl mx-auto mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto mb-12">
           {cards.map((card) => renderCard(card))}
         </div>
 
