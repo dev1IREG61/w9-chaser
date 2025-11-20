@@ -12,6 +12,9 @@ import Testimonials from "../components/landingpage/Testimonials";
 import FAQ from "../components/landingpage/FAQ";
 import CTA from "../components/landingpage/CTA";
 import Footer from "../components/landingpage/Footer";
+import ProblemSolution from "../components/landingpage/ProblemSolution";
+import HowItWorks from "../components/landingpage/HowItWorks";
+import Pricing from "../components/landingpage/Pricing";
 
 interface LandingPageProps {
   onShowLogin?: () => void;
@@ -170,11 +173,20 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
       {/* Features Section - ALWAYS SHOW (now has sample content) */}
       <Features data={data} />
 
+      {/* Problem Solution Section */}
+      <ProblemSolution data={data} />
+
+      {/* How It Works Section */}
+      <HowItWorks data={data} />
+
       {/* Video Section */}
       {data.video_section?.featured_video && <VideoSection data={data} />}
 
       {/* Benefits Section - ALWAYS SHOW (now has sample content) */}
       <Benefits data={data} />
+
+      {/* Pricing Section */}
+      <Pricing data={data} />
 
       {/* Card Sections */}
       {data.card_sections?.cards && data.card_sections.cards.length > 0 && (
