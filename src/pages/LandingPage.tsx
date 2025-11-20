@@ -25,6 +25,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Scroll animation observer
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll(
+      '.scroll-fade-up, .scroll-fade-in, .scroll-slide-left, .scroll-slide-right, .scroll-scale-up, .scroll-fade-down'
+    );
+
+    animatedElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      animatedElements.forEach((el) => observer.unobserve(el));
+    };
+  }, [data]);
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -135,6 +161,123 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
 
   return (
     <div className="landing-page">
+      {/* Global Animation Styles */}
+      <style>{`
+        @keyframes fadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes slideLeft {
+          from {
+            opacity: 0;
+            transform: translateX(60px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slideRight {
+          from {
+            opacity: 0;
+            transform: translateX(-60px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes scaleUp {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes fadeDown {
+          from {
+            opacity: 0;
+            transform: translateY(-40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .scroll-fade-up {
+          opacity: 0;
+          transform: translateY(40px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-fade-in {
+          opacity: 0;
+          transition: opacity 0.8s ease-out;
+        }
+
+        .scroll-slide-left {
+          opacity: 0;
+          transform: translateX(60px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-slide-right {
+          opacity: 0;
+          transform: translateX(-60px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-scale-up {
+          opacity: 0;
+          transform: scale(0.9);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-fade-down {
+          opacity: 0;
+          transform: translateY(-40px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-in {
+          opacity: 1 !important;
+          transform: translateY(0) translateX(0) scale(1) !important;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+          scroll-behavior: smooth;
+        }
+
+        /* Parallax effect for background elements */
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+      `}</style>
       {/* Apply color theme globally with contrast fix */}
       {data.color_theme && (
         <style>{`
@@ -168,64 +311,92 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
       <GlassNavbar data={data} onShowLogin={onShowLogin} />
 
       {/* Header Section */}
-      <Header data={data} onShowLogin={onShowLogin} />
+      <div className="scroll-fade-up animate-in">
+        <Header data={data} onShowLogin={onShowLogin} />
+      </div>
 
       {/* Features Section - ALWAYS SHOW (now has sample content) */}
-      <Features data={data} />
+      <div className="scroll-fade-up">
+        <Features data={data} />
+      </div>
 
       {/* Problem Solution Section */}
-      <ProblemSolution data={data} />
+      <div className="scroll-scale-up">
+        <ProblemSolution data={data} />
+      </div>
 
       {/* How It Works Section */}
-      <HowItWorks data={data} />
+      <div className="scroll-slide-right">
+        <HowItWorks data={data} />
+      </div>
 
       {/* Video Section */}
-      {data.video_section?.featured_video && <VideoSection data={data} />}
+      {data.video_section?.featured_video && (
+        <div className="scroll-fade-in">
+          <VideoSection data={data} />
+        </div>
+      )}
 
       {/* Benefits Section - ALWAYS SHOW (now has sample content) */}
-      <Benefits data={data} />
+      <div className="scroll-slide-left">
+        <Benefits data={data} />
+      </div>
 
       {/* Pricing Section */}
-      <Pricing data={data} />
+      <div className="scroll-fade-up">
+        <Pricing data={data} />
+      </div>
 
       {/* Card Sections */}
       {data.card_sections?.cards && data.card_sections.cards.length > 0 && (
-        <CardSections data={data} />
+        <div className="scroll-scale-up">
+          <CardSections data={data} />
+        </div>
       )}
 
       {/* ===== DYNAMIC CONTENT SECTION ===== */}
       {data.dynamic_content && data.dynamic_content.length > 0 && (
-        <section
-          className="py-20 px-4 sm:px-6 lg:px-8"
-          style={{
-            backgroundColor:
-              data.color_theme?.background_color === "#6B7280"
-                ? "#FFFFFF"
-                : data.color_theme?.background_color || "#FFFFFF",
-          }}
-        >
-          <div className="max-w-7xl mx-auto">
-            {/* Remove the "Dynamic Content" header since it's not needed */}
-            {data.dynamic_content.map((block) => (
-              <DynamicContentRenderer key={block.id} block={block} />
-            ))}
-          </div>
-        </section>
+        <div className="scroll-fade-up">
+          <section
+            className="py-20 px-4 sm:px-6 lg:px-8"
+            style={{
+              backgroundColor:
+                data.color_theme?.background_color === "#6B7280"
+                  ? "#FFFFFF"
+                  : data.color_theme?.background_color || "#FFFFFF",
+            }}
+          >
+            <div className="max-w-7xl mx-auto">
+              {/* Remove the "Dynamic Content" header since it's not needed */}
+              {data.dynamic_content.map((block) => (
+                <DynamicContentRenderer key={block.id} block={block} />
+              ))}
+            </div>
+          </section>
+        </div>
       )}
       {/* ===== END DYNAMIC CONTENT SECTION ===== */}
 
       {/* Testimonials Section - ALWAYS SHOW (now has sample content) */}
-      <Testimonials data={data} />
+      <div className="scroll-slide-right">
+        <Testimonials data={data} />
+      </div>
 
-      <FAQ data={data} />
+      <div className="scroll-fade-up">
+        <FAQ data={data} />
+      </div>
 
       {/* CTA Section */}
       {(data.cta_head || data.cta_introduction || data.cta_primary_text) && (
-        <CTA data={data} />
+        <div className="scroll-scale-up">
+          <CTA data={data} />
+        </div>
       )}
 
       {/* Footer */}
-      <Footer data={data} />
+      <div className="scroll-fade-in">
+        <Footer data={data} />
+      </div>
     </div>
   );
 };

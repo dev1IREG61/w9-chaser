@@ -189,34 +189,14 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
           }`}
         >
           {/* Logo Section */}
-          <div className="flex items-center gap-2 flex-shrink-0 group cursor-pointer">
+          <div className="flex items-center gap-2 flex-shrink-0 group cursor-pointer -my-2">
             {logo ? (
               <div className="flex items-center gap-2">
-                <div
-                  className="relative  overflow-hidden transition-all duration-500 group-hover:scale-110 group-hover:rotate-3"
-                  style={{
-                    background: gradientBg,
-                    boxShadow: scrolled
-                      ? `0 4px 12px ${primaryColor}20` // Reduced shadow
-                      : "none",
-                  }}
-                >
-                  <div className="bg-white rounded-lg p-1">
-                    {" "}
-                    {/* Reduced padding */}
-                    <img
-                      src={getFullImageUrl(logo.url)}
-                      alt={logo.title || siteName}
-                      className="h-8 w-auto object-contain transition-transform duration-500 group-hover:scale-105" // Slightly smaller logo
-                      style={{
-                        maxWidth: logo.width ? `${logo.width}px` : "250px",
-                        maxHeight: logo.height ? `${logo.height}px` : "50px",
-                        minWidth: "120px",
-                        minHeight: "30px",
-                      }}
-                    />
-                  </div>
-                </div>
+                <img
+                  src={getFullImageUrl(logo.url)}
+                  alt={logo.title || siteName}
+                  className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
             ) : (
               <div className="flex items-center gap-3">

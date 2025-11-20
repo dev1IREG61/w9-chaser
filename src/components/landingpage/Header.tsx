@@ -106,17 +106,77 @@ const Header: React.FC<HeaderProps> = ({ data, onShowLogin }) => {
                   className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight animate-fadeInUp animation-delay-200"
                   style={{ color: textColor }}
                 >
-                  {header_title}
+                  {(() => {
+                    const words = header_title.split(" ");
+                    const highlightEndIndex = words.findIndex((word) =>
+                      word.match(/^W9|Platform|Businesses/i)
+                    );
+                    const endIndex =
+                      highlightEndIndex > 0 ? highlightEndIndex : 4;
+
+                    const highlightedText = words.slice(0, endIndex).join(" ");
+                    const remainingText = words.slice(endIndex).join(" ");
+
+                    return (
+                      <>
+                        <span
+                          className="inline-block px-3 py-1 rounded-lg whitespace-nowrap"
+                          style={{
+                            backgroundColor: `${primaryColor}15`,
+                            color: primaryColor,
+                          }}
+                        >
+                          {highlightedText}
+                        </span>{" "}
+                        <span>{remainingText}</span>
+                      </>
+                    );
+                  })()}
                 </h1>
               )}
               {/* Description - Smaller */}
               {header_description && (
-                <p
-                  className="text-base lg:text-lg mb-6 leading-relaxed animate-fadeInUp animation-delay-400"
-                  style={{ color: neutralColor }}
-                >
-                  {header_description}
-                </p>
+                <div className="text-base lg:text-lg mb-6 leading-relaxed animate-fadeInUp animation-delay-400">
+                  {header_description.split("\n").map((line, index) => {
+                    const trimmedLine = line.trim();
+                    if (!trimmedLine) return null;
+
+                    // Check if line starts with emoji or bullet point
+                    const startsWithBullet = /^[📌•\-\*]/.test(trimmedLine);
+                    
+                    // Auto-detect short lines as bullets (less than 60 chars and ends with punctuation)
+                    const isShortLine = trimmedLine.length < 60 && /[.!?]$/.test(trimmedLine);
+                    
+                    // Check if it's a question or statement pattern
+                    const isBulletPattern = /^(Only|No|Also|Yes|✓|✔)/.test(trimmedLine) || isShortLine;
+                    
+                    const isBullet = startsWithBullet || isBulletPattern;
+
+                    if (isBullet) {
+                      return (
+                        <div
+                          key={index}
+                          className="flex items-start gap-2 mb-2"
+                        >
+                          <span style={{ color: primaryColor }}>•</span>
+                          <span style={{ color: neutralColor }}>
+                            {trimmedLine.replace(/^[📌•\-\*]\s*/, "")}
+                          </span>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <p
+                        key={index}
+                        className="mb-3"
+                        style={{ color: neutralColor }}
+                      >
+                        {trimmedLine}
+                      </p>
+                    );
+                  })}
+                </div>
               )}
               {/* CTAs - Smaller buttons */}
               <div className="flex flex-col sm:flex-row items-center gap-3 mb-6 animate-fadeInUp animation-delay-600">
