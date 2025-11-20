@@ -26,30 +26,53 @@ const ProblemSolution: React.FC<ProblemSolutionProps> = ({ data }) => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {section.items.map((item, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
-            >
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold text-red-600 mb-2">
-                  Problem:
-                </h3>
-                <p className="text-gray-700 mb-4">{item.problem}</p>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold text-green-600 mb-2">
-                  Solution:
-                </h3>
-                <div 
-                  className="text-gray-700"
-                  dangerouslySetInnerHTML={{ __html: item.solution }}
-                />
-              </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Problems Column */}
+          <div>
+            <h3 className="text-2xl font-bold text-red-600 mb-8 text-center">
+              Problems
+            </h3>
+            <div className="space-y-6">
+              {section.items.map((item, index) => (
+                <div
+                  key={`problem-${index}`}
+                  className="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
+                      {index + 1}
+                    </div>
+                    <p className="text-gray-800 leading-relaxed">{item.problem}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Solutions Column */}
+          <div>
+            <h3 className="text-2xl font-bold text-green-600 mb-8 text-center">
+              Solutions
+            </h3>
+            <div className="space-y-6">
+              {section.items.map((item, index) => (
+                <div
+                  key={`solution-${index}`}
+                  className="bg-green-50 border-l-4 border-green-500 rounded-lg p-6 hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
+                      {index + 1}
+                    </div>
+                    <div 
+                      className="text-gray-800 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: item.solution }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
