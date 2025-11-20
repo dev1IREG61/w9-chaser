@@ -3,7 +3,7 @@ import type { FeaturesPageData } from "../../../types/features-page";
 const isDevelopment = import.meta.env.DEV;
 const frontendUrl = isDevelopment
   ? "http://localhost:5173"
-  : "https://dynamic-cms-zeta.vercel.app";
+  : "http://w9chaser.com";
 
 const baseApiUrl = isDevelopment
   ? "/blogs/api/v2"
