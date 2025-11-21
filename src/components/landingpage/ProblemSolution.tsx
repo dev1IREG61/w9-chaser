@@ -1,20 +1,12 @@
 import React from "react";
 import { AlertTriangle, Lightbulb } from "lucide-react";
+import type { LandingPageData } from "../../types/landing";
 
 interface ProblemSolutionProps {
-  data: {
-    problem_solution_section?: {
-      heading?: string;
-      introduction?: string;
-      items: Array<{
-        problem: string;
-        solution: string;
-      }>;
-    };
-  };
+  data: LandingPageData;
 }
 
-const ProblemSolutionTemplate: React.FC<ProblemSolutionProps> = ({ data }) => {
+const ProblemSolution: React.FC<ProblemSolutionProps> = ({ data }) => {
   const section = data.problem_solution_section;
 
   if (!section || !section.items || section.items.length === 0) {
@@ -22,92 +14,97 @@ const ProblemSolutionTemplate: React.FC<ProblemSolutionProps> = ({ data }) => {
   }
 
   return (
-    <section className="w-full bg-gray-100 py-20 px-4 sm:px-6 lg:px-8">
+    <section className="w-full bg-white py-20 px-4 sm:px-6 lg:px-8">
       {/* Title */}
-      {section.heading && (
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            {section.heading}
-          </h2>
-          {section.introduction && (
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {section.introduction}
-            </p>
-          )}
-        </div>
-      )}
+      <div className="text-center mb-16">
+        <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          {section.heading}
+        </h2>
+        {section.introduction && (
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            {section.introduction}
+          </p>
+        )}
+      </div>
 
       {/* Main Container */}
       <div className="max-w-7xl mx-auto">
         {/* Headers */}
-        <div className="flex justify-between items-center mb-8 px-4">
-          <h2 className="text-5xl font-bold text-orange-500">Problem</h2>
-          <h2 className="text-5xl font-bold text-green-600">Solution</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_180px_1fr] gap-4 mb-10 px-4">
+          <h2 className="text-4xl lg:text-5xl font-bold text-orange-500">
+            Problem
+          </h2>
+          <div></div>
+          <h2 className="text-4xl lg:text-5xl font-bold text-green-600">
+            Solution
+          </h2>
         </div>
 
         {/* Items */}
         <div className="space-y-6">
           {section.items.map((item, index) => (
-            <div key={index} className="flex items-center gap-4">
-              {/* Problem Box */}
-              <div className="flex-1 bg-white border-2 border-gray-300 rounded-lg p-6 shadow-sm min-h-[120px] flex items-center transition-all duration-300 hover:shadow-xl hover:scale-105 hover:border-orange-400 hover:-translate-y-1">
-                <p className="text-gray-700 text-base leading-relaxed">
-                  {item.problem}
-                </p>
-              </div>
-
-              {/* Center Section with Icons */}
-              <div className="flex items-center gap-3 flex-shrink-0">
-                {/* Problem Icon */}
-                <div className="w-20 h-20 bg-gradient-to-b from-orange-400 to-orange-600 rounded-full shadow-lg flex items-center justify-center">
-                  <AlertTriangle
-                    className="w-9 h-9 text-white"
-                    strokeWidth={2.5}
-                  />
+            <div key={index} className="relative">
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_180px_1fr] gap-4 items-center">
+                {/* Problem Box */}
+                <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 shadow-sm hover:shadow-xl hover:scale-105 hover:border-l-8 hover:-translate-y-1 transition-all duration-300">
+                  <p className="text-gray-800 text-base leading-relaxed">
+                    {item.problem}
+                  </p>
                 </div>
 
-                {/* Left Arrow */}
-                <svg
-                  width="36"
-                  height="36"
-                  viewBox="0 0 36 36"
-                  className="text-gray-400"
-                >
-                  <path
-                    d="M4 18 L18 11 L18 15 L28 15 L28 21 L18 21 L18 25 Z"
-                    fill="currentColor"
-                  />
-                </svg>
+                {/* Center Section with Icons and Arrows */}
+                <div className="hidden lg:flex items-center justify-center gap-2">
+                  {/* Problem Icon */}
+                  <div className="w-12 h-12 bg-gradient-to-b from-orange-400 to-orange-600 rounded-full shadow-xl flex items-center justify-center flex-shrink-0">
+                    <AlertTriangle
+                      className="w-6 h-6 text-white"
+                      strokeWidth={2.5}
+                    />
+                  </div>
 
-                {/* Right Arrow */}
-                <svg
-                  width="36"
-                  height="36"
-                  viewBox="0 0 36 36"
-                  className="text-gray-400"
-                >
-                  <path
-                    d="M32 18 L18 25 L18 21 L8 21 L8 15 L18 15 L18 11 Z"
-                    fill="currentColor"
-                  />
-                </svg>
+                  {/* Left Arrow */}
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    className="text-gray-400 flex-shrink-0"
+                  >
+                    <path
+                      d="M3 12 L12 8 L12 10 L18 10 L18 14 L12 14 L12 16 Z"
+                      fill="currentColor"
+                    />
+                  </svg>
 
-                {/* Solution Icon */}
-                <div className="w-20 h-20 bg-gradient-to-b from-green-500 to-green-700 rounded-full shadow-lg flex items-center justify-center">
-                  <Lightbulb
-                    className="w-9 h-9 text-white"
-                    strokeWidth={2.5}
-                    fill="white"
+                  {/* Right Arrow */}
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    className="text-gray-400 flex-shrink-0"
+                  >
+                    <path
+                      d="M21 12 L12 16 L12 14 L6 14 L6 10 L12 10 L12 8 Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+
+                  {/* Solution Icon */}
+                  <div className="w-12 h-12 bg-gradient-to-b from-green-500 to-green-700 rounded-full shadow-xl flex items-center justify-center flex-shrink-0">
+                    <Lightbulb
+                      className="w-6 h-6 text-white"
+                      strokeWidth={2.5}
+                      fill="white"
+                    />
+                  </div>
+                </div>
+
+                {/* Solution Box */}
+                <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-6 shadow-sm hover:shadow-xl hover:scale-105 hover:border-l-8 hover:-translate-y-1 transition-all duration-300">
+                  <div
+                    className="text-gray-800 text-base leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: item.solution }}
                   />
                 </div>
-              </div>
-
-              {/* Solution Box */}
-              <div className="flex-1 bg-white border-2 border-gray-300 rounded-lg p-6 shadow-sm min-h-[120px] flex items-center transition-all duration-300 hover:shadow-xl hover:scale-105 hover:border-green-500 hover:-translate-y-1">
-                <div
-                  className="text-gray-700 text-base leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: item.solution }}
-                />
               </div>
             </div>
           ))}
@@ -117,4 +114,4 @@ const ProblemSolutionTemplate: React.FC<ProblemSolutionProps> = ({ data }) => {
   );
 };
 
-export default ProblemSolutionTemplate;
+export default ProblemSolution;
