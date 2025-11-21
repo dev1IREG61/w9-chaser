@@ -3,7 +3,7 @@ import { AlertTriangle, Lightbulb } from "lucide-react";
 
 interface ProblemSolutionProps {
   data: {
-    problem_solution_section: {
+    problem_solution_section?: {
       heading?: string;
       introduction?: string;
       items: Array<{
