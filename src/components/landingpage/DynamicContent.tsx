@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import type { DynamicContentBlock } from "../../types/landing";
 import EasyIcon from "./IconRenderer"; // Add this import
 
@@ -16,6 +16,182 @@ const getFullImageUrl = (url: string): string => {
   if (!url) return "";
   if (url.startsWith("http")) return url;
   return `${API_BASE_URL}${url}`;
+};
+
+const ScrollAnimateItem: React.FC<any> = ({ item }) => {
+  const itemRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const element = itemRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            element.classList.add('animate-fadeInUp');
+            element.classList.remove('opacity-0');
+          } else {
+            element.classList.remove('animate-fadeInUp');
+            element.classList.add('opacity-0');
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={itemRef}
+      className="opacity-0 group bg-white rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-2"
+    >
+      {item.image && item.image.url && (
+        <div className="w-full h-48 rounded-xl mb-4 overflow-hidden">
+          <img
+            src={getFullImageUrl(item.image.url)}
+            alt={item.image.title || item.title || "Content image"}
+            className="w-full h-full object-contain bg-gray-50 transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+      )}
+
+      <h4 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-blue-600 transition-colors">
+        {item.title || "Untitled"}
+      </h4>
+
+      {item.content && (
+        <div
+          className="prose prose-sm max-w-none text-gray-600"
+          dangerouslySetInnerHTML={{
+            __html:
+              typeof item.content === "string"
+                ? item.content
+                : String(item.content || ""),
+          }}
+        />
+      )}
+    </div>
+  );
+};
+
+const ScrollAnimateCard: React.FC<any> = ({ bgClass, idx, cardData, title, description, icon, features, formatDescription }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            card.classList.add('animate-fadeInUp');
+            card.classList.remove('opacity-0');
+          } else {
+            card.classList.remove('animate-fadeInUp');
+            card.classList.add('opacity-0');
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      className={`opacity-0 group bg-gradient-to-br ${bgClass} rounded-2xl p-6 md:p-8 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border`}
+    >
+      {icon && (
+        <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 bg-blue-100">
+          <EasyIcon icon={icon} size={24} color="#3B82F6" />
+        </div>
+      )}
+
+      {cardData.card_image && (
+        <div className="w-full h-48 rounded-xl mb-6 overflow-hidden">
+          <img
+            src={getFullImageUrl(cardData.card_image.url)}
+            alt={cardData.card_image.title || title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+
+      <h4
+        className="text-xl md:text-2xl font-bold mb-4 leading-tight"
+        style={{
+          background: `linear-gradient(135deg, ${
+            idx % 4 === 0 ? "#3B82F6, #8B5CF6" :
+            idx % 4 === 1 ? "#10B981, #059669" :
+            idx % 4 === 2 ? "#F59E0B, #EF4444" :
+            "#EC4899, #8B5CF6"
+          })`,
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+          filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))",
+        }}
+      >
+        {title || "Card Title"}
+      </h4>
+
+      {description && (
+        <div className="text-gray-600 leading-relaxed text-base">
+          <ul className="space-y-1">
+            {formatDescription(description)}
+          </ul>
+        </div>
+      )}
+
+      {(cardData.price || cardData.price_period) && (
+        <div className="mb-6">
+          <span className="text-3xl font-bold text-gray-800">
+            {cardData.price}
+          </span>
+          {cardData.price_period && (
+            <span className="text-gray-600 ml-2">
+              {cardData.price_period}
+            </span>
+          )}
+        </div>
+      )}
+
+      {features && features.length > 0 && (
+        <ul className="space-y-3">
+          {features.map((feature: string, featureIdx: number) => (
+            <li key={featureIdx} className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-green-100">
+                <EasyIcon icon="FiCheck" size={12} color="#10B981" />
+              </div>
+              <span className="text-gray-700 text-base leading-relaxed">
+                {feature}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {cardData.button_text && cardData.button_url && (
+        <div className="mt-8 pt-6 border-t border-gray-100">
+          <a
+            href={cardData.button_url}
+            className="inline-flex items-center gap-2 font-semibold text-blue-600 transition-all duration-300 hover:gap-3 group/btn"
+          >
+            {cardData.button_text}
+            <EasyIcon icon="FiArrowRight" size={16} color="#3B82F6" />
+          </a>
+        </div>
+      )}
+    </div>
+  );
 };
 
 const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
@@ -152,15 +328,16 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
               // Smart bullet point detection
               const formatDescription = (desc: string) => {
                 if (!desc) return null;
-                const lines = desc.split(/\r?\n/).filter(line => line.trim());
-                
+                const lines = desc.split(/\r?\n/).filter((line) => line.trim());
+
                 return lines.map((line, i) => {
                   const trimmed = line.trim();
                   // Detect if line should be a bullet
-                  const isBullet = trimmed.length < 80 && 
-                    !trimmed.endsWith(':') && 
+                  const isBullet =
+                    trimmed.length < 80 &&
+                    !trimmed.endsWith(":") &&
                     (i > 0 || lines.length > 2);
-                  
+
                   if (isBullet) {
                     return (
                       <li key={i} className="flex items-start gap-2 mb-2">
@@ -179,118 +356,16 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
 
               // Dynamic background colors based on index
               const bgColors = [
-                'from-blue-50 to-indigo-50 border-blue-200 hover:border-blue-400',
-                'from-green-50 to-emerald-50 border-green-200 hover:border-green-400',
-                'from-orange-50 to-red-50 border-orange-200 hover:border-orange-400',
-                'from-pink-50 to-purple-50 border-pink-200 hover:border-pink-400',
-                'from-cyan-50 to-teal-50 border-cyan-200 hover:border-cyan-400',
-                'from-yellow-50 to-amber-50 border-yellow-200 hover:border-yellow-400',
+                "from-blue-50 to-indigo-50 border-blue-200 hover:border-blue-400",
+                "from-green-50 to-emerald-50 border-green-200 hover:border-green-400",
+                "from-orange-50 to-red-50 border-orange-200 hover:border-orange-400",
+                "from-pink-50 to-purple-50 border-pink-200 hover:border-pink-400",
+                "from-cyan-50 to-teal-50 border-cyan-200 hover:border-cyan-400",
+                "from-yellow-50 to-amber-50 border-yellow-200 hover:border-yellow-400",
               ];
               const bgClass = bgColors[idx % bgColors.length];
 
-              return (
-                <div
-                  key={idx}
-                  className={`group bg-gradient-to-br ${bgClass} rounded-2xl p-6 md:p-8 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border`}
-                >
-                  {/* Icon with EasyIcon */}
-                  {icon && (
-                    <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 bg-blue-100">
-                      <EasyIcon icon={icon} size={24} color="#3B82F6" />
-                    </div>
-                  )}
-
-                  {/* Card Image (if provided) */}
-                  {cardData.card_image && (
-                    <div className="w-full h-48 rounded-xl mb-6 overflow-hidden">
-                      <img
-                        src={getFullImageUrl(cardData.card_image.url)}
-                        alt={cardData.card_image.title || title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-
-                  {/* Title with gradient color and shadow */}
-                  <h4 
-                    className="text-xl md:text-2xl font-bold mb-4 leading-tight"
-                    style={{
-                      background: `linear-gradient(135deg, ${
-                        idx % 4 === 0 ? '#3B82F6, #8B5CF6' :
-                        idx % 4 === 1 ? '#10B981, #059669' :
-                        idx % 4 === 2 ? '#F59E0B, #EF4444' :
-                        '#EC4899, #8B5CF6'
-                      })`,
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))'
-                    }}
-                  >
-                    {title || "Card Title"}
-                  </h4>
-
-                  {/* Description with smart bullets */}
-                  {description && (
-                    <div className="text-gray-600 leading-relaxed text-base">
-                      <ul className="space-y-1">
-                        {formatDescription(description)}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Price (for pricing cards) */}
-                  {(cardData.price || cardData.price_period) && (
-                    <div className="mb-6">
-                      <span className="text-3xl font-bold text-gray-800">
-                        {cardData.price}
-                      </span>
-                      {cardData.price_period && (
-                        <span className="text-gray-600 ml-2">
-                          {cardData.price_period}
-                        </span>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Features List with EasyIcon check marks - UPDATED */}
-                  {features && features.length > 0 && (
-                    <ul className="space-y-3">
-                      {features.map((feature: string, featureIdx: number) => (
-                        <li key={featureIdx} className="flex items-start gap-3">
-                          <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-green-100">
-                            <EasyIcon
-                              icon="FiCheck"
-                              size={12}
-                              color="#10B981"
-                            />
-                          </div>
-                          <span className="text-gray-700 text-base leading-relaxed">
-                            {feature}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {/* Button with EasyIcon arrow - UPDATED */}
-                  {cardData.button_text && cardData.button_url && (
-                    <div className="mt-8 pt-6 border-t border-gray-100">
-                      <a
-                        href={cardData.button_url}
-                        className="inline-flex items-center gap-2 font-semibold text-blue-600 transition-all duration-300 hover:gap-3 group/btn"
-                      >
-                        {cardData.button_text}
-                        <EasyIcon
-                          icon="FiArrowRight"
-                          size={16}
-                          color="#3B82F6"
-                        />
-                      </a>
-                    </div>
-                  )}
-                </div>
-              );
+              return <ScrollAnimateCard key={idx} bgClass={bgClass} idx={idx} cardData={cardData} title={title} description={description} icon={icon} features={features} formatDescription={formatDescription} />;
             })}
           </div>
         </div>
@@ -316,41 +391,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
               dynamicListData.items.map((item: any, idx: number) => {
                 if (!item || typeof item !== "object") return null;
 
-                return (
-                  <div
-                    key={idx}
-                    className="group bg-white rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-2"
-                  >
-                    {/* Image */}
-                    {item.image && item.image.url && (
-                      <div className="w-full h-48 rounded-xl mb-4 overflow-hidden">
-                        <img
-                          src={getFullImageUrl(item.image.url)}
-                          alt={item.image.title || item.title || "Content image"}
-                          className="w-full h-full object-contain bg-gray-50 transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </div>
-                    )}
-
-                    {/* Title */}
-                    <h4 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-blue-600 transition-colors">
-                      {item.title || "Untitled"}
-                    </h4>
-
-                    {/* Content */}
-                    {item.content && (
-                      <div
-                        className="prose prose-sm max-w-none text-gray-600"
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            typeof item.content === "string"
-                              ? item.content
-                              : String(item.content || ""),
-                        }}
-                      />
-                    )}
-                  </div>
-                );
+                return <ScrollAnimateItem key={idx} item={item} />;
               })}
           </div>
         </div>
