@@ -25,7 +25,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Scroll animation observer
+  // Scroll animation observer - triggers on both scroll down and up
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
@@ -36,6 +36,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-in');
+        } else {
+          // Remove animation class when element leaves viewport
+          // This allows re-animation when scrolling back
+          entry.target.classList.remove('animate-in');
         }
       });
     }, observerOptions);

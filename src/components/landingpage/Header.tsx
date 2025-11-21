@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ data, onShowLogin }) => {
 
   return (
     <header
-      className="relative flex items-center justify-center overflow-hidden min-h-screen"
+      className="relative flex items-center justify-center overflow-hidden min-h-screen mt-5 md:pt-0"
       style={{
         backgroundColor: bgColor,
         backgroundImage: backgroundImageUrl
@@ -136,27 +136,30 @@ const Header: React.FC<HeaderProps> = ({ data, onShowLogin }) => {
               )}
               {/* Description - Smaller */}
               {header_description && (
-                <div className="text-base lg:text-lg mb-6 leading-relaxed animate-fadeInUp animation-delay-400">
+                <div className="text-base lg:text-lg mb-6 leading-relaxed animate-fadeInUp animation-delay-400 text-center lg:text-left">
                   {header_description.split("\n").map((line, index) => {
                     const trimmedLine = line.trim();
                     if (!trimmedLine) return null;
 
                     // Check if line starts with emoji or bullet point
                     const startsWithBullet = /^[📌•\-\*]/.test(trimmedLine);
-                    
+
                     // Auto-detect short lines as bullets (less than 60 chars and ends with punctuation)
-                    const isShortLine = trimmedLine.length < 60 && /[.!?]$/.test(trimmedLine);
-                    
+                    const isShortLine =
+                      trimmedLine.length < 60 && /[.!?]$/.test(trimmedLine);
+
                     // Check if it's a question or statement pattern
-                    const isBulletPattern = /^(Only|No|Also|Yes|✓|✔)/.test(trimmedLine) || isShortLine;
-                    
+                    const isBulletPattern =
+                      /^(Only|No|Also|Yes|✓|✔)/.test(trimmedLine) ||
+                      isShortLine;
+
                     const isBullet = startsWithBullet || isBulletPattern;
 
                     if (isBullet) {
                       return (
                         <div
                           key={index}
-                          className="flex items-start gap-2 mb-2"
+                          className="flex items-start gap-2 mb-2 text-center"
                         >
                           <span style={{ color: primaryColor }}>•</span>
                           <span style={{ color: neutralColor }}>

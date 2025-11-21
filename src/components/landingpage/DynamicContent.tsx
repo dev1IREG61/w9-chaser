@@ -118,17 +118,17 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
       return (
         <div className="mb-16">
           {block.value.heading && (
-            <h3 className="text-4xl font-bold mb-4 text-center text-gray-800">
+            <h3 className="text-3xl md:text-4xl font-bold mb-4 text-center text-gray-800">
               {block.value.heading}
             </h3>
           )}
           {block.value.subheading && (
-            <p className="text-gray-600 mb-10 text-center text-xl max-w-3xl mx-auto">
+            <p className="text-gray-600 mb-12 text-center text-lg md:text-xl max-w-4xl mx-auto leading-relaxed">
               {block.value.subheading}
             </p>
           )}
           <div
-            className={`grid gap-8 ${
+            className={`grid gap-6 md:gap-8 ${
               block.value.columns === "1"
                 ? "grid-cols-1"
                 : block.value.columns === "2"
@@ -136,7 +136,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
                 : block.value.columns === "3"
                 ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
                 : block.value.columns === "4"
-                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+                ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
                 : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
             }`}
           >
@@ -149,15 +149,54 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
               const icon = cardData.icon;
               const features = cardData.features || [];
 
+              // Smart bullet point detection
+              const formatDescription = (desc: string) => {
+                if (!desc) return null;
+                const lines = desc.split(/\r?\n/).filter(line => line.trim());
+                
+                return lines.map((line, i) => {
+                  const trimmed = line.trim();
+                  // Detect if line should be a bullet
+                  const isBullet = trimmed.length < 80 && 
+                    !trimmed.endsWith(':') && 
+                    (i > 0 || lines.length > 2);
+                  
+                  if (isBullet) {
+                    return (
+                      <li key={i} className="flex items-start gap-2 mb-2">
+                        <span className="text-blue-600 mt-1">•</span>
+                        <span className="flex-1">{trimmed}</span>
+                      </li>
+                    );
+                  }
+                  return (
+                    <p key={i} className="mb-3 font-medium text-gray-700">
+                      {trimmed}
+                    </p>
+                  );
+                });
+              };
+
+              // Dynamic background colors based on index
+              const bgColors = [
+                'from-blue-50 to-indigo-50 border-blue-200 hover:border-blue-400',
+                'from-green-50 to-emerald-50 border-green-200 hover:border-green-400',
+                'from-orange-50 to-red-50 border-orange-200 hover:border-orange-400',
+                'from-pink-50 to-purple-50 border-pink-200 hover:border-pink-400',
+                'from-cyan-50 to-teal-50 border-cyan-200 hover:border-cyan-400',
+                'from-yellow-50 to-amber-50 border-yellow-200 hover:border-yellow-400',
+              ];
+              const bgClass = bgColors[idx % bgColors.length];
+
               return (
                 <div
                   key={idx}
-                  className="group bg-white rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
+                  className={`group bg-gradient-to-br ${bgClass} rounded-2xl p-6 md:p-8 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border`}
                 >
-                  {/* Icon with EasyIcon - UPDATED */}
+                  {/* Icon with EasyIcon */}
                   {icon && (
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 bg-blue-50">
-                      <EasyIcon icon={icon} size={28} color="#3B82F6" />
+                    <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 bg-blue-100">
+                      <EasyIcon icon={icon} size={24} color="#3B82F6" />
                     </div>
                   )}
 
@@ -172,16 +211,32 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
                     </div>
                   )}
 
-                  {/* Title */}
-                  <h4 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-blue-600 transition-colors">
+                  {/* Title with gradient color and shadow */}
+                  <h4 
+                    className="text-xl md:text-2xl font-bold mb-4 leading-tight"
+                    style={{
+                      background: `linear-gradient(135deg, ${
+                        idx % 4 === 0 ? '#3B82F6, #8B5CF6' :
+                        idx % 4 === 1 ? '#10B981, #059669' :
+                        idx % 4 === 2 ? '#F59E0B, #EF4444' :
+                        '#EC4899, #8B5CF6'
+                      })`,
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))'
+                    }}
+                  >
                     {title || "Card Title"}
                   </h4>
 
-                  {/* Description */}
+                  {/* Description with smart bullets */}
                   {description && (
-                    <p className="text-gray-600 leading-relaxed mb-6 text-lg">
-                      {description}
-                    </p>
+                    <div className="text-gray-600 leading-relaxed text-base">
+                      <ul className="space-y-1">
+                        {formatDescription(description)}
+                      </ul>
+                    </div>
                   )}
 
                   {/* Price (for pricing cards) */}
@@ -247,18 +302,78 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
       return (
         <div className="mb-16">
           {dynamicListData.heading && (
-            <h3 className="text-4xl font-bold mb-4 text-gray-800">
+            <h3 className="text-4xl font-bold mb-4 text-center text-gray-800">
               {dynamicListData.heading}
             </h3>
           )}
           {dynamicListData.description && (
-            <p className="text-gray-600 mb-10 text-xl leading-relaxed">
+            <p className="text-gray-600 mb-10 text-xl leading-relaxed text-center max-w-3xl mx-auto">
               {dynamicListData.description}
             </p>
           )}
-          <div className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {Array.isArray(dynamicListData.items) &&
               dynamicListData.items.map((item: any, idx: number) => {
+                if (!item || typeof item !== "object") return null;
+
+                return (
+                  <div
+                    key={idx}
+                    className="group bg-white rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-2"
+                  >
+                    {/* Image */}
+                    {item.image && item.image.url && (
+                      <div className="w-full h-48 rounded-xl mb-4 overflow-hidden">
+                        <img
+                          src={getFullImageUrl(item.image.url)}
+                          alt={item.image.title || item.title || "Content image"}
+                          className="w-full h-full object-contain bg-gray-50 transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
+
+                    {/* Title */}
+                    <h4 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-blue-600 transition-colors">
+                      {item.title || "Untitled"}
+                    </h4>
+
+                    {/* Content */}
+                    {item.content && (
+                      <div
+                        className="prose prose-sm max-w-none text-gray-600"
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            typeof item.content === "string"
+                              ? item.content
+                              : String(item.content || ""),
+                        }}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+      );
+
+    case "old_dynamic_list":
+      const oldDynamicListData = block.value || {};
+
+      return (
+        <div className="mb-16">
+          {oldDynamicListData.heading && (
+            <h3 className="text-4xl font-bold mb-4 text-gray-800">
+              {oldDynamicListData.heading}
+            </h3>
+          )}
+          {oldDynamicListData.description && (
+            <p className="text-gray-600 mb-10 text-xl leading-relaxed">
+              {oldDynamicListData.description}
+            </p>
+          )}
+          <div className="space-y-8">
+            {Array.isArray(oldDynamicListData.items) &&
+              oldDynamicListData.items.map((item: any, idx: number) => {
                 if (!item || typeof item !== "object") return null;
 
                 const itemType = item.type || "";
