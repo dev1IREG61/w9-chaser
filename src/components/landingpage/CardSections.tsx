@@ -28,7 +28,7 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
       <div key={card.id} className="group relative h-full">
         {/* Card container with enhanced shadow */}
         <div
-          className="relative h-full p-6 rounded-2xl transition-all duration-500 border backdrop-blur-sm overflow-hidden flex flex-col shadow-sm hover:shadow-2xl"
+          className="relative h-full p-4 rounded-2xl transition-all duration-500 border backdrop-blur-sm overflow-hidden flex flex-col shadow-sm hover:shadow-2xl"
           style={{
             backgroundColor: bgColor,
             borderColor: `${primaryColor}15`,
@@ -53,7 +53,7 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
 
           {/* Card Image - Improved */}
           {card.card_image && (
-            <div className="mb-6 -mx-6 -mt-6">
+            <div className="mb-4 -mx-4 -mt-4">
               <div className="w-full aspect-[4/3] rounded-t-2xl overflow-hidden relative">
                 <img
                   src={`https://esign-admin.signmary.com${card.card_image.url}`}
@@ -68,7 +68,7 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
 
           {/* Icon container (fallback if no image) */}
           {!card.card_image && card.icon && (
-            <div className="mb-6">
+            <div className="mb-4">
               <div
                 className="w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 relative overflow-hidden shadow-md"
                 style={{
@@ -98,7 +98,7 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
           <div className="flex-1 flex flex-col">
             {/* Title */}
             <h3
-              className="text-xl font-bold mb-4 leading-tight transition-colors duration-300"
+              className="text-lg font-bold mb-3 leading-tight transition-colors duration-300"
               style={{ color: textColor }}
             >
               {card.title}
@@ -107,7 +107,7 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
             {/* Description - No line clamp to show complete content */}
             {card.description && (
               <p
-                className="text-sm leading-relaxed mb-6 text-pretty flex-1"
+                className="text-sm leading-relaxed mb-4 text-pretty flex-1"
                 style={{ color: neutralColor }}
               >
                 {card.description}
@@ -116,7 +116,7 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
 
             {/* Features List - Show all features without clamping */}
             {card.features && card.features.length > 0 && (
-              <ul className="space-y-3 mb-6">
+              <ul className="space-y-2 mb-4">
                 {card.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3 group/item">
                     <div

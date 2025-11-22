@@ -29,11 +29,11 @@ const ScrollAnimateItem: React.FC<any> = ({ item }) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            element.classList.add('animate-fadeInUp');
-            element.classList.remove('opacity-0');
+            element.classList.add("animate-fadeInUp");
+            element.classList.remove("opacity-0");
           } else {
-            element.classList.remove('animate-fadeInUp');
-            element.classList.add('opacity-0');
+            element.classList.remove("animate-fadeInUp");
+            element.classList.add("opacity-0");
           }
         });
       },
@@ -43,6 +43,11 @@ const ScrollAnimateItem: React.FC<any> = ({ item }) => {
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(item.content || '', 'text/html');
+  const subtitle = doc.querySelector('p')?.textContent || '';
+  const listItems = Array.from(doc.querySelectorAll('li')).map(li => li.textContent || '');
 
   return (
     <div
@@ -59,26 +64,36 @@ const ScrollAnimateItem: React.FC<any> = ({ item }) => {
         </div>
       )}
 
-      <h4 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-blue-600 transition-colors">
+      <h4 className="text-xl font-bold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors">
         {item.title || "Untitled"}
       </h4>
 
-      {item.content && (
-        <div
-          className="prose prose-sm max-w-none text-gray-600"
-          dangerouslySetInnerHTML={{
-            __html:
-              typeof item.content === "string"
-                ? item.content
-                : String(item.content || ""),
-          }}
-        />
+      {subtitle && <p className="text-sm mb-3 text-gray-600 font-medium">{subtitle}</p>}
+
+      {listItems.length > 0 && (
+        <ul className="grid grid-cols-3 gap-x-3 gap-y-1.5 text-gray-600">
+          {listItems.map((text: string, i: number) => (
+            <li key={i} className="text-xs flex items-center">
+              <span className="mr-1.5 text-blue-600">•</span>
+              {text}
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
 };
 
-const ScrollAnimateCard: React.FC<any> = ({ bgClass, idx, cardData, title, description, icon, features, formatDescription }) => {
+const ScrollAnimateCard: React.FC<any> = ({
+  bgClass,
+  idx,
+  cardData,
+  title,
+  description,
+  icon,
+  features,
+  formatDescription,
+}) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -89,11 +104,11 @@ const ScrollAnimateCard: React.FC<any> = ({ bgClass, idx, cardData, title, descr
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            card.classList.add('animate-fadeInUp');
-            card.classList.remove('opacity-0');
+            card.classList.add("animate-fadeInUp");
+            card.classList.remove("opacity-0");
           } else {
-            card.classList.remove('animate-fadeInUp');
-            card.classList.add('opacity-0');
+            card.classList.remove("animate-fadeInUp");
+            card.classList.add("opacity-0");
           }
         });
       },
@@ -129,10 +144,13 @@ const ScrollAnimateCard: React.FC<any> = ({ bgClass, idx, cardData, title, descr
         className="text-xl md:text-2xl font-bold mb-4 leading-tight"
         style={{
           background: `linear-gradient(135deg, ${
-            idx % 4 === 0 ? "#3B82F6, #8B5CF6" :
-            idx % 4 === 1 ? "#10B981, #059669" :
-            idx % 4 === 2 ? "#F59E0B, #EF4444" :
-            "#EC4899, #8B5CF6"
+            idx % 4 === 0
+              ? "#3B82F6, #8B5CF6"
+              : idx % 4 === 1
+              ? "#10B981, #059669"
+              : idx % 4 === 2
+              ? "#F59E0B, #EF4444"
+              : "#EC4899, #8B5CF6"
           })`,
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
@@ -145,9 +163,7 @@ const ScrollAnimateCard: React.FC<any> = ({ bgClass, idx, cardData, title, descr
 
       {description && (
         <div className="text-gray-600 leading-relaxed text-base">
-          <ul className="space-y-1">
-            {formatDescription(description)}
-          </ul>
+          <ul className="space-y-1">{formatDescription(description)}</ul>
         </div>
       )}
 
@@ -157,9 +173,7 @@ const ScrollAnimateCard: React.FC<any> = ({ bgClass, idx, cardData, title, descr
             {cardData.price}
           </span>
           {cardData.price_period && (
-            <span className="text-gray-600 ml-2">
-              {cardData.price_period}
-            </span>
+            <span className="text-gray-600 ml-2">{cardData.price_period}</span>
           )}
         </div>
       )}
@@ -354,7 +368,6 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
                 });
               };
 
-              // Dynamic background colors based on index
               const bgColors = [
                 "from-blue-50 to-indigo-50 border-blue-200 hover:border-blue-400",
                 "from-green-50 to-emerald-50 border-green-200 hover:border-green-400",
@@ -365,7 +378,19 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
               ];
               const bgClass = bgColors[idx % bgColors.length];
 
-              return <ScrollAnimateCard key={idx} bgClass={bgClass} idx={idx} cardData={cardData} title={title} description={description} icon={icon} features={features} formatDescription={formatDescription} />;
+              return (
+                <ScrollAnimateCard
+                  key={idx}
+                  bgClass={bgClass}
+                  idx={idx}
+                  cardData={cardData}
+                  title={title}
+                  description={description}
+                  icon={icon}
+                  features={features}
+                  formatDescription={formatDescription}
+                />
+              );
             })}
           </div>
         </div>
