@@ -33,73 +33,36 @@ function Footer({ data }: FooterProps) {
   // Debug log to see what we're working with
   console.log("Footer config:", footerConfig);
 
-  // Social media links configuration - handle both data structures
-  const socialLinks = [
-    {
-      icon: Facebook,
-      url: footerConfig.social_links?.facebook || footerConfig.facebook_url,
-      label: "Facebook",
-    },
-    {
-      icon: Twitter,
-      url: footerConfig.social_links?.twitter || footerConfig.twitter_url,
-      label: "Twitter",
-    },
-    {
-      icon: Linkedin,
-      url: footerConfig.social_links?.linkedin || footerConfig.linkedin_url,
-      label: "LinkedIn",
-    },
-    {
-      icon: Instagram,
-      url: footerConfig.social_links?.instagram || footerConfig.instagram_url,
-      label: "Instagram",
-    },
-    {
-      icon: Youtube,
-      url: footerConfig.social_links?.youtube || footerConfig.youtube_url,
-      label: "YouTube",
-    },
-  ].filter((link) => link.url);
-
-  // Handle sections data structure - check both possible field names
-  const sections = {
-    quick_links:
-      footerConfig.sections?.quick_links !== undefined
-        ? footerConfig.sections.quick_links
-        : footerConfig.show_quick_links !== undefined
-        ? footerConfig.show_quick_links
-        : true, // default to true if not specified
-
-    services:
-      footerConfig.sections?.services !== undefined
-        ? footerConfig.sections.services
-        : footerConfig.show_services !== undefined
-        ? footerConfig.show_services
-        : true, // default to true if not specified
-
-    contact:
-      footerConfig.sections?.contact !== undefined
-        ? footerConfig.sections.contact
-        : footerConfig.show_contact !== undefined
-        ? footerConfig.show_contact
-        : true, // default to true if not specified
+  // Social media links from API
+  const socialIconMap: Record<string, any> = {
+    Facebook: Facebook,
+    Twitter: Twitter,
+    LinkedIn: Linkedin,
+    Instagram: Instagram,
+    YouTube: Youtube,
   };
 
-  // Handle company info - check both possible field structures
+  const socialLinks = (footerConfig.social_links || []).map((link: any) => ({
+    icon: socialIconMap[link.platform] || Facebook,
+    url: link.url,
+    label: link.platform,
+  }));
+
+  // Get dynamic links from nested structure
+  const quickLinks = footerConfig.sections?.quick_links?.links || [];
+  const serviceLinks = footerConfig.sections?.services?.links || [];
+  const resourceLinks = footerConfig.sections?.resources?.links || [];
+  const legalLinks = footerConfig.sections?.legal?.links || [];
+
   const companyInfo = {
-    description:
-      footerConfig.company_info?.description ||
-      footerConfig.company_description ||
-      "",
-    logo: footerConfig.company_info?.logo || footerConfig.logo,
+    description: footerConfig.company_info?.description || "",
+    logo: footerConfig.company_info?.logo,
   };
 
-  // Handle contact info - check both possible field structures
   const contactInfo = {
-    address: footerConfig.contact_info?.address || footerConfig.address || "",
-    phone: footerConfig.contact_info?.phone || footerConfig.phone || "",
-    email: footerConfig.contact_info?.email || footerConfig.email || "",
+    address: footerConfig.contact_info?.address || "",
+    phone: footerConfig.contact_info?.phone || "",
+    email: footerConfig.contact_info?.email || "",
   };
 
   const getFullImageUrl = (url: string) => {
@@ -142,7 +105,7 @@ function Footer({ data }: FooterProps) {
             )}
 
             {companyInfo.description && (
-              <p className="text-sm leading-relaxed text-center md:text-left text-gray-600">
+              <p className="text-xl leading-relaxed font-bold text-center md:text-left text-black-600">
                 {companyInfo.description}
               </p>
             )}
@@ -150,7 +113,7 @@ function Footer({ data }: FooterProps) {
             {/* Social Links - ALWAYS SHOW IF LINKS EXIST */}
             {socialLinks.length > 0 && (
               <div className="flex gap-3 justify-center md:justify-start">
-                {socialLinks.map((social, idx) => {
+                {socialLinks.map((social: any, idx: any) => {
                   const Icon = social.icon;
                   return (
                     <a
@@ -179,201 +142,112 @@ function Footer({ data }: FooterProps) {
             )}
           </div>
 
-          {/* Quick Links Section - DYNAMICALLY SHOW/HIDE */}
-          {sections.quick_links && (
+          {/* Quick Links Section */}
+          {footerConfig.sections?.quick_links?.show &&
+            quickLinks.length > 0 && (
+              <div>
+                <h3 className="text-gray-900 font-bold text-lg mb-6 relative inline-block">
+                  {footerConfig.sections.quick_links.heading || "Quick Links"}
+                  <div
+                    className="absolute -bottom-2 left-0 w-12 h-1 rounded-full"
+                    style={{ background: primaryColor }}
+                  />
+                </h3>
+                <ul className="space-y-3">
+                  {quickLinks.map((link: any, idx: number) => (
+                    <li key={idx}>
+                      <a
+                        href={link.url || "#"}
+                        className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.color = primaryColor)
+                        }
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "")}
+                      >
+                        <span
+                          className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
+                          style={{ background: primaryColor }}
+                        />
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+          {/* Services Section */}
+          {footerConfig.sections?.services?.show && serviceLinks.length > 0 && (
             <div>
               <h3 className="text-gray-900 font-bold text-lg mb-6 relative inline-block">
-                Quick Links
+                {footerConfig.sections.services.heading || "Services"}
                 <div
                   className="absolute -bottom-2 left-0 w-12 h-1 rounded-full"
                   style={{ background: primaryColor }}
                 />
               </h3>
               <ul className="space-y-3">
-                <li>
-                  <a
-                    href="#home"
-                    className="text-sm text-gray-600 hover:text-primary transition-all duration-200 flex items-center gap-2 group"
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = primaryColor)
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-                  >
-                    <span
-                      className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
-                      style={{ background: primaryColor }}
-                    />
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#features"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = primaryColor)
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-                  >
-                    <span
-                      className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
-                      style={{ background: primaryColor }}
-                    />
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#benefits"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = primaryColor)
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-                  >
-                    <span
-                      className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
-                      style={{ background: primaryColor }}
-                    />
-                    Benefits
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#testimonials"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = primaryColor)
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-                  >
-                    <span
-                      className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
-                      style={{ background: primaryColor }}
-                    />
-                    Testimonials
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#faq"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = primaryColor)
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-                  >
-                    <span
-                      className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
-                      style={{ background: primaryColor }}
-                    />
-                    FAQ
-                  </a>
-                </li>
+                {serviceLinks.map((link: any, idx: number) => (
+                  <li key={idx}>
+                    <a
+                      href={link.url || "#"}
+                      className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.color = primaryColor)
+                      }
+                      onMouseLeave={(e) => (e.currentTarget.style.color = "")}
+                    >
+                      <span
+                        className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
+                        style={{ background: primaryColor }}
+                      />
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           )}
 
-          {/* Services Section - DYNAMICALLY SHOW/HIDE */}
-          {sections.services && (
-            <div>
-              <h3 className="text-gray-900 font-bold text-lg mb-6 relative inline-block">
-                Services
-                <div
-                  className="absolute -bottom-2 left-0 w-12 h-1 rounded-full"
-                  style={{ background: primaryColor }}
-                />
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <a
-                    href="#services"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = primaryColor)
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-                  >
-                    <span
-                      className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
-                      style={{ background: primaryColor }}
-                    />
-                    All Services
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#consultation"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = primaryColor)
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-                  >
-                    <span
-                      className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
-                      style={{ background: primaryColor }}
-                    />
-                    Consultation
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#support"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = primaryColor)
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-                  >
-                    <span
-                      className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
-                      style={{ background: primaryColor }}
-                    />
-                    Support
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#resources"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = primaryColor)
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-                  >
-                    <span
-                      className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
-                      style={{ background: primaryColor }}
-                    />
-                    Resources
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#pricing"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = primaryColor)
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-                  >
-                    <span
-                      className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
-                      style={{ background: primaryColor }}
-                    />
-                    Pricing
-                  </a>
-                </li>
-              </ul>
-            </div>
-          )}
+          {/* Resources Section */}
+          {footerConfig.sections?.resources?.show &&
+            resourceLinks.length > 0 && (
+              <div>
+                <h3 className="text-gray-900 font-bold text-lg mb-6 relative inline-block">
+                  {footerConfig.sections.resources.heading || "Resources"}
+                  <div
+                    className="absolute -bottom-2 left-0 w-12 h-1 rounded-full"
+                    style={{ background: primaryColor }}
+                  />
+                </h3>
+                <ul className="space-y-3">
+                  {resourceLinks.map((link: any, idx: number) => (
+                    <li key={idx}>
+                      <a
+                        href={link.url || "#"}
+                        className="text-sm text-gray-600 hover:text-gray-900 transition-all duration-200 flex items-center gap-2 group"
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.color = primaryColor)
+                        }
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "")}
+                      >
+                        <span
+                          className="w-0 h-0.5 group-hover:w-4 transition-all duration-200"
+                          style={{ background: primaryColor }}
+                        />
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-          {/* Contact Section - DYNAMICALLY SHOW/HIDE */}
-          {sections.contact && (
+          {/* Contact Section */}
+          {footerConfig.sections?.contact?.show && (
             <div>
               <h3 className="text-gray-900 font-bold text-lg mb-6 relative inline-block">
-                Contact Us
+                {footerConfig.sections.contact.heading || "Contact"}
                 <div
                   className="absolute -bottom-2 left-0 w-12 h-1 rounded-full"
                   style={{ background: primaryColor }}
@@ -449,51 +323,28 @@ function Footer({ data }: FooterProps) {
                 }. All rights reserved.`}
             </p>
 
-            {/* Policy Links - Currently Hardcoded (can be made dynamic later) */}
-            <div className="flex gap-6 text-sm flex-wrap justify-center md:justify-end">
-              <a
-                href="#privacy"
-                className="text-gray-600 hover:text-gray-900 transition-all duration-200 relative group"
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = primaryColor)
-                }
-                onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-              >
-                Privacy Policy
-                <span
-                  className="absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-200"
-                  style={{ background: primaryColor }}
-                />
-              </a>
-              <a
-                href="#terms"
-                className="text-gray-600 hover:text-gray-900 transition-all duration-200 relative group"
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = primaryColor)
-                }
-                onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-              >
-                Terms of Service
-                <span
-                  className="absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-200"
-                  style={{ background: primaryColor }}
-                />
-              </a>
-              <a
-                href="#cookies"
-                className="text-gray-600 hover:text-gray-900 transition-all duration-200 relative group"
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = primaryColor)
-                }
-                onMouseLeave={(e) => (e.currentTarget.style.color = "")}
-              >
-                Cookie Policy
-                <span
-                  className="absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-200"
-                  style={{ background: primaryColor }}
-                />
-              </a>
-            </div>
+            {/* Legal Links */}
+            {legalLinks.length > 0 && (
+              <div className="flex gap-6 text-sm flex-wrap justify-center md:justify-end">
+                {legalLinks.map((link: any, idx: number) => (
+                  <a
+                    key={idx}
+                    href={link.url}
+                    className="text-gray-600 hover:text-gray-900 transition-all duration-200 relative group"
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.color = primaryColor)
+                    }
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
+                  >
+                    {link.name}
+                    <span
+                      className="absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-200"
+                      style={{ background: primaryColor }}
+                    />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

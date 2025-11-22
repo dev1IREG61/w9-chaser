@@ -1,117 +1,271 @@
-import React from "react";
-import { AlertTriangle, Lightbulb } from "lucide-react";
-import type { LandingPageData } from "../../types/landing";
+import { useState } from "react";
+import {
+  User,
+  Briefcase,
+  UserCheck,
+  Laptop,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
-interface ProblemSolutionProps {
-  data: LandingPageData;
-}
+const MarketingProblemSolution = () => {
+  const [selectedPersona, setSelectedPersona] = useState("marketing");
+  const [startIndex, setStartIndex] = useState(0);
+  const visibleCount = 3;
 
-const ProblemSolution: React.FC<ProblemSolutionProps> = ({ data }) => {
-  const section = data.problem_solution_section;
+  const personas = [
+    {
+      id: "founder",
+      title: "The Busy Founder",
+      icon: Briefcase,
+      color: "gray",
+    },
+    {
+      id: "marketing",
+      title: "The Marketing Lead",
+      icon: User,
+      color: "purple",
+      problems: [
+        "Stop fighting with spreadsheets",
+        "Marching modimts and content analysis",
+        "Solven slated marketing with spreadsheets",
+      ],
+      solutions: [
+        "Automate your content workflow",
+        "Get real-time analytics dashboard",
+        "Unified marketing platform",
+      ],
+    },
+    {
+      id: "sales",
+      title: "The Sales Manager",
+      icon: UserCheck,
+      color: "gray",
+    },
+    {
+      id: "it",
+      title: "The IT Admin",
+      icon: Laptop,
+      color: "gray",
+    },
+  ];
 
-  if (!section || !section.items || section.items.length === 0) {
-    return null;
-  }
+  const visiblePersonas = personas.slice(startIndex, startIndex + visibleCount);
+  const showNavigation = personas.length > visibleCount;
+
+  const handlePrevious = () => {
+    setStartIndex(Math.max(0, startIndex - 1));
+  };
+
+  const handleNext = () => {
+    setStartIndex(Math.min(personas.length - visibleCount, startIndex + 1));
+  };
+
+  const selectedPersonaData = personas.find((p) => p.id === selectedPersona);
 
   return (
-    <section className="w-full bg-white py-20 px-4 sm:px-6 lg:px-8">
-      {/* Title */}
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">
-          {section.heading}
-        </h2>
-        {section.introduction && (
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {section.introduction}
-          </p>
-        )}
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Section */}
+      <div className="bg-white py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-5xl font-bold text-center mb-16">
+            Who are you, and what's
+            <br />
+            slowing you down?
+          </h1>
+
+          {/* Persona Selection */}
+          <div className="relative flex justify-center items-center">
+            {/* Left Navigation Button */}
+            {showNavigation && (
+              <button
+                onClick={handlePrevious}
+                disabled={startIndex === 0}
+                className={`absolute left-0 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all ${
+                  startIndex === 0
+                    ? "opacity-30 cursor-not-allowed"
+                    : "hover:bg-purple-50 hover:shadow-xl"
+                }`}
+              >
+                <ChevronLeft className="w-6 h-6 text-purple-600" />
+              </button>
+            )}
+
+            {/* Personas */}
+            <div className="flex justify-center items-end gap-8 mb-8">
+              {visiblePersonas.map((persona) => {
+                const Icon = persona.icon;
+                const isSelected = selectedPersona === persona.id;
+
+                return (
+                  <button
+                    key={persona.id}
+                    onClick={() => setSelectedPersona(persona.id)}
+                    className="flex flex-col items-center transition-all duration-300 focus:outline-none group"
+                  >
+                    <div
+                      className={`relative rounded-full transition-all duration-300 ${
+                        isSelected
+                          ? "w-44 h-44 mb-4"
+                          : "w-32 h-32 mb-2 opacity-40 grayscale hover:opacity-60"
+                      }`}
+                    >
+                      <div
+                        className={`absolute inset-0 rounded-full ${
+                          isSelected
+                            ? "bg-gradient-to-br from-purple-400 to-purple-600 p-1"
+                            : "bg-gray-200"
+                        }`}
+                      >
+                        <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
+                          <div
+                            className={`rounded-full ${
+                              isSelected
+                                ? "w-36 h-36 bg-gradient-to-br from-purple-500 to-purple-700"
+                                : "w-28 h-28 bg-gray-300"
+                            } flex items-center justify-center`}
+                          >
+                            {isSelected ? (
+                              <div className="w-32 h-32 rounded-full bg-purple-600 flex items-center justify-center">
+                                <div className="text-white">
+                                  <div className="w-20 h-20 mx-auto mb-2 bg-white/20 rounded-full flex items-center justify-center">
+                                    <div className="w-12 h-12 bg-white/30 rounded-full"></div>
+                                  </div>
+                                  <div className="w-24 h-16 bg-white/20 rounded-t-full"></div>
+                                </div>
+                              </div>
+                            ) : (
+                              <Icon className="w-16 h-16 text-gray-500" />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <p
+                      className={`text-sm font-medium transition-all ${
+                        isSelected ? "text-gray-900 text-base" : "text-gray-400"
+                      }`}
+                    >
+                      {persona.title}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Right Navigation Button */}
+            {showNavigation && (
+              <button
+                onClick={handleNext}
+                disabled={startIndex >= personas.length - visibleCount}
+                className={`absolute right-0 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all ${
+                  startIndex >= personas.length - visibleCount
+                    ? "opacity-30 cursor-not-allowed"
+                    : "hover:bg-purple-50 hover:shadow-xl"
+                }`}
+              >
+                <ChevronRight className="w-6 h-6 text-purple-600" />
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* Main Container */}
-      <div className="max-w-7xl mx-auto">
-        {/* Headers */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_180px_1fr] gap-4 mb-10 px-4">
-          <h2 className="text-4xl lg:text-5xl font-bold text-orange-500">
-            Problem
-          </h2>
-          <div></div>
-          <h2 className="text-4xl lg:text-5xl font-bold text-green-600">
-            Solution
-          </h2>
-        </div>
+      {/* Problem-Solution Section */}
+      {selectedPersonaData && selectedPersonaData.problems && (
+        <div className="max-w-5xl mx-auto px-4 py-5">
+          <div className="bg-white rounded-3xl shadow-xl p-12 border border-purple-500">
+            <div className="flex gap-1 items-start">
+              {/* Left Side - Problems */}
+              <div className="w-1/2">
+                <h2 className="mb-8">
+                  <span className="text-purple-600 text-3xl font-bold">
+                    For Marketers:
+                  </span>
+                  <br />
+                  <span className="text-4xl font-bold text-gray-900">
+                    Stop fighting with spreadsheets
+                  </span>
+                </h2>
+              </div>
 
-        {/* Items */}
-        <div className="space-y-6">
-          {section.items.map((item, index) => (
-            <div key={index} className="relative">
-              <div className="grid grid-cols-1 lg:grid-cols-[1fr_180px_1fr] gap-4 items-center">
-                {/* Problem Box */}
-                <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 shadow-sm hover:shadow-xl hover:scale-105 hover:border-l-8 hover:-translate-y-1 transition-all duration-300">
-                  <p className="text-gray-800 text-base leading-relaxed">
-                    {item.problem}
-                  </p>
-                </div>
-
-                {/* Center Section with Icons and Arrows */}
-                <div className="hidden lg:flex items-center justify-center gap-2">
-                  {/* Problem Icon */}
-                  <div className="w-12 h-12 bg-gradient-to-b from-orange-400 to-orange-600 rounded-full shadow-xl flex items-center justify-center flex-shrink-0">
-                    <AlertTriangle
-                      className="w-6 h-6 text-white"
-                      strokeWidth={2.5}
-                    />
+              {/* Right Side - Problem Items */}
+              <div className="w-1/2 space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-purple-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <rect
+                        x="3"
+                        y="3"
+                        width="18"
+                        height="18"
+                        rx="2"
+                        strokeWidth="2"
+                      />
+                      <path d="M3 9h18M9 3v18" strokeWidth="2" />
+                    </svg>
                   </div>
-
-                  {/* Left Arrow */}
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    className="text-gray-400 flex-shrink-0"
-                  >
-                    <path
-                      d="M3 12 L12 8 L12 10 L18 10 L18 14 L12 14 L12 16 Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-
-                  {/* Right Arrow */}
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    className="text-gray-400 flex-shrink-0"
-                  >
-                    <path
-                      d="M21 12 L12 16 L12 14 L6 14 L6 10 L12 10 L12 8 Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-
-                  {/* Solution Icon */}
-                  <div className="w-12 h-12 bg-gradient-to-b from-green-500 to-green-700 rounded-full shadow-xl flex items-center justify-center flex-shrink-0">
-                    <Lightbulb
-                      className="w-6 h-6 text-white"
-                      strokeWidth={2.5}
-                      fill="white"
-                    />
+                  <div>
+                    <p className="font-semibold text-gray-900 mb-1">
+                      Problem-canonn: Stop fighting with spreadsheets
+                    </p>
                   </div>
                 </div>
 
-                {/* Solution Box */}
-                <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-6 shadow-sm hover:shadow-xl hover:scale-105 hover:border-l-8 hover:-translate-y-1 transition-all duration-300">
-                  <div
-                    className="text-gray-800 text-base leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: item.solution }}
-                  />
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-purple-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <circle cx="12" cy="12" r="3" strokeWidth="2" />
+                      <path
+                        d="M12 2v4m0 12v4M2 12h4m12 0h4m-3.05-7.05l-2.83 2.83m-5.66 5.66l-2.83 2.83m12.02 0l-2.83-2.83m-5.66-5.66l-2.83-2.83"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900 mb-1">
+                      Problem Inters nmarching modimts and content analysis
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-purple-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900 mb-1">
+                      Problem Solven slated marketing with spreadsheets
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </section>
+      )}
+    </div>
   );
 };
 
-export default ProblemSolution;
+export default MarketingProblemSolution;

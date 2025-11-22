@@ -45,14 +45,16 @@ const ScrollAnimateItem: React.FC<any> = ({ item }) => {
   }, []);
 
   const parser = new DOMParser();
-  const doc = parser.parseFromString(item.content || '', 'text/html');
-  const subtitle = doc.querySelector('p')?.textContent || '';
-  const listItems = Array.from(doc.querySelectorAll('li')).map(li => li.textContent || '');
+  const doc = parser.parseFromString(item.content || "", "text/html");
+  const subtitle = doc.querySelector("p")?.textContent || "";
+  const listItems = Array.from(doc.querySelectorAll("li")).map(
+    (li) => li.textContent || ""
+  );
 
   return (
     <div
       ref={itemRef}
-      className="opacity-0 group bg-white rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-2"
+      className="opacity-0 group bg-white rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border-2 border-blue-200 hover:border-blue-400 hover:-translate-y-2"
     >
       {item.image && item.image.url && (
         <div className="w-full h-48 rounded-xl mb-4 overflow-hidden">
@@ -68,7 +70,9 @@ const ScrollAnimateItem: React.FC<any> = ({ item }) => {
         {item.title || "Untitled"}
       </h4>
 
-      {subtitle && <p className="text-sm mb-3 text-gray-600 font-medium">{subtitle}</p>}
+      {subtitle && (
+        <p className="text-sm mb-3 text-gray-600 font-medium">{subtitle}</p>
+      )}
 
       {listItems.length > 0 && (
         <ul className="grid grid-cols-3 gap-x-3 gap-y-1.5 text-gray-600">
@@ -122,7 +126,7 @@ const ScrollAnimateCard: React.FC<any> = ({
   return (
     <div
       ref={cardRef}
-      className={`opacity-0 group bg-gradient-to-br ${bgClass} rounded-2xl p-6 md:p-8 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border`}
+      className={`opacity-0 group bg-gradient-to-br ${bgClass} rounded-2xl p-4 md:p-6 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border`}
     >
       {icon && (
         <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 bg-blue-100">
@@ -411,12 +415,68 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
               {dynamicListData.description}
             </p>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {Array.isArray(dynamicListData.items) &&
               dynamicListData.items.map((item: any, idx: number) => {
                 if (!item || typeof item !== "object") return null;
 
                 return <ScrollAnimateItem key={idx} item={item} />;
+              })}
+          </div>
+        </div>
+      );
+
+    case "dynamic_list_old":
+      const dynamicListOldData = block.value || {};
+
+      return (
+        <div className="mb-16">
+          {dynamicListOldData.heading && (
+            <h3 className="text-4xl font-bold mb-4 text-center text-gray-800">
+              {dynamicListOldData.heading}
+            </h3>
+          )}
+          {dynamicListOldData.description && (
+            <p className="text-gray-600 mb-10 text-xl leading-relaxed text-center max-w-3xl mx-auto">
+              {dynamicListOldData.description}
+            </p>
+          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Array.isArray(dynamicListOldData.items) &&
+              dynamicListOldData.items.map((item: any, idx: number) => {
+                if (!item || typeof item !== "object") return null;
+
+                return (
+                  <div
+                    key={idx}
+                    className="relative h-80 rounded-3xl overflow-hidden group cursor-pointer"
+                  >
+                    {/* Blue hover effect from bottom right */}
+                    <div className="absolute inset-0 bg-blue-600 translate-x-full translate-y-full group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-500 ease-out origin-bottom-right" style={{ clipPath: 'polygon(100% 0, 100% 100%, 0 100%)' }}></div>
+                    {/* Background Image */}
+                    {item.image && item.image.url && (
+                      <div className="absolute inset-0">
+                        <img
+                          src={getFullImageUrl(item.image.url)}
+                          alt={item.image.title || item.title || "Card image"}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/70"></div>
+                      </div>
+                    )}
+
+                    {/* Text Content */}
+                    <div className="relative h-full flex flex-col justify-end p-6 text-white">
+                      <h4 className="text-2xl font-bold mb-2 drop-shadow-lg">
+                        {item.title || "Untitled"}
+                      </h4>
+                      <p className="text-lg opacity-90 drop-shadow">
+                        {item.subtitle || "2025"}
+                      </p>
+                    </div>
+                  </div>
+                );
               })}
           </div>
         </div>

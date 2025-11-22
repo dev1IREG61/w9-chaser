@@ -61,6 +61,9 @@ export interface CardContent {
   title: string;
   subtitle: string;
   description: string;
+  card_content: string;
+  custom_title: string;
+  custom_description: string;
   card_style: "basic" | "feature" | "testimonial" | "pricing" | "team";
   icon: string;
   card_image?: ImageData;
