@@ -29,23 +29,23 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      rootMargin: "0px 0px -50px 0px",
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
+          entry.target.classList.add("animate-in");
         } else {
           // Remove animation class when element leaves viewport
           // This allows re-animation when scrolling back
-          entry.target.classList.remove('animate-in');
+          entry.target.classList.remove("animate-in");
         }
       });
     }, observerOptions);
 
     const animatedElements = document.querySelectorAll(
-      '.scroll-fade-up, .scroll-fade-in, .scroll-slide-left, .scroll-slide-right, .scroll-scale-up, .scroll-fade-down'
+      ".scroll-fade-up, .scroll-fade-in, .scroll-slide-left, .scroll-slide-right, .scroll-scale-up, .scroll-fade-down"
     );
 
     animatedElements.forEach((el) => observer.observe(el));
@@ -326,7 +326,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
 
       {/* Problem Solution Section */}
       <div className="scroll-scale-up">
-        <ProblemSolution data={data} />
+        <ProblemSolution />
       </div>
 
       {/* How It Works Section */}
