@@ -55,14 +55,14 @@ const CardSections: React.FC<CardSectionsProps> = ({ data }) => {
 
   return (
     <section
-      className="py-16 sm:py-24 relative overflow-hidden"
+      className="py-16 sm:py-24 relative overflow-hidden mt-10"
       style={{ backgroundColor: bgColor }}
     >
       {/* Dotted background pattern */}
       <div
         className="absolute inset-0 opacity-20"
         style={{
-          backgroundImage: `radial-gradient(circle, ${primaryColor} 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle, ${accentColor} 1px, transparent 1px)`,
           backgroundSize: "20px 20px",
         }}
       />

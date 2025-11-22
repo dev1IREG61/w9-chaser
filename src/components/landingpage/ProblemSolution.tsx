@@ -24,7 +24,7 @@ const MarketingProblemSolution = () => {
       id: "marketing",
       title: "The Marketing Lead",
       icon: User,
-      color: "purple",
+      color: "blue",
       problems: [
         "Stop fighting with spreadsheets",
         "Marching modimts and content analysis",
@@ -84,10 +84,10 @@ const MarketingProblemSolution = () => {
                 className={`absolute left-0 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all ${
                   startIndex === 0
                     ? "opacity-30 cursor-not-allowed"
-                    : "hover:bg-purple-50 hover:shadow-xl"
+                    : "hover:bg-blue-50 hover:shadow-xl"
                 }`}
               >
-                <ChevronLeft className="w-6 h-6 text-purple-600" />
+                <ChevronLeft className="w-6 h-6 text-blue-600" />
               </button>
             )}
 
@@ -113,7 +113,7 @@ const MarketingProblemSolution = () => {
                       <div
                         className={`absolute inset-0 rounded-full ${
                           isSelected
-                            ? "bg-gradient-to-br from-purple-400 to-purple-600 p-1"
+                            ? "bg-gradient-to-br from-blue-400 to-blue-600 p-1"
                             : "bg-gray-200"
                         }`}
                       >
@@ -121,12 +121,12 @@ const MarketingProblemSolution = () => {
                           <div
                             className={`rounded-full ${
                               isSelected
-                                ? "w-36 h-36 bg-gradient-to-br from-purple-500 to-purple-700"
+                                ? "w-36 h-36 bg-gradient-to-br from-blue-500 to-blue-700"
                                 : "w-28 h-28 bg-gray-300"
                             } flex items-center justify-center`}
                           >
                             {isSelected ? (
-                              <div className="w-32 h-32 rounded-full bg-purple-600 flex items-center justify-center">
+                              <div className="w-32 h-32 rounded-full bg-blue-600 flex items-center justify-center">
                                 <div className="text-white">
                                   <div className="w-20 h-20 mx-auto mb-2 bg-white/20 rounded-full flex items-center justify-center">
                                     <div className="w-12 h-12 bg-white/30 rounded-full"></div>
@@ -161,10 +161,10 @@ const MarketingProblemSolution = () => {
                 className={`absolute right-0 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all ${
                   startIndex >= personas.length - visibleCount
                     ? "opacity-30 cursor-not-allowed"
-                    : "hover:bg-purple-50 hover:shadow-xl"
+                    : "hover:bg-blue-50 hover:shadow-xl"
                 }`}
               >
-                <ChevronRight className="w-6 h-6 text-purple-600" />
+                <ChevronRight className="w-6 h-6 text-blue-600" />
               </button>
             )}
           </div>
@@ -174,12 +174,12 @@ const MarketingProblemSolution = () => {
       {/* Problem-Solution Section */}
       {selectedPersonaData && selectedPersonaData.problems && (
         <div className="max-w-5xl mx-auto px-4 py-5">
-          <div className="bg-white rounded-3xl shadow-xl p-12 border border-purple-500">
+          <div className="bg-white rounded-3xl shadow-xl p-12 border border-blue-500">
             <div className="flex gap-1 items-start">
               {/* Left Side - Problems */}
               <div className="w-1/2">
                 <h2 className="mb-8">
-                  <span className="text-purple-600 text-3xl font-bold">
+                  <span className="text-blue-600 text-3xl font-bold">
                     For Marketers:
                   </span>
                   <br />
@@ -192,9 +192,9 @@ const MarketingProblemSolution = () => {
               {/* Right Side - Problem Items */}
               <div className="w-1/2 space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 flex-shrink-0 bg-blue-100 rounded-lg flex items-center justify-center">
                     <svg
-                      className="w-6 h-6 text-purple-600"
+                      className="w-6 h-6 text-blue-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -218,9 +218,9 @@ const MarketingProblemSolution = () => {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 flex-shrink-0 bg-blue-100 rounded-lg flex items-center justify-center">
                     <svg
-                      className="w-6 h-6 text-purple-600"
+                      className="w-6 h-6 text-blue-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -240,9 +240,9 @@ const MarketingProblemSolution = () => {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 flex-shrink-0 bg-blue-100 rounded-lg flex items-center justify-center">
                     <svg
-                      className="w-6 h-6 text-purple-600"
+                      className="w-6 h-6 text-blue-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
