@@ -217,9 +217,34 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
 }) => {
   switch (block.type) {
     case "rich_text":
+      const richRef = useRef<HTMLDivElement>(null);
+      useEffect(() => {
+        const el = richRef.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                el.classList.add("animate-fadeInUp");
+                el.classList.remove("opacity-0");
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+      }, []);
       return (
         <div
-          className="prose prose-lg max-w-none mb-8 text-gray-700"
+          ref={richRef}
+          style={{
+            backgroundImage: 'linear-gradient(135deg, #000000 0%, #1a1a00 25%, #333300 50%, #4d4d00 75%, #666600 100%)',
+            backgroundSize: '400% 400%',
+            animation: 'gradient 15s ease infinite',
+            fontFamily: '"Dancing Script", "Brush Script MT", cursive',
+          }}
+          className="opacity-0 prose prose-lg max-w-none mb-8 rounded-3xl p-10 shadow-2xl [&>h1]:text-6xl [&>h1]:font-black [&>h1]:mb-8 [&>h1]:text-yellow-400 [&>h1]:drop-shadow-[0_4px_12px_rgba(234,179,8,0.5)] [&>h2]:text-5xl [&>h2]:font-black [&>h2]:mb-6 [&>h2]:text-yellow-400 [&>h2]:drop-shadow-[0_3px_10px_rgba(234,179,8,0.5)] [&>h3]:text-4xl [&>h3]:font-bold [&>h3]:mb-5 [&>h3]:text-yellow-300 [&>h3]:drop-shadow-[0_2px_8px_rgba(234,179,8,0.4)] [&>h4]:text-3xl [&>h4]:font-bold [&>h4]:mb-4 [&>h4]:text-yellow-300 [&>h4]:drop-shadow-lg [&>p]:text-xl [&>p]:leading-relaxed [&>p]:mb-5 [&>p]:text-yellow-100 [&>p]:drop-shadow-md [&>ul]:space-y-3 [&>ul]:mb-6 [&>ul>li]:flex [&>ul>li]:items-start [&>ul>li]:gap-3 [&>ul>li]:text-xl [&>ul>li]:text-yellow-100 [&>ul>li]:drop-shadow-md [&>ul>li:before]:content-['✦'] [&>ul>li:before]:text-yellow-400 [&>ul>li:before]:font-bold [&>ul>li:before]:mt-1 [&>ul>li:before]:text-3xl [&>ul>li:before]:drop-shadow-lg [&>ol]:space-y-3 [&>ol]:mb-6 [&>ol>li]:text-xl [&>ol>li]:text-yellow-100 [&>ol>li]:drop-shadow-md [&>a]:text-yellow-400 [&>a]:underline [&>a]:font-bold [&>a]:drop-shadow-lg [&>a:hover]:text-yellow-300 [&>strong]:font-black [&>strong]:text-yellow-400 [&>strong]:drop-shadow-lg [&>em]:italic [&>em]:text-yellow-200 [&>em]:drop-shadow-md [&>blockquote]:border-l-8 [&>blockquote]:border-yellow-400 [&>blockquote]:pl-8 [&>blockquote]:py-6 [&>blockquote]:italic [&>blockquote]:bg-yellow-900/20 [&>blockquote]:rounded-r-2xl [&>blockquote]:my-8 [&>blockquote]:text-yellow-100 [&>blockquote]:text-2xl [&>blockquote]:drop-shadow-xl"
           dangerouslySetInnerHTML={{ __html: block.value }}
         />
       );
