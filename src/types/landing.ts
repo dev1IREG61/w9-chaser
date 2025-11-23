@@ -250,6 +250,9 @@ export interface LandingPageData {
   cta_secondary_text?: string;
   cta_secondary_url?: string;
   cta_offer?: string;
+  secondary_cta_heading?: string;
+  secondary_cta_description?: string;
+  secondary_cta_button_text?: string;
   meta_title?: string;
   meta_description?: string;
   og_image?: ImageData;

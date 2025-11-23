@@ -37,8 +37,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("animate-in");
         } else {
-          // Remove animation class when element leaves viewport
-          // This allows re-animation when scrolling back
           entry.target.classList.remove("animate-in");
         }
       });
@@ -105,6 +103,106 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
 
     loadData();
   }, []);
+
+  // ===== DYNAMIC SECTION RENDERING FUNCTION =====
+  const renderSection = (sectionKey: string, index: number) => {
+    // Map section keys to their components with appropriate animations
+    const sectionComponents: Record<string, React.ReactElement | null> = {
+      header: (
+        <div key={`header-${index}`} className="scroll-fade-up animate-in">
+          <Header data={data!} onShowLogin={onShowLogin} />
+        </div>
+      ),
+      features: (
+        <div key={`features-${index}`} className="scroll-fade-up">
+          <Features data={data!} />
+        </div>
+      ),
+      problem_solution: (
+        <div key={`problem-solution-${index}`} className="scroll-scale-up">
+          <ProblemSolution />
+        </div>
+      ),
+      how_it_works: (
+        <div key={`how-it-works-${index}`} className="scroll-slide-right">
+          <HowItWorks data={data!} />
+        </div>
+      ),
+      video: data?.video_section?.featured_video ? (
+        <div key={`video-${index}`} className="scroll-fade-in">
+          <VideoSection data={data} />
+        </div>
+      ) : null,
+      benefits: (
+        <div key={`benefits-${index}`} className="scroll-slide-left">
+          <Benefits data={data!} />
+        </div>
+      ),
+      pricing: (
+        <div key={`pricing-${index}`} className="scroll-fade-up">
+          <Pricing data={data!} />
+        </div>
+      ),
+      card_sections:
+        data?.card_sections?.cards && data.card_sections.cards.length > 0 ? (
+          <div key={`card-sections-${index}`} className="scroll-scale-up">
+            <CardSections data={data} />
+          </div>
+        ) : null,
+      dynamic_content:
+        data?.dynamic_content && data.dynamic_content.length > 0 ? (
+          <div key={`dynamic-content-${index}`} className="scroll-fade-up">
+            <section
+              className="py-20 px-4 sm:px-6 lg:px-8"
+              style={{
+                backgroundColor:
+                  data.color_theme?.background_color === "#6B7280"
+                    ? "#FFFFFF"
+                    : data.color_theme?.background_color || "#FFFFFF",
+              }}
+            >
+              <div className="max-w-7xl mx-auto">
+                {data.dynamic_content.map((block) => (
+                  <DynamicContentRenderer key={block.id} block={block} />
+                ))}
+              </div>
+            </section>
+          </div>
+        ) : null,
+      testimonials: (
+        <div key={`testimonials-${index}`} className="scroll-slide-right">
+          <Testimonials data={data!} />
+        </div>
+      ),
+      faq: (
+        <div key={`faq-${index}`} className="scroll-fade-up">
+          <FAQ data={data!} />
+        </div>
+      ),
+      cta:
+        data?.cta_head || data?.cta_introduction || data?.cta_primary_text ? (
+          <div key={`cta-${index}`} className="scroll-scale-up">
+            <CTA data={data} />
+          </div>
+        ) : null,
+
+      secondary_cta:
+        data?.secondary_cta_heading ||
+        data?.secondary_cta_description ||
+        data?.secondary_cta_button_text ? (
+          <div key={`secondary-cta-${index}`} className="scroll-scale-up">
+            <CTA data={data} />
+          </div>
+        ) : null,
+      footer: (
+        <div key={`footer-${index}`} className="scroll-fade-in">
+          <Footer data={data!} />
+        </div>
+      ),
+    };
+
+    return sectionComponents[sectionKey] || null;
+  };
 
   if (loading) {
     return (
@@ -282,6 +380,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
           animation: float 6s ease-in-out infinite;
         }
       `}</style>
+
       {/* Apply color theme globally with contrast fix */}
       {data.color_theme && (
         <style>{`
@@ -311,96 +410,111 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
         `}</style>
       )}
 
-      {/* Navbar Section */}
+      {/* Navbar Section - Always at top */}
       <GlassNavbar data={data} onShowLogin={onShowLogin} />
 
-      {/* Header Section */}
-      <div className="scroll-fade-up animate-in">
-        <Header data={data} onShowLogin={onShowLogin} />
-      </div>
+      {/* ===== DYNAMIC SECTION RENDERING ===== */}
+      {data.section_order && data.section_order.length > 0 ? (
+        // If section_order exists in API, render sections dynamically
+        data.section_order.map((sectionKey, index) => {
+          // Skip navbar as it's already rendered above
+          if (sectionKey === "navbar") return null;
 
-      {/* Features Section - ALWAYS SHOW (now has sample content) */}
-      <div className="scroll-fade-up">
-        <Features data={data} />
-      </div>
+          return renderSection(sectionKey, index);
+        })
+      ) : (
+        // Fallback: If no section_order, render in default order
+        <>
+          {/* Header Section */}
+          <div className="scroll-fade-up animate-in">
+            <Header data={data} onShowLogin={onShowLogin} />
+          </div>
 
-      {/* Problem Solution Section */}
-      <div className="scroll-scale-up">
-        <ProblemSolution />
-      </div>
+          {/* Features Section */}
+          <div className="scroll-fade-up">
+            <Features data={data} />
+          </div>
 
-      {/* How It Works Section */}
-      <div className="scroll-slide-right">
-        <HowItWorks data={data} />
-      </div>
+          {/* Problem Solution Section */}
+          <div className="scroll-scale-up">
+            <ProblemSolution />
+          </div>
 
-      {/* Video Section */}
-      {data.video_section?.featured_video && (
-        <div className="scroll-fade-in">
-          <VideoSection data={data} />
-        </div>
-      )}
+          {/* How It Works Section */}
+          <div className="scroll-slide-right">
+            <HowItWorks data={data} />
+          </div>
 
-      {/* Benefits Section - ALWAYS SHOW (now has sample content) */}
-      <div className="scroll-slide-left">
-        <Benefits data={data} />
-      </div>
-
-      {/* Pricing Section */}
-      <div className="scroll-fade-up">
-        <Pricing data={data} />
-      </div>
-
-      {/* Card Sections */}
-      {data.card_sections?.cards && data.card_sections.cards.length > 0 && (
-        <div className="scroll-scale-up">
-          <CardSections data={data} />
-        </div>
-      )}
-
-      {/* ===== DYNAMIC CONTENT SECTION ===== */}
-      {data.dynamic_content && data.dynamic_content.length > 0 && (
-        <div className="scroll-fade-up">
-          <section
-            className="py-20 px-4 sm:px-6 lg:px-8"
-            style={{
-              backgroundColor:
-                data.color_theme?.background_color === "#6B7280"
-                  ? "#FFFFFF"
-                  : data.color_theme?.background_color || "#FFFFFF",
-            }}
-          >
-            <div className="max-w-7xl mx-auto">
-              {/* Remove the "Dynamic Content" header since it's not needed */}
-              {data.dynamic_content.map((block) => (
-                <DynamicContentRenderer key={block.id} block={block} />
-              ))}
+          {/* Video Section */}
+          {data.video_section?.featured_video && (
+            <div className="scroll-fade-in">
+              <VideoSection data={data} />
             </div>
-          </section>
-        </div>
+          )}
+
+          {/* Benefits Section */}
+          <div className="scroll-slide-left">
+            <Benefits data={data} />
+          </div>
+
+          {/* Pricing Section */}
+          <div className="scroll-fade-up">
+            <Pricing data={data} />
+          </div>
+
+          {/* Card Sections */}
+          {data.card_sections?.cards && data.card_sections.cards.length > 0 && (
+            <div className="scroll-scale-up">
+              <CardSections data={data} />
+            </div>
+          )}
+
+          {/* Dynamic Content Section */}
+          {data.dynamic_content && data.dynamic_content.length > 0 && (
+            <div className="scroll-fade-up">
+              <section
+                className="py-20 px-4 sm:px-6 lg:px-8"
+                style={{
+                  backgroundColor:
+                    data.color_theme?.background_color === "#6B7280"
+                      ? "#FFFFFF"
+                      : data.color_theme?.background_color || "#FFFFFF",
+                }}
+              >
+                <div className="max-w-7xl mx-auto">
+                  {data.dynamic_content.map((block) => (
+                    <DynamicContentRenderer key={block.id} block={block} />
+                  ))}
+                </div>
+              </section>
+            </div>
+          )}
+
+          {/* Testimonials Section */}
+          <div className="scroll-slide-right">
+            <Testimonials data={data} />
+          </div>
+
+          {/* FAQ Section */}
+          <div className="scroll-fade-up">
+            <FAQ data={data} />
+          </div>
+
+          {/* CTA Section */}
+          {(data.cta_head ||
+            data.cta_introduction ||
+            data.cta_primary_text) && (
+            <div className="scroll-scale-up">
+              <CTA data={data} />
+            </div>
+          )}
+
+          {/* Footer */}
+          <div className="scroll-fade-in">
+            <Footer data={data} />
+          </div>
+        </>
       )}
-      {/* ===== END DYNAMIC CONTENT SECTION ===== */}
-
-      {/* Testimonials Section - ALWAYS SHOW (now has sample content) */}
-      <div className="scroll-slide-right">
-        <Testimonials data={data} />
-      </div>
-
-      <div className="scroll-fade-up">
-        <FAQ data={data} />
-      </div>
-
-      {/* CTA Section */}
-      {(data.cta_head || data.cta_introduction || data.cta_primary_text) && (
-        <div className="scroll-scale-up">
-          <CTA data={data} />
-        </div>
-      )}
-
-      {/* Footer */}
-      <div className="scroll-fade-in">
-        <Footer data={data} />
-      </div>
     </div>
   );
 };
