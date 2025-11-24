@@ -3,6 +3,7 @@ import LandingPage from "./pages/LandingPage";
 import { FeaturesPage } from "../src/components/features/features-page/FeaturesPage"; // Updated import
 import DebugFeaturesAPI from "./pages/DebugFeaturesApi";
 import DebugLandingAPI from "./pages/DebugLandingApi";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
   const [currentView, setCurrentView] = useState<{
@@ -64,18 +65,34 @@ function App() {
 
   // Render based on current view
   if (currentView.type === "features") {
-    return <FeaturesPage slug={currentView.slug} />;
+    return (
+      <ThemeProvider>
+        <FeaturesPage slug={currentView.slug} />
+      </ThemeProvider>
+    );
   }
 
   if (currentView.type === "debug-features") {
-    return <DebugFeaturesAPI />;
+    return (
+      <ThemeProvider>
+        <DebugFeaturesAPI />
+      </ThemeProvider>
+    );
   }
 
   if (currentView.type === "debug-landing") {
-    return <DebugLandingAPI />;
+    return (
+      <ThemeProvider>
+        <DebugLandingAPI />
+      </ThemeProvider>
+    );
   }
 
-  return <LandingPage />;
+  return (
+    <ThemeProvider>
+      <LandingPage />
+    </ThemeProvider>
+  );
 }
 
 export default App;

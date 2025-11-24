@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type { LandingPageData } from "../types/landing";
 import { fetchLandingPageData } from "../types/landing";
+import { useTheme } from "../contexts/ThemeContext";
 import DynamicContentRenderer from "../components/landingpage/DynamicContent";
 import GlassNavbar from "../components/landingpage/GlassNavbar";
 import Header from "../components/landingpage/Header";
@@ -53,12 +54,19 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
     };
   }, [data]);
 
+  const { setTheme } = useTheme();
+
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true);
         const pageData = await fetchLandingPageData();
         setData(pageData);
+        
+        // Apply theme from API
+        if (pageData.color_theme) {
+          setTheme(pageData.color_theme);
+        }
 
         // Set dynamic meta tags
         if (pageData.meta_title || pageData.title) {
@@ -151,23 +159,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
         ) : null,
       dynamic_content:
         data?.dynamic_content && data.dynamic_content.length > 0 ? (
-          <div key={`dynamic-content-${index}`} className="scroll-fade-up">
-            <section
-              className="py-20 px-4 sm:px-6 lg:px-8"
-              style={{
-                backgroundColor:
-                  data.color_theme?.background_color === "#6B7280"
-                    ? "#FFFFFF"
-                    : data.color_theme?.background_color || "#FFFFFF",
-              }}
-            >
-              <div className="max-w-7xl mx-auto">
+          <section key={`dynamic-content-${index}`} className="py-8 sm:py-12 lg:py-20 px-4 sm:px-6 lg:px-8 bg-theme-background">
+            <div className="w-full max-w-7xl mx-auto">
+              <div className="space-y-8 sm:space-y-12">
                 {data.dynamic_content.map((block) => (
-                  <DynamicContentRenderer key={block.id} block={block} />
+                  <div key={block.id} className="w-full">
+                    <DynamicContentRenderer block={block} />
+                  </div>
                 ))}
               </div>
-            </section>
-          </div>
+            </div>
+          </section>
         ) : null,
       testimonials: (
         <div key={`testimonials-${index}`} className="scroll-slide-right">
@@ -385,26 +387,26 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
       {data.color_theme && (
         <style>{`
           :root {
-            --primary-color: ${data.color_theme.primary_color};
-            --secondary-color: ${data.color_theme.secondary_color};
-            --accent-color: ${data.color_theme.accent_color};
-            --neutral-color: ${data.color_theme.neutral_color};
-            --background-color: ${
+            --color-primary: ${data.color_theme.primary_color};
+            --color-secondary: ${data.color_theme.secondary_color};
+            --color-accent: ${data.color_theme.accent_color};
+            --color-neutral: ${data.color_theme.neutral_color};
+            --color-background: ${
               data.color_theme.background_color === "#6B7280"
                 ? "#FFFFFF"
                 : data.color_theme.background_color
             };
-            --text-color: ${data.color_theme.text_color};
+            --color-text: ${data.color_theme.text_color};
           }
           
           /* Ensure good contrast */
           body {
-            background-color: var(--background-color) !important;
-            color: var(--text-color);
+            background-color: var(--color-background) !important;
+            color: var(--color-text);
           }
           
           .landing-page {
-            background-color: var(--background-color);
+            background-color: var(--color-background);
             min-height: 100vh;
           }
         `}</style>
@@ -471,23 +473,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
 
           {/* Dynamic Content Section */}
           {data.dynamic_content && data.dynamic_content.length > 0 && (
-            <div className="scroll-fade-up">
-              <section
-                className="py-20 px-4 sm:px-6 lg:px-8"
-                style={{
-                  backgroundColor:
-                    data.color_theme?.background_color === "#6B7280"
-                      ? "#FFFFFF"
-                      : data.color_theme?.background_color || "#FFFFFF",
-                }}
-              >
-                <div className="max-w-7xl mx-auto">
+            <section className="py-8 sm:py-12 lg:py-20 px-4 sm:px-6 lg:px-8 bg-theme-background min-h-screen">
+              <div className="w-full max-w-7xl mx-auto">
+                <div className="space-y-8 sm:space-y-12">
                   {data.dynamic_content.map((block) => (
-                    <DynamicContentRenderer key={block.id} block={block} />
+                    <div key={block.id} className="w-full bg-red-500 p-4 border-2 border-blue-500">
+                      <h3 className="text-2xl font-bold mb-4">Block Type: {block.type}</h3>
+                      <DynamicContentRenderer block={block} />
+                    </div>
                   ))}
                 </div>
-              </section>
-            </div>
+              </div>
+            </section>
           )}
 
           {/* Testimonials Section */}

@@ -17,15 +17,14 @@ export const EnhancedFeatures: React.FC<EnhancedFeaturesProps> = ({
 }) => {
   return (
     <section
-      className="py-16 sm:py-24 relative overflow-hidden"
-      style={{ backgroundColor: "var(--background-color)" }}
+      className="py-16 sm:py-24 relative overflow-hidden bg-theme-background"
     >
       <style>{`
-        .features-bg-circle-primary { background-color: var(--primary-color); }
-        .features-bg-circle-accent { background-color: var(--accent-color); }
-        .features-gradient-bg { background: linear-gradient(135deg, var(--primary-color)08 0%, var(--accent-color)08 100%); }
-        .features-gradient-icon { background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%); }
-        .features-border-glow { box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 20%, transparent); }
+        .features-bg-circle-primary { background-color: var(--color-primary); }
+        .features-bg-circle-accent { background-color: var(--color-accent); }
+        .features-gradient-bg { background: linear-gradient(135deg, var(--color-primary)08 0%, var(--color-accent)08 100%); }
+        .features-gradient-icon { background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%); }
+        .features-border-glow { box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent); }
       `}</style>
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-0 w-72 h-72 rounded-full features-bg-circle-primary" />
@@ -36,16 +35,14 @@ export const EnhancedFeatures: React.FC<EnhancedFeaturesProps> = ({
         <div className="text-center mb-16">
           {heading && (
             <h2
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 animate-fadeInUp"
-              style={{ color: "var(--text-color)" }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 animate-fadeInUp text-theme-text"
             >
               {heading}
             </h2>
           )}
           {description && (
             <p
-              className="text-xl max-w-3xl mx-auto animate-fadeInUp animation-delay-200"
-              style={{ color: "var(--neutral-color)" }}
+              className="text-xl max-w-3xl mx-auto animate-fadeInUp animation-delay-200 text-theme-neutral"
             >
               {description}
             </p>
@@ -56,7 +53,7 @@ export const EnhancedFeatures: React.FC<EnhancedFeaturesProps> = ({
           {features.map((feature, index) => (
             <div
               key={feature.id}
-              className="group relative p-8 rounded-3xl transition-all duration-700 hover:shadow-2xl hover:-translate-y-3 bg-white overflow-hidden"
+              className="group relative p-8 rounded-3xl transition-all duration-700 hover:shadow-2xl hover:-translate-y-3 bg-theme-background overflow-hidden"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 features-gradient-bg" />
@@ -72,15 +69,13 @@ export const EnhancedFeatures: React.FC<EnhancedFeaturesProps> = ({
               )}
 
               <h3
-                className="text-2xl font-bold mb-4 relative z-10 group-hover:translate-x-2 transition-transform duration-300"
-                style={{ color: "var(--text-color)" }}
+                className="text-2xl font-bold mb-4 relative z-10 group-hover:translate-x-2 transition-transform duration-300 text-theme-text"
               >
                 {feature.title}
               </h3>
 
               <p
-                className="text-lg leading-relaxed relative z-10 group-hover:translate-x-1 transition-transform duration-300"
-                style={{ color: "var(--neutral-color)" }}
+                className="text-lg leading-relaxed relative z-10 group-hover:translate-x-1 transition-transform duration-300 text-theme-neutral"
               >
                 {feature.description}
               </p>

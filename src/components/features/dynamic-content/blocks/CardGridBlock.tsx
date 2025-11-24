@@ -26,15 +26,15 @@ export const CardGridBlock: React.FC<CardGridBlockProps> = ({
     }[columns] || "md:grid-cols-3";
 
   return (
-    <section className="py-16" style={{ backgroundColor: "var(--background-color)" }}>
+    <section className="py-16 bg-theme-background">
       <div className="container mx-auto px-4">
         {value.heading && (
-          <h2 className="text-4xl font-bold text-center mb-4" style={{ color: "var(--text-color)" }}>
+          <h2 className="text-4xl font-bold text-center mb-4 text-theme-text">
             {value.heading}
           </h2>
         )}
         {value.subheading && (
-          <p className="text-xl text-center mb-12" style={{ color: "var(--neutral-color)" }}>
+          <p className="text-xl text-center mb-12 text-theme-neutral">
             {value.subheading}
           </p>
         )}
@@ -55,7 +55,7 @@ export const CardGridBlock: React.FC<CardGridBlockProps> = ({
             return (
               <div
                 key={idx}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group hover:-translate-y-2"
+                className="bg-theme-background rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group hover:-translate-y-2"
               >
                 {cardImageUrl && (
                   <img
@@ -65,10 +65,10 @@ export const CardGridBlock: React.FC<CardGridBlockProps> = ({
                   />
                 )}
                 <div className="p-6">
-                  <h3 className="text-2xl font-bold mb-3" style={{ color: "var(--text-color)" }}>
+                  <h3 className="text-2xl font-bold mb-3 text-theme-text">
                     {card.custom_title || card.card_content?.title}
                   </h3>
-                  <p style={{ color: "var(--neutral-color)" }}>
+                  <p className="text-theme-neutral">
                     {card.custom_description ||
                       card.card_content?.description ||
                       ""}

@@ -21,13 +21,13 @@ export const EnhancedBenefits: React.FC<EnhancedBenefitsProps> = ({
     <section
       className="py-16 sm:py-24 relative overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, color-mix(in srgb, var(--primary-color) 3%, transparent) 0%, color-mix(in srgb, var(--accent-color) 3%, transparent) 100%)`,
+        background: `linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 3%, transparent) 0%, color-mix(in srgb, var(--color-accent) 3%, transparent) 100%)`,
       }}
     >
       <style>{`
-        .benefits-circle-primary { background-color: var(--primary-color); }
-        .benefits-circle-accent { background-color: var(--accent-color); }
-        .benefits-gradient-hover { background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%); }
+        .benefits-circle-primary { background-color: var(--color-primary); }
+        .benefits-circle-accent { background-color: var(--color-accent); }
+        .benefits-gradient-hover { background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%); }
       `}</style>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-10 left-10 w-40 h-40 rounded-full opacity-5 animate-float benefits-circle-primary" />
@@ -42,16 +42,14 @@ export const EnhancedBenefits: React.FC<EnhancedBenefitsProps> = ({
         <div className="text-center mb-16">
           {heading && (
             <h2
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 animate-fadeInUp"
-              style={{ color: "var(--text-color)" }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 animate-fadeInUp text-theme-text"
             >
               {heading}
             </h2>
           )}
           {description && (
             <p
-              className="text-xl max-w-3xl mx-auto animate-fadeInUp animation-delay-200"
-              style={{ color: "var(--neutral-color)" }}
+              className="text-xl max-w-3xl mx-auto animate-fadeInUp animation-delay-200 text-theme-neutral"
             >
               {description}
             </p>
@@ -62,36 +60,33 @@ export const EnhancedBenefits: React.FC<EnhancedBenefitsProps> = ({
           {benefits.map((benefit) => (
             <div
               key={benefit.id}
-              className="group relative p-8 rounded-3xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 overflow-hidden"
+              className="group relative p-8 rounded-3xl bg-theme-background shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 overflow-hidden"
             >
               <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 benefits-gradient-hover" />
 
               <div className="relative z-10">
                 {benefit.icon && (
                   <div className="mb-6 transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
-                    <EasyIcon icon={benefit.icon} size={48} color="var(--primary-color)" />
+                    <EasyIcon icon={benefit.icon} size={48} color="var(--color-primary)" />
                   </div>
                 )}
 
                 <h3
-                  className="text-2xl font-bold mb-4 transform transition-all duration-300 group-hover:translate-x-2"
-                  style={{ color: "var(--text-color)" }}
+                  className="text-2xl font-bold mb-4 transform transition-all duration-300 group-hover:translate-x-2 text-theme-text"
                 >
                   {benefit.title}
                 </h3>
 
                 {benefit.stats && (
                   <div
-                    className="text-4xl font-bold mb-4 transform transition-all duration-500 group-hover:scale-110"
-                    style={{ color: "var(--primary-color)" }}
+                    className="text-4xl font-bold mb-4 transform transition-all duration-500 group-hover:scale-110 text-theme-primary"
                   >
                     {benefit.stats}
                   </div>
                 )}
 
                 <p
-                  className="text-lg leading-relaxed transform transition-all duration-300 group-hover:translate-x-1"
-                  style={{ color: "var(--neutral-color)" }}
+                  className="text-lg leading-relaxed transform transition-all duration-300 group-hover:translate-x-1 text-theme-neutral"
                 >
                   {benefit.description}
                 </p>

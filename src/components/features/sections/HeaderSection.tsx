@@ -16,18 +16,18 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({ data }) => {
     <section
       className="relative py-20 sm:py-32 overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, color-mix(in srgb, var(--primary-color) 10%, transparent) 0%, color-mix(in srgb, var(--accent-color) 10%, transparent) 100%)`,
+        background: `linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 10%, transparent) 0%, color-mix(in srgb, var(--color-accent) 10%, transparent) 100%)`,
       }}
     >
       <style>{`
         .header-gradient-bg {
-          background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+          background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
         }
         .header-gradient-hover {
-          background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+          background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
         }
         .header-shadow {
-          box-shadow: 0 20px 60px color-mix(in srgb, var(--primary-color) 30%, transparent);
+          box-shadow: 0 20px 60px color-mix(in srgb, var(--color-primary) 30%, transparent);
         }
       `}</style>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -41,21 +41,19 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({ data }) => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <h1
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 animate-fadeInUp"
-            style={{ color: "var(--text-color)" }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 animate-fadeInUp text-theme-text"
           >
             {data.header_title}
           </h1>
           <p
-            className="text-xl sm:text-2xl mb-8 animate-fadeInUp animation-delay-200"
-            style={{ color: "var(--neutral-color)" }}
+            className="text-xl sm:text-2xl mb-8 animate-fadeInUp animation-delay-200 text-theme-neutral"
           >
             {data.header_subtitle}
           </p>
           {data.header_description && (
             <p
-              className="text-lg mb-10 max-w-3xl mx-auto animate-fadeInUp"
-              style={{ color: "var(--neutral-color)", animationDelay: "0.3s" }}
+              className="text-lg mb-10 max-w-3xl mx-auto animate-fadeInUp text-theme-neutral"
+              style={{ animationDelay: "0.3s" }}
             >
               {data.header_description}
             </p>
@@ -64,9 +62,8 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({ data }) => {
             <a
               href={data.header_cta_url || "#"}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white font-semibold shadow-lg transition-all duration-300 hover:scale-105 relative overflow-hidden group"
+              className="gradient-theme-primary"
               style={{
-                background:
-                  "linear-gradient(135deg, var(--primary-color, #3B82F6) 0%, var(--accent-color, #10B981) 100%)",
                 animationDelay: "0.4s",
               }}
               {...(!data.header_cta_url && {

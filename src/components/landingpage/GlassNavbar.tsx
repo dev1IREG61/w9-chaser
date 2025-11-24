@@ -32,10 +32,6 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
 
   const { header_cta_primary, color_theme } = data;
 
-  const primaryColor = color_theme?.primary_color || "#3B82F6";
-  const accentColor = color_theme?.accent_color || "#10B981";
-  const textColor = color_theme?.text_color || "#1F2937";
-
   // Dummy data for testing
   const dummyFeaturesPages: FeaturesPageData[] = [];
 
@@ -159,28 +155,17 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
     }
   };
 
-  // Gradient styles
-  const gradientBg = `linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%)`;
-  const gradientHover = `linear-gradient(135deg, ${accentColor} 0%, ${primaryColor} 100%)`;
-
   return (
     <nav
       className={`${
         stickyNavbar ? "fixed" : "absolute"
       } top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "backdrop-blur-xl bg-white/90 shadow-2xl"
+          ? "backdrop-blur-xl bg-theme-background/90 shadow-2xl border-b-2 border-theme-primary/30"
           : transparentOnHome
           ? "bg-transparent"
-          : "backdrop-blur-md bg-white/30"
+          : "backdrop-blur-md bg-theme-background/30 border-b border-theme-primary/20"
       }`}
-      style={{
-        borderBottom: scrolled
-          ? `2px solid ${primaryColor}30`
-          : transparentOnHome
-          ? "none"
-          : `1px solid ${primaryColor}20`,
-      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
@@ -200,22 +185,12 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
               </div>
             ) : (
               <div className="flex items-center gap-3">
-                <div
-                  className="h-12 w-12 flex items-center justify-center rounded-xl text-white transition-all duration-500 group-hover:scale-110 group-hover:rotate-6"
-                  style={{
-                    background: gradientBg,
-                    boxShadow: `0 2px 8px ${primaryColor}30`, // Lighter shadow
-                    border: `1px solid ${primaryColor}30`, // Thin border
-                  }}
-                >
+                <div className="h-12 w-12 flex items-center justify-center rounded-xl text-white transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 gradient-theme-primary shadow-lg border border-theme-primary/30">
                   <span className="font-bold text-lg">
                     {siteName.charAt(0)}
                   </span>
                 </div>
-                <div
-                  className="font-bold text-2xl transition-all duration-300 group-hover:scale-105"
-                  style={{ color: textColor }}
-                >
+                <div className="font-bold text-2xl transition-all duration-300 group-hover:scale-105 text-theme-text">
                   {siteName}
                 </div>
               </div>
@@ -237,10 +212,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                         }}
                       >
                         <div className="h-full flex items-center">
-                          <button
-                            className="flex items-center gap-1 text-sm font-semibold transition-all duration-300 hover:scale-105 relative group py-2"
-                            style={{ color: textColor }}
-                          >
+                          <button className="flex items-center gap-1 text-sm font-semibold transition-all duration-300 hover:scale-105 relative group py-2 text-theme-text">
                             {link.title}
                             <ChevronDown
                               size={16}
@@ -248,10 +220,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                                 activeDropdown === link.id ? "rotate-180" : ""
                               }`}
                             />
-                            <span
-                              className="absolute -bottom-1 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 rounded-full"
-                              style={{ background: gradientBg }}
-                            />
+                            <span className="absolute -bottom-1 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 rounded-full gradient-theme-primary" />
                           </button>
                         </div>
 
@@ -276,10 +245,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
 
                               {/* Dropdown Header */}
                               <div className="px-6 py-4 border-b border-gray-100">
-                                <h3
-                                  className="font-bold text-lg"
-                                  style={{ color: primaryColor }}
-                                >
+                                <h3 className="font-bold text-lg text-theme-primary">
                                   Features
                                 </h3>
                                 <p className="text-sm text-gray-600 mt-1">
@@ -306,10 +272,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                                     </div>
 
                                     <div className="flex-1 min-w-0">
-                                      <h4
-                                        className="font-medium text-sm leading-tight group-hover:text-blue-600"
-                                        style={{ color: textColor }}
-                                      >
+                                      <h4 className="font-medium text-sm leading-tight group-hover:text-blue-600 text-theme-text">
                                         {page.title}
                                       </h4>
                                     </div>
@@ -327,10 +290,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                         onMouseLeave={() => setActiveDropdown(null)}
                       >
                         <div className="h-full flex items-center">
-                          <button
-                            className="flex items-center gap-1 text-sm font-semibold transition-all duration-300 hover:scale-105 relative group py-2"
-                            style={{ color: textColor }}
-                          >
+                          <button className="flex items-center gap-1 text-sm font-semibold transition-all duration-300 hover:scale-105 relative group py-2 text-theme-text">
                             {link.title}
                             <ChevronDown
                               size={16}
@@ -338,23 +298,14 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                                 activeDropdown === link.id ? "rotate-180" : ""
                               }`}
                             />
-                            <span
-                              className="absolute -bottom-1 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 rounded-full"
-                              style={{ background: gradientBg }}
-                            />
+                            <span className="absolute -bottom-1 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 rounded-full gradient-theme-primary" />
                           </button>
                         </div>
 
                         {activeDropdown === link.id &&
                           link.children &&
                           link.children.length > 0 && (
-                            <div
-                              className="absolute top-full left-0 mt-0 w-48 backdrop-blur-md bg-white/95 border rounded-xl shadow-lg py-2 z-50"
-                              style={{
-                                borderColor: `${primaryColor}30`,
-                                boxShadow: `0 10px 30px ${primaryColor}15`,
-                              }}
-                            >
+                            <div className="absolute top-full left-0 mt-0 w-48 backdrop-blur-md bg-white/95 border rounded-xl shadow-lg py-2 z-50 border-theme-primary/30 shadow-2xl">
                               {/* Invisible hover area above dropdown */}
                               <div
                                 className="absolute -top-4 left-0 right-0 h-4 bg-transparent"
@@ -365,14 +316,10 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                                 <a
                                   key={child.id}
                                   href={getNavigationItemUrl(child)}
-                                  className="block px-4 py-2 text-sm transition-all duration-200 hover:scale-105 relative group"
-                                  style={{ color: textColor }}
+                                  className="block px-4 py-2 text-sm transition-all duration-200 hover:scale-105 relative group text-theme-text"
                                 >
                                   {child.title}
-                                  <div
-                                    className="absolute left-0 top-0 bottom-0 w-0 group-hover:w-1 transition-all duration-300"
-                                    style={{ background: gradientBg }}
-                                  />
+                                  <div className="absolute left-0 top-0 bottom-0 w-0 group-hover:w-1 transition-all duration-300 gradient-theme-primary" />
                                 </a>
                               ))}
                             </div>
@@ -382,14 +329,10 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                       // Regular link
                       <a
                         href={getNavigationItemUrl(link)}
-                        className="text-sm font-semibold transition-all duration-300 hover:scale-105 relative group py-2 inline-block"
-                        style={{ color: textColor }}
+                        className="text-sm font-semibold transition-all duration-300 hover:scale-105 relative group py-2 inline-block text-theme-text"
                       >
                         {link.title}
-                        <span
-                          className="absolute -bottom-1 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 rounded-full"
-                          style={{ background: gradientBg }}
-                        />
+                        <span className="absolute -bottom-1 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 rounded-full gradient-theme-primary" />
                       </a>
                     )}
                   </div>
@@ -402,27 +345,19 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
             {navbarCTA?.text ? (
               <button
                 onClick={onShowLogin}
-                className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl relative overflow-hidden group"
-                style={{ background: gradientBg }}
+                className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl relative overflow-hidden group gradient-theme-primary"
               >
                 <span className="relative z-10">{navbarCTA.text}</span>
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: gradientHover }}
-                />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 gradient-theme-secondary" />
                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               </button>
             ) : header_cta_primary ? (
               <button
                 onClick={onShowLogin}
-                className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl relative overflow-hidden group"
-                style={{ background: gradientBg }}
+                className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl relative overflow-hidden group gradient-theme-primary"
               >
                 <span className="relative z-10">{header_cta_primary}</span>
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: gradientHover }}
-                />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 gradient-theme-secondary" />
                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               </button>
             ) : null}
@@ -431,8 +366,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
             <button
               onClick={() => setOpen((s) => !s)}
               aria-label="Toggle menu"
-              className="p-2 rounded-md md:hidden hover:bg-white/20 transition-all duration-300 hover:scale-110"
-              style={{ color: textColor }}
+              className="p-2 rounded-md md:hidden hover:bg-white/20 transition-all duration-300 hover:scale-110 text-theme-text"
             >
               {open ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -447,13 +381,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
               : "max-h-0 opacity-0 overflow-hidden"
           }`}
         >
-          <div
-            className="backdrop-blur-md rounded-xl shadow-lg p-4 flex flex-col gap-3 mt-2 mb-4"
-            style={{
-              background: `${color_theme?.background_color || "#FFFFFF"}f0`,
-              border: `1px solid ${primaryColor}30`,
-            }}
-          >
+          <div className="backdrop-blur-md rounded-xl shadow-lg p-4 flex flex-col gap-3 mt-2 mb-4 bg-theme-background/95 border border-theme-primary/30">
             {links
               .sort((a, b) => a.order - b.order)
               .map((link) => (
@@ -466,8 +394,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                             activeDropdown === link.id ? null : link.id
                           )
                         }
-                        className="w-full flex items-center justify-between text-base font-semibold py-2 px-2 transition-all duration-300 hover:scale-105 relative"
-                        style={{ color: textColor }}
+                        className="w-full flex items-center justify-between text-base font-semibold py-2 px-2 transition-all duration-300 hover:scale-105 relative text-theme-text"
                       >
                         {link.title}
                         <ChevronDown
@@ -486,21 +413,17 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                                 href={`/features/${page.slug}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block text-sm py-2 px-3 rounded-lg transition-all duration-200 relative overflow-hidden group"
-                                style={{ color: textColor }}
+                                className="block text-sm py-2 px-3 rounded-lg transition-all duration-200 relative overflow-hidden group text-theme-text"
                                 onClick={() => setOpen(false)}
                               >
                                 <div className="relative z-10 flex items-center gap-2">
-                                  <span
-                                    className="w-1.5 h-1.5 rounded-full"
-                                    style={{ background: primaryColor }}
-                                  />
+                                  <span className="w-1.5 h-1.5 rounded-full bg-theme-primary" />
                                   {page.title}
                                 </div>
                                 <div
                                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                   style={{
-                                    background: `linear-gradient(90deg, ${primaryColor}10 0%, ${accentColor}10 100%)`,
+                                    background: `linear-gradient(90deg, var(--color-primary)10 0%, var(--color-accent)10 100%)`,
                                   }}
                                 />
                               </a>
@@ -516,8 +439,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                             activeDropdown === link.id ? null : link.id
                           )
                         }
-                        className="w-full flex items-center justify-between text-base font-medium py-2 px-2 hover:text-blue-600 transition-colors"
-                        style={{ color: textColor }}
+                        className="w-full flex items-center justify-between text-base font-medium py-2 px-2 hover:text-blue-600 transition-colors text-theme-text"
                       >
                         {link.title}
                         <ChevronDown
@@ -535,8 +457,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                               <a
                                 key={child.id}
                                 href={getNavigationItemUrl(child)}
-                                className="block text-sm py-2 px-2 rounded transition hover:bg-blue-50 hover:text-blue-600"
-                                style={{ color: textColor }}
+                                className="block text-sm py-2 px-2 rounded transition hover:bg-blue-50 hover:text-blue-600 text-theme-text"
                                 onClick={() => setOpen(false)}
                               >
                                 {child.title}
@@ -548,8 +469,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                   ) : (
                     <a
                       href={getNavigationItemUrl(link)}
-                      className="block text-base font-medium py-2 px-2 rounded transition hover:text-blue-600"
-                      style={{ color: textColor }}
+                      className="block text-base font-medium py-2 px-2 rounded transition hover:text-blue-600 text-theme-text"
                       onClick={() => setOpen(false)}
                     >
                       {link.title}
@@ -567,14 +487,10 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                     setOpen(false);
                   }
                 }}
-                className="mt-2 w-full px-4 py-3 rounded-xl text-white font-semibold text-center shadow-lg transition-all duration-300 hover:scale-105 relative overflow-hidden group"
-                style={{ background: gradientBg }}
+                className="mt-2 w-full px-4 py-3 rounded-xl text-white font-semibold text-center shadow-lg transition-all duration-300 hover:scale-105 relative overflow-hidden group gradient-theme-primary"
               >
                 <span className="relative z-10">{navbarCTA.text}</span>
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: gradientHover }}
-                />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 gradient-theme-secondary" />
               </button>
             ) : header_cta_primary ? (
               <button
@@ -584,14 +500,10 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                     setOpen(false);
                   }
                 }}
-                className="mt-2 w-full px-4 py-3 rounded-xl text-white font-semibold text-center shadow-lg transition-all duration-300 hover:scale-105 relative overflow-hidden group"
-                style={{ background: gradientBg }}
+                className="mt-2 w-full px-4 py-3 rounded-xl text-white font-semibold text-center shadow-lg transition-all duration-300 hover:scale-105 relative overflow-hidden group gradient-theme-primary"
               >
                 <span className="relative z-10">{header_cta_primary}</span>
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: gradientHover }}
-                />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 gradient-theme-secondary" />
               </button>
             ) : null}
           </div>
@@ -620,17 +532,17 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
         }
 
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: ${color_theme?.background_color || "#F8F9FA"};
+          background: var(--color-background, #F8F9FA);
           border-radius: 10px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%);
+          background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
           border-radius: 10px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(135deg, ${accentColor} 0%, ${primaryColor} 100%);
+          background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
         }
 
         .line-clamp-2 {

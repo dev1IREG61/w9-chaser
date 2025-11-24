@@ -20,15 +20,11 @@ const CTA: React.FC<CTAProps> = ({ data }) => {
 
   if (!cta_head && !cta_introduction && !cta_primary_text) return null;
 
-  const primaryColor = color_theme?.primary_color || "#3B82F6";
-  const accentColor = color_theme?.accent_color || "#10B981";
+
 
   return (
     <section
-      className="py-20 sm:py-32 relative overflow-hidden"
-      style={{
-        background: `linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%)`,
-      }}
+      className="py-20 sm:py-32 relative overflow-hidden gradient-theme-primary"
     >
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-[0.08]">
@@ -74,11 +70,7 @@ const CTA: React.FC<CTAProps> = ({ data }) => {
           {/* Offer Badge */}
           {cta_offer && (
             <div
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full mb-10 border backdrop-blur-sm"
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.15)",
-                borderColor: "rgba(255, 255, 255, 0.25)",
-              }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full mb-10 border backdrop-blur-sm bg-white/15 border-white/25"
             >
               <EasyIcon icon="FiGift" size={20} color="#FFFFFF" />
               <p className="text-white font-semibold text-sm sm:text-base">
@@ -92,13 +84,12 @@ const CTA: React.FC<CTAProps> = ({ data }) => {
             {cta_primary_text && cta_primary_url && (
               <a
                 href={cta_primary_url}
-                className="group/primary inline-flex items-center gap-3 px-10 py-5 rounded-full font-bold text-base lg:text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl bg-white relative overflow-hidden"
-                style={{ color: primaryColor }}
+                className="group/primary inline-flex items-center gap-3 px-10 py-5 rounded-full font-bold text-base lg:text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl bg-white relative overflow-hidden text-theme-primary"
               >
                 <EasyIcon
                   icon="FiRocket"
                   size={20}
-                  color={primaryColor}
+                  color="var(--color-primary)"
                   className="relative z-10 transition-transform duration-300 group-hover/primary:translate-y-[-2px]"
                 />
                 <span className="relative z-10">{cta_primary_text}</span>
@@ -108,10 +99,7 @@ const CTA: React.FC<CTAProps> = ({ data }) => {
             {cta_secondary_text && cta_secondary_url && (
               <a
                 href={cta_secondary_url}
-                className="group/secondary inline-flex items-center gap-3 px-10 py-5 rounded-full font-bold text-base lg:text-lg border-2 text-white transition-all duration-300 hover:scale-105 hover:bg-white relative backdrop-blur-sm"
-                style={{
-                  borderColor: "rgba(255, 255, 255, 0.4)",
-                }}
+                className="group/secondary inline-flex items-center gap-3 px-10 py-5 rounded-full font-bold text-base lg:text-lg border-2 text-white transition-all duration-300 hover:scale-105 hover:bg-white relative backdrop-blur-sm border-white/40"
               >
                 <EasyIcon
                   icon="FiPlayCircle"
@@ -129,8 +117,7 @@ const CTA: React.FC<CTAProps> = ({ data }) => {
                     {cta_secondary_text}
                   </span>
                   <span
-                    className="hidden group-hover/secondary:inline"
-                    style={{ color: primaryColor }}
+                    className="hidden group-hover/secondary:inline text-theme-primary"
                   >
                     {cta_secondary_text}
                   </span>

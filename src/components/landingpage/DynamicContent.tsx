@@ -54,10 +54,10 @@ const ScrollAnimateItem: React.FC<any> = ({ item }) => {
   return (
     <div
       ref={itemRef}
-      className="opacity-0 group bg-white rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border-2 border-blue-200 hover:border-blue-400 hover:-translate-y-2"
+      className="opacity-0 group bg-theme-background rounded-2xl p-4 sm:p-6 hover:shadow-xl transition-all duration-300 border-2 border-theme-primary/20 hover:border-theme-primary/40 hover:-translate-y-2"
     >
       {item.image && item.image.url && (
-        <div className="w-full h-48 rounded-xl mb-4 overflow-hidden">
+        <div className="w-full h-32 sm:h-48 rounded-xl mb-4 overflow-hidden">
           <img
             src={getFullImageUrl(item.image.url)}
             alt={item.image.title || item.title || "Content image"}
@@ -66,19 +66,21 @@ const ScrollAnimateItem: React.FC<any> = ({ item }) => {
         </div>
       )}
 
-      <h4 className="text-xl font-bold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors">
+      <h4 className="text-lg sm:text-xl font-bold mb-2 text-theme-text group-hover:text-theme-primary transition-colors">
         {item.title || "Untitled"}
       </h4>
 
       {subtitle && (
-        <p className="text-sm mb-3 text-gray-600 font-medium">{subtitle}</p>
+        <p className="text-xs sm:text-sm mb-3 text-theme-neutral font-medium">
+          {subtitle}
+        </p>
       )}
 
       {listItems.length > 0 && (
-        <ul className="grid grid-cols-3 gap-x-3 gap-y-1.5 text-gray-600">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-1.5 text-theme-neutral">
           {listItems.map((text: string, i: number) => (
-            <li key={i} className="text-xs flex items-center">
-              <span className="mr-1.5 text-blue-600">•</span>
+            <li key={i} className="text-xs sm:text-sm flex items-center">
+              <span className="mr-1.5 text-theme-primary">•</span>
               {text}
             </li>
           ))}
@@ -239,12 +241,9 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
         <div
           ref={richRef}
           style={{
-            backgroundImage: 'linear-gradient(135deg, #000000 0%, #1a1a00 25%, #333300 50%, #4d4d00 75%, #666600 100%)',
-            backgroundSize: '400% 400%',
-            animation: 'gradient 15s ease infinite',
-            fontFamily: '"Dancing Script", "Brush Script MT", cursive',
+            fontFamily: '"Inter", "Segoe UI", system-ui, sans-serif',
           }}
-          className="opacity-0 prose prose-lg max-w-none mb-8 rounded-3xl p-10 shadow-2xl [&>h1]:text-6xl [&>h1]:font-black [&>h1]:mb-8 [&>h1]:text-yellow-400 [&>h1]:drop-shadow-[0_4px_12px_rgba(234,179,8,0.5)] [&>h2]:text-5xl [&>h2]:font-black [&>h2]:mb-6 [&>h2]:text-yellow-400 [&>h2]:drop-shadow-[0_3px_10px_rgba(234,179,8,0.5)] [&>h3]:text-4xl [&>h3]:font-bold [&>h3]:mb-5 [&>h3]:text-yellow-300 [&>h3]:drop-shadow-[0_2px_8px_rgba(234,179,8,0.4)] [&>h4]:text-3xl [&>h4]:font-bold [&>h4]:mb-4 [&>h4]:text-yellow-300 [&>h4]:drop-shadow-lg [&>p]:text-xl [&>p]:leading-relaxed [&>p]:mb-5 [&>p]:text-yellow-100 [&>p]:drop-shadow-md [&>ul]:space-y-3 [&>ul]:mb-6 [&>ul>li]:flex [&>ul>li]:items-start [&>ul>li]:gap-3 [&>ul>li]:text-xl [&>ul>li]:text-yellow-100 [&>ul>li]:drop-shadow-md [&>ul>li:before]:content-['✦'] [&>ul>li:before]:text-yellow-400 [&>ul>li:before]:font-bold [&>ul>li:before]:mt-1 [&>ul>li:before]:text-3xl [&>ul>li:before]:drop-shadow-lg [&>ol]:space-y-3 [&>ol]:mb-6 [&>ol>li]:text-xl [&>ol>li]:text-yellow-100 [&>ol>li]:drop-shadow-md [&>a]:text-yellow-400 [&>a]:underline [&>a]:font-bold [&>a]:drop-shadow-lg [&>a:hover]:text-yellow-300 [&>strong]:font-black [&>strong]:text-yellow-400 [&>strong]:drop-shadow-lg [&>em]:italic [&>em]:text-yellow-200 [&>em]:drop-shadow-md [&>blockquote]:border-l-8 [&>blockquote]:border-yellow-400 [&>blockquote]:pl-8 [&>blockquote]:py-6 [&>blockquote]:italic [&>blockquote]:bg-yellow-900/20 [&>blockquote]:rounded-r-2xl [&>blockquote]:my-8 [&>blockquote]:text-yellow-100 [&>blockquote]:text-2xl [&>blockquote]:drop-shadow-xl"
+          className="opacity-0 prose prose-lg max-w-4xl mx-auto mb-8 p-8 bg-theme-background text-center [&>h1]:text-4xl [&>h1]:font-bold [&>h1]:mb-6 [&>h1]:text-theme-text [&>h2]:text-3xl [&>h2]:font-bold [&>h2]:mb-5 [&>h2]:text-theme-text [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mb-4 [&>h3]:text-theme-text [&>h4]:text-xl [&>h4]:font-semibold [&>h4]:mb-3 [&>h4]:text-theme-text [&>p]:text-base [&>p]:leading-relaxed [&>p]:mb-4 [&>p]:text-theme-neutral [&>ul]:space-y-2 [&>ul]:mb-4 [&>ul>li]:text-theme-neutral [&>ol]:space-y-2 [&>ol]:mb-4 [&>ol>li]:text-theme-neutral [&>a]:text-theme-primary [&>a]:underline [&>a:hover]:text-theme-accent [&>strong]:font-bold [&>strong]:text-theme-text [&>em]:italic [&>em]:text-theme-neutral [&>blockquote]:border-l-4 [&>blockquote]:border-theme-primary [&>blockquote]:pl-6 [&>blockquote]:py-4 [&>blockquote]:bg-theme-primary/5 [&>blockquote]:rounded-r-lg [&>blockquote]:my-6 [&>blockquote]:text-theme-neutral"
           dangerouslySetInnerHTML={{ __html: block.value }}
         />
       );
@@ -337,7 +336,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
       return (
         <div className="mb-16">
           {block.value.heading && (
-            <h3 className="text-3xl md:text-4xl font-bold mb-4 text-center text-gray-800">
+            <h3 className="text-3xl md:text-4xl font-bold mb-4 text-center text-theme-text">
               {block.value.heading}
             </h3>
           )}
@@ -431,7 +430,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
       return (
         <div className="mb-16">
           {dynamicListData.heading && (
-            <h3 className="text-4xl font-bold mb-4 text-center text-gray-800">
+            <h3 className="text-4xl font-bold mb-4 text-center text-theme-text">
               {dynamicListData.heading}
             </h3>
           )}
@@ -440,7 +439,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
               {dynamicListData.description}
             </p>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {Array.isArray(dynamicListData.items) &&
               dynamicListData.items.map((item: any, idx: number) => {
                 if (!item || typeof item !== "object") return null;
@@ -457,7 +456,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
       return (
         <div className="mb-16">
           {dynamicListOldData.heading && (
-            <h3 className="text-4xl font-bold mb-4 text-center text-gray-800">
+            <h3 className="text-4xl font-bold mb-4 text-center text-theme-text">
               {dynamicListOldData.heading}
             </h3>
           )}
@@ -466,7 +465,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
               {dynamicListOldData.description}
             </p>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {Array.isArray(dynamicListOldData.items) &&
               dynamicListOldData.items.map((item: any, idx: number) => {
                 if (!item || typeof item !== "object") return null;
@@ -477,7 +476,10 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
                     className="relative h-80 rounded-3xl overflow-hidden group cursor-pointer"
                   >
                     {/* Blue hover effect from bottom right */}
-                    <div className="absolute inset-0 bg-blue-600 translate-x-full translate-y-full group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-500 ease-out origin-bottom-right" style={{ clipPath: 'polygon(100% 0, 100% 100%, 0 100%)' }}></div>
+                    <div
+                      className="absolute inset-0 bg-blue-600 translate-x-full translate-y-full group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-500 ease-out origin-bottom-right"
+                      style={{ clipPath: "polygon(100% 0, 100% 100%, 0 100%)" }}
+                    ></div>
                     {/* Background Image */}
                     {item.image && item.image.url && (
                       <div className="absolute inset-0">
@@ -493,7 +495,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
 
                     {/* Text Content */}
                     <div className="relative h-full flex flex-col justify-end p-6 text-white">
-                      <h4 className="text-2xl font-bold mb-2 drop-shadow-lg">
+                      <h4 className="text-2xl font-bold mb-2 drop-shadow-lg text-white">
                         {item.title || "Untitled"}
                       </h4>
                       <p className="text-lg opacity-90 drop-shadow">
@@ -513,7 +515,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
       return (
         <div className="mb-16">
           {oldDynamicListData.heading && (
-            <h3 className="text-4xl font-bold mb-4 text-gray-800">
+            <h3 className="text-4xl font-bold mb-4 text-theme-text">
               {oldDynamicListData.heading}
             </h3>
           )}
@@ -548,7 +550,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
                           </div>
                         )}
 
-                        <h4 className="text-3xl font-bold mb-4 text-gray-800">
+                        <h4 className="text-3xl font-bold mb-4 text-theme-text">
                           {itemValue.title || "Untitled"}
                         </h4>
 
@@ -589,7 +591,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
                           </div>
                         )}
 
-                        <h4 className="text-3xl font-bold mb-4 text-gray-800">
+                        <h4 className="text-3xl font-bold mb-4 text-theme-text">
                           {itemValue.title || "Feature"}
                         </h4>
 
@@ -614,7 +616,7 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
                           </div>
                         )}
 
-                        <h4 className="text-3xl font-bold mb-4 text-gray-800">
+                        <h4 className="text-3xl font-bold mb-4 text-theme-text">
                           {itemValue.title || "Benefit"}
                         </h4>
 
