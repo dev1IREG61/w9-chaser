@@ -7,7 +7,7 @@ interface BenefitsProps {
 }
 
 const Benefits: React.FC<BenefitsProps> = ({ data }) => {
-  const { benefits_head, benefits_introduction, benefits, color_theme } = data;
+  const { benefits_head, benefits_introduction, benefits } = data;
 
   if (
     !benefits_head &&
@@ -118,7 +118,7 @@ const Benefits: React.FC<BenefitsProps> = ({ data }) => {
             <div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs mt-4 border bg-theme-primary/5 text-theme-primary border-theme-primary/20"
             >
-              <EasyIcon icon="FiInfo" size={14} color={primaryColor} />
+              <EasyIcon icon="FiInfo" size={14} color="var(--color-primary)" />
               <span>Discover the benefits of our platform</span>
             </div>
           )}

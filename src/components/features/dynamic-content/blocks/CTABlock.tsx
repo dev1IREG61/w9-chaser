@@ -47,8 +47,7 @@ export const CTABlock: React.FC<CTABlockProps> = ({
           {value.button_text && (
             <a
               href={value.button_url || "#"}
-              className="inline-block px-8 py-4 bg-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fadeInUp animation-delay-400"
-              className="text-theme-primary"
+              className="inline-block px-8 py-4 bg-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fadeInUp animation-delay-400 text-theme-primary"
               {...(!value.button_url && { onClick: (e) => e.preventDefault() })}
             >
               {value.button_text}

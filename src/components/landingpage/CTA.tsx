@@ -15,7 +15,6 @@ const CTA: React.FC<CTAProps> = ({ data }) => {
     cta_secondary_text,
     cta_secondary_url,
     cta_offer,
-    color_theme,
   } = data;
 
   if (!cta_head && !cta_introduction && !cta_primary_text) return null;

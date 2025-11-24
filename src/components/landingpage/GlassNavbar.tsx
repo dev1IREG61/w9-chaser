@@ -30,7 +30,7 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
     data.header_config ||
     data.sections?.find((section) => section.type === "header")?.data?.config;
 
-  const { header_cta_primary, color_theme } = data;
+  const { header_cta_primary } = data;
 
   // Dummy data for testing
   const dummyFeaturesPages: FeaturesPageData[] = [];

@@ -61,8 +61,7 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({ data }) => {
           {data.header_cta_text ? (
             <a
               href={data.header_cta_url || "#"}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white font-semibold shadow-lg transition-all duration-300 hover:scale-105 relative overflow-hidden group"
-              className="gradient-theme-primary"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white font-semibold shadow-lg transition-all duration-300 hover:scale-105 relative overflow-hidden group gradient-theme-primary"
               style={{
                 animationDelay: "0.4s",
               }}

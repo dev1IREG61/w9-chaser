@@ -1,14 +1,13 @@
 import React from "react";
 import type { LandingPageData, Feature } from "../../types/landing";
 import EasyIcon from "./IconRenderer";
-import { getThemeColor, getGradient } from "../../utils/themeUtils";
 
 interface FeaturesProps {
   data: LandingPageData;
 }
 
 const Features: React.FC<FeaturesProps> = ({ data }) => {
-  const { features_head, features_introduction, features, color_theme } = data;
+  const { features_head, features_introduction, features } = data;
 
   if (
     !features_head &&
@@ -17,12 +16,6 @@ const Features: React.FC<FeaturesProps> = ({ data }) => {
   ) {
     return null;
   }
-
-  const primaryColor = getThemeColor(color_theme, 'primary_color', '#3B82F6');
-  const accentColor = getThemeColor(color_theme, 'accent_color', '#10B981');
-  const textColor = getThemeColor(color_theme, 'text_color', '#1F2937');
-  const neutralColor = getThemeColor(color_theme, 'neutral_color', '#6B7280');
-  const bgColor = getThemeColor(color_theme, 'background_color', '#FFFFFF');
 
   return (
     <section

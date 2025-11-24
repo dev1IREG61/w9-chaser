@@ -26,8 +26,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
   if (isPrimary) {
     return (
       <section
-        className="py-20 relative overflow-hidden"
-        className="gradient-theme-primary"
+        className="py-20 relative overflow-hidden gradient-theme-primary"
         style={{
           background: backgroundImage
             ? `url(${getFullImageUrl(backgroundImage.url)})`
@@ -54,8 +53,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
             {buttonText && (
               <a
                 href={buttonUrl || "#"}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white font-semibold shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 animate-fadeInUp animation-delay-400 animate-pulse-glow"
-                className="text-theme-primary"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white font-semibold shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 animate-fadeInUp animation-delay-400 animate-pulse-glow text-theme-primary"
                 {...(!buttonUrl && { onClick: (e) => e.preventDefault() })}
               >
                 {buttonText}
