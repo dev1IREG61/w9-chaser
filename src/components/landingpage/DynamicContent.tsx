@@ -238,14 +238,31 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
         return () => observer.disconnect();
       }, []);
       return (
-        <div
-          ref={richRef}
-          style={{
-            fontFamily: '"Inter", "Segoe UI", system-ui, sans-serif',
-          }}
-          className="opacity-0 prose prose-lg max-w-4xl mx-auto mb-8 p-8 bg-theme-background text-center [&>h1]:text-4xl [&>h1]:font-bold [&>h1]:mb-6 [&>h1]:text-theme-text [&>h2]:text-3xl [&>h2]:font-bold [&>h2]:mb-5 [&>h2]:text-theme-text [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mb-4 [&>h3]:text-theme-text [&>h4]:text-xl [&>h4]:font-semibold [&>h4]:mb-3 [&>h4]:text-theme-text [&>p]:text-base [&>p]:leading-relaxed [&>p]:mb-4 [&>p]:text-theme-neutral [&>ul]:space-y-2 [&>ul]:mb-4 [&>ul>li]:text-theme-neutral [&>ol]:space-y-2 [&>ol]:mb-4 [&>ol>li]:text-theme-neutral [&>a]:text-theme-primary [&>a]:underline [&>a:hover]:text-theme-accent [&>strong]:font-bold [&>strong]:text-theme-text [&>em]:italic [&>em]:text-theme-neutral [&>blockquote]:border-l-4 [&>blockquote]:border-theme-primary [&>blockquote]:pl-6 [&>blockquote]:py-4 [&>blockquote]:bg-theme-primary/5 [&>blockquote]:rounded-r-lg [&>blockquote]:my-6 [&>blockquote]:text-theme-neutral"
-          dangerouslySetInnerHTML={{ __html: block.value }}
-        />
+        <div className="relative pl-16 max-w-4xl mx-auto mb-8">
+          <style>{`
+            @keyframes colorBlink {
+              0%, 14% { color: #ef4444; }
+              14%, 28% { color: #f97316; }
+              28%, 42% { color: #eab308; }
+              42%, 56% { color: #22c55e; }
+              56%, 70% { color: #3b82f6; }
+              70%, 84% { color: #8b5cf6; }
+              84%, 100% { color: #ec4899; }
+            }
+            .arrow-blink { animation: colorBlink 2.1s infinite; }
+          `}</style>
+          <div className="absolute -left-20 -top-1/3 -translate-y-1/4 text-[10rem] font-bold arrow-blink">
+            →
+          </div>
+          <div
+            ref={richRef}
+            style={{
+              fontFamily: '"Inter", "Segoe UI", system-ui, sans-serif',
+            }}
+            className="opacity-0 prose prose-lg p-8 rounded-2xl border-2 border-theme-primary/30 shadow-lg hover:shadow-xl hover:border-theme-primary/50 transition-all duration-300 text-center gradient-theme-primary [&>h1]:text-4xl [&>h1]:font-bold [&>h1]:mb-6 [&>h1]:text-white [&>h2]:text-3xl [&>h2]:font-bold [&>h2]:mb-5 [&>h2]:text-white [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mb-4 [&>h3]:text-white [&>h4]:text-xl [&>h4]:font-semibold [&>h4]:mb-3 [&>h4]:text-white [&>p]:text-base [&>p]:leading-relaxed [&>p]:mb-4 [&>p]:text-white [&>ul]:space-y-2 [&>ul]:mb-4 [&>ul>li]:text-white [&>ol]:space-y-2 [&>ol]:mb-4 [&>ol>li]:text-white [&>a]:text-white [&>a]:underline [&>a:hover]:text-white/80 [&>strong]:font-bold [&>strong]:text-white [&>em]:italic [&>em]:text-white [&>blockquote]:border-l-4 [&>blockquote]:border-white [&>blockquote]:pl-6 [&>blockquote]:py-4 [&>blockquote]:bg-white/10 [&>blockquote]:rounded-r-lg [&>blockquote]:my-6 [&>blockquote]:text-white"
+            dangerouslySetInnerHTML={{ __html: block.value }}
+          />
+        </div>
       );
 
     case "blockquote":

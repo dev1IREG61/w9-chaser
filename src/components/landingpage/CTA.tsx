@@ -80,47 +80,23 @@ const CTA: React.FC<CTAProps> = ({ data }) => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            {cta_primary_text && cta_primary_url && (
+            {cta_primary_text && (
               <a
-                href={cta_primary_url}
-                className="group/primary inline-flex items-center gap-3 px-10 py-5 rounded-full font-bold text-base lg:text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl bg-white relative overflow-hidden text-theme-primary"
+                href={cta_primary_url || "#"}
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl relative overflow-hidden group gradient-theme-primary"
               >
-                <EasyIcon
-                  icon="FiRocket"
-                  size={20}
-                  color="var(--color-primary)"
-                  className="relative z-10 transition-transform duration-300 group-hover/primary:translate-y-[-2px]"
-                />
                 <span className="relative z-10">{cta_primary_text}</span>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 gradient-theme-secondary" />
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               </a>
             )}
 
-            {cta_secondary_text && cta_secondary_url && (
+            {cta_secondary_text && (
               <a
-                href={cta_secondary_url}
-                className="group/secondary inline-flex items-center gap-3 px-10 py-5 rounded-full font-bold text-base lg:text-lg border-2 text-white transition-all duration-300 hover:scale-105 hover:bg-white relative backdrop-blur-sm border-white/40"
+                href={cta_secondary_url || "#"}
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold border-2 text-white transition-all duration-300 hover:scale-105 backdrop-blur-sm border-white/40 hover:bg-white/10"
               >
-                <EasyIcon
-                  icon="FiPlayCircle"
-                  size={20}
-                  color="currentColor"
-                  className="relative z-10 transition-transform duration-300 group-hover/secondary:scale-110"
-                />
-                <span
-                  className="relative z-10 transition-colors duration-300"
-                  style={{
-                    color: "inherit",
-                  }}
-                >
-                  <span className="group-hover/secondary:hidden">
-                    {cta_secondary_text}
-                  </span>
-                  <span
-                    className="hidden group-hover/secondary:inline text-theme-primary"
-                  >
-                    {cta_secondary_text}
-                  </span>
-                </span>
+                <span>{cta_secondary_text}</span>
               </a>
             )}
           </div>
