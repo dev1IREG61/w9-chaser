@@ -184,14 +184,32 @@ export interface ProblemSolutionSection {
 }
 
 export interface HowItWorksStep {
+  step_number?: string;
   title: string;
   description: string;
   icon?: string;
+  video?: {
+    id?: number;
+    title?: string;
+    video_source?: string;
+    video_url: string;
+    thumbnail?: {
+      id?: number;
+      title?: string;
+      url?: string;
+      width?: number;
+      height?: number;
+    };
+  };
+  image?: string;
 }
 
 export interface HowItWorksSection {
   heading: string;
   description?: string;
+  icon?: string;
+  image?: string | null;
+  background_image?: string | null;
   steps: HowItWorksStep[];
 }
 

@@ -66,13 +66,13 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
       : faqItems.filter((item) => item.category === activeCategory);
 
   const toggleItem = (id: number) => {
-    const newOpenItems = new Set(openItems);
-    if (newOpenItems.has(id)) {
-      newOpenItems.delete(id);
+    // If the clicked item is already open → close all
+    if (openItems.has(id)) {
+      setOpenItems(new Set());
     } else {
-      newOpenItems.add(id);
+      // Otherwise open ONLY that one
+      setOpenItems(new Set([id]));
     }
-    setOpenItems(newOpenItems);
   };
 
   const toggleAll = () => {
@@ -85,8 +85,8 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
 
   // Get theme colors with fallbacks
   const primaryColor = data.color_theme?.primary_color || "#3b82f6";
-  const secondaryColor = data.color_theme?.secondary_color || "#1e40af";
-  const neutralColor = data.color_theme?.neutral_color || "#6b7280";
+  // const secondaryColor = data.color_theme?.secondary_color || "#1e40af";
+  // const neutralColor = data.color_theme?.neutral_color || "#6b7280";
   const backgroundColor = data.color_theme?.background_color || "#ffffff";
   const textColor = data.color_theme?.text_color || "#1f2937";
 
@@ -180,123 +180,73 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
         )}
 
         {/* FAQ Items */}
-        <div className="space-y-4">
+        <div className="grid md:grid-cols-2 gap-4 items-start">
           {filteredFaqs.map((faq) => (
             <div
               key={faq.id}
-              className="rounded-xl transition-all duration-200 hover:shadow-md"
+              className="rounded-2xl transition-all duration-200"
               style={{
-                border: `1px solid ${neutralColor}`,
-                backgroundColor: openItems.has(faq.id)
-                  ? `${primaryColor}08`
-                  : "transparent",
+                backgroundColor: openItems.has(faq.id) ? "#ffffff" : "#f8f9fa",
               }}
             >
               <button
                 onClick={() => toggleItem(faq.id)}
-                className="w-full text-left p-6 flex justify-between items-center rounded-xl transition-all duration-200"
+                className="w-full text-left p-6 flex justify-between items-center transition-all duration-200"
                 style={{
                   color: textColor,
                   outline: "none",
                 }}
-                onFocus={(e) => {
-                  e.currentTarget.style.boxShadow = `0 0 0 2px ${primaryColor}40`;
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.boxShadow = "none";
-                }}
               >
                 <h3
-                  className="text-lg font-semibold pr-8"
-                  style={{ color: textColor }}
+                  className="text-base font-medium pr-4"
+                  style={{ color: "#1f2937" }}
                 >
                   {faq.question}
                 </h3>
                 <div
-                  className={`flex-shrink-0 transition-transform duration-200 ${
-                    openItems.has(faq.id) ? "rotate-180" : ""
-                  }`}
+                  className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-200"
+                  style={{
+                    backgroundColor: primaryColor,
+                    transform: openItems.has(faq.id)
+                      ? "rotate(180deg)"
+                      : "rotate(0deg)",
+                  }}
                 >
-                  <EasyIcon
-                    icon="FiChevronDown"
-                    size={20}
-                    color={primaryColor}
-                  />
+                  <EasyIcon icon="FiChevronDown" size={20} color="#ffffff" />
                 </div>
               </button>
 
               <div
-                className={`px-6 transition-all duration-300 overflow-hidden ${
-                  openItems.has(faq.id)
-                    ? "pb-6 max-h-96 opacity-100"
-                    : "max-h-0 opacity-0"
-                }`}
+                className="overflow-hidden transition-all duration-300"
+                style={{
+                  maxHeight: openItems.has(faq.id) ? "500px" : "0",
+                }}
               >
-                <div
-                  className="prose prose-lg max-w-none"
-                  style={{ color: textColor }}
-                  dangerouslySetInnerHTML={{ __html: faq.answer }}
-                />
+                <div className="px-6 pb-6">
+                  <div
+                    className="text-sm leading-relaxed"
+                    style={{ color: "#4b5563" }}
+                    dangerouslySetInnerHTML={{ __html: faq.answer }}
+                  />
 
-                {/* Category badge - Only show if category exists and is not empty */}
-                {faq.category && faq.category.trim() !== "" && (
-                  <div className="mt-4">
-                    <span
-                      className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full"
-                      style={{
-                        backgroundColor: `${primaryColor}20`,
-                        color: primaryColor,
-                      }}
-                    >
-                      <EasyIcon icon="FiTag" size={12} color={primaryColor} />
-                      {faq.category}
-                    </span>
-                  </div>
-                )}
+                  {faq.category && faq.category.trim() !== "" && (
+                    <div className="mt-4">
+                      <span
+                        className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full"
+                        style={{
+                          backgroundColor: `${primaryColor}20`,
+                          color: primaryColor,
+                        }}
+                      >
+                        <EasyIcon icon="FiTag" size={12} color={primaryColor} />
+                        {faq.category}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Contact CTA */}
-        <div
-          className="text-center mt-12 p-8 rounded-2xl"
-          style={{
-            border: `2px dashed ${neutralColor}`,
-          }}
-        >
-          <div
-            className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4"
-            style={{ backgroundColor: `${primaryColor}15` }}
-          >
-            <EasyIcon icon="FiHelpCircle" size={32} color={primaryColor} />
-          </div>
-          <h3 className="text-2xl font-bold mb-4" style={{ color: textColor }}>
-            Still have questions?
-          </h3>
-          <p
-            className="text-lg mb-6 opacity-80 max-w-md mx-auto"
-            style={{ color: textColor }}
-          >
-            Can't find the answer you're looking for? Please reach out to our
-            friendly team.
-          </p>
-          <button
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg transform hover:-translate-y-0.5"
-            style={{
-              backgroundColor: primaryColor,
-              color: "#ffffff",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = secondaryColor;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = primaryColor;
-            }}
-          >
-            <EasyIcon icon="FiMessageCircle" size={20} color="#FFFFFF" />
-            Contact Support
-          </button>
         </div>
       </div>
     </section>

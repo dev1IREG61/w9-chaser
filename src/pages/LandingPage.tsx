@@ -62,7 +62,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
         setLoading(true);
         const pageData = await fetchLandingPageData();
         setData(pageData);
-        
+
         // Apply theme from API
         if (pageData.color_theme) {
           setTheme(pageData.color_theme);
@@ -128,7 +128,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
       ),
       problem_solution: (
         <div key={`problem-solution-${index}`} className="scroll-scale-up">
-          <ProblemSolution />
+          <ProblemSolution data={data?.problem_solution_section as any} />
         </div>
       ),
       how_it_works: (
@@ -159,7 +159,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
         ) : null,
       dynamic_content:
         data?.dynamic_content && data.dynamic_content.length > 0 ? (
-          <section key={`dynamic-content-${index}`} className="py-8 sm:py-12 lg:py-20 px-4 sm:px-6 lg:px-8 bg-theme-background">
+          <section
+            key={`dynamic-content-${index}`}
+            className="py-8 sm:py-12 lg:py-20 px-4 sm:px-6 lg:px-8 bg-theme-background"
+          >
             <div className="w-full max-w-7xl mx-auto">
               <div className="space-y-8 sm:space-y-12">
                 {data.dynamic_content.map((block) => (
@@ -208,10 +211,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="min-h-screen flex items-center justify-center bg-theme-background">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-20 w-20 border-4 border-solid border-blue-500 border-t-transparent mb-4"></div>
-          <p className="text-gray-600 text-xl font-medium">
+          <div className="inline-block animate-spin rounded-full h-20 w-20 border-4 border-solid border-theme-primary border-t-transparent mb-4"></div>
+          <p className="text-theme-neutral text-xl font-medium">
             Loading amazing content...
           </p>
         </div>
@@ -221,9 +224,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-theme-background">
         <div className="text-center max-w-md mx-auto px-4">
-          <div className="text-red-500 mb-6">
+          <div className="text-theme-accent mb-6">
             <svg
               className="w-20 h-20 mx-auto"
               fill="none"
@@ -238,13 +241,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
               />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold text-gray-800 mb-3">
+          <h2 className="text-3xl font-bold text-theme-text mb-3">
             Unable to Load Page
           </h2>
-          <p className="text-gray-600 mb-8 text-lg">{error}</p>
+          <p className="text-theme-neutral mb-8 text-lg">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-semibold"
+            className="px-8 py-4 gradient-theme-primary text-white rounded-xl hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl font-semibold"
           >
             Try Again
           </button>
@@ -255,9 +258,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
 
   if (!data) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-theme-background">
         <div className="text-center">
-          <p className="text-gray-600 text-xl">No page data available</p>
+          <p className="text-theme-neutral text-xl">No page data available</p>
         </div>
       </div>
     );
@@ -439,7 +442,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
 
           {/* Problem Solution Section */}
           <div className="scroll-scale-up">
-            <ProblemSolution />
+            <ProblemSolution data={data?.problem_solution_section as any} />
           </div>
 
           {/* How It Works Section */}
@@ -477,8 +480,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
               <div className="w-full max-w-7xl mx-auto">
                 <div className="space-y-8 sm:space-y-12">
                   {data.dynamic_content.map((block) => (
-                    <div key={block.id} className="w-full bg-red-500 p-4 border-2 border-blue-500">
-                      <h3 className="text-2xl font-bold mb-4">Block Type: {block.type}</h3>
+                    <div
+                      key={block.id}
+                      className="w-full bg-red-500 p-4 border-2 border-blue-500"
+                    >
+                      <h3 className="text-2xl font-bold mb-4">
+                        Block Type: {block.type}
+                      </h3>
                       <DynamicContentRenderer block={block} />
                     </div>
                   ))}

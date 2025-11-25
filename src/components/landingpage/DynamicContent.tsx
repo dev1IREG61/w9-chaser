@@ -128,7 +128,20 @@ const ScrollAnimateCard: React.FC<any> = ({
   return (
     <div
       ref={cardRef}
-      className={`opacity-0 group bg-gradient-to-br ${bgClass} rounded-2xl p-4 md:p-6 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border`}
+      className={`opacity-0 group ${
+        cardData.card_background ? "" : `bg-gradient-to-br ${bgClass}`
+      } rounded-2xl p-4 md:p-6 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border`}
+      style={
+        cardData.card_background
+          ? {
+              backgroundImage: `url(${getFullImageUrl(
+                cardData.card_background.url
+              )})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
+          : {}
+      }
     >
       {icon && (
         <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 bg-blue-100">
@@ -251,7 +264,15 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
             }
             .arrow-blink { animation: colorBlink 2.1s infinite; }
           `}</style>
-          <div className="absolute -left-20 -top-1/3 -translate-y-1/4 text-[10rem] font-bold arrow-blink">
+          <div className="absolute left-10 -translate-x-full pl-6 text-5xl md:text-6xl lg:text-7xl font-bold arrow-blink">
+            &gt;&gt;&gt;&gt;&gt;
+          </div>
+
+          <div className="absolute -right-5 translate-x-full pr-6 text-5xl md:text-6xl lg:text-7xl font-bold arrow-blink">
+            &lt;&lt;&lt;&lt;&lt;
+          </div>
+
+          <div className="hidden absolute -left-20 -top-1/3 -translate-y-1/4 text-[10rem] font-bold arrow-blink">
             →
           </div>
           <div
@@ -371,32 +392,30 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
                 : block.value.columns === "3"
                 ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
                 : block.value.columns === "4"
-                ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
                 : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
             }`}
           >
             {block.value.cards?.map((card: any, idx: number) => {
-              // Get card content from snippet or use custom data
               const cardData = card.card_content || card;
-              const title = card.custom_title || cardData.title;
+              const title = card.custom_title || cardData.title || "";
               const description =
-                card.custom_description || cardData.description;
-              const icon = cardData.icon;
+                card.custom_description || cardData.description || "";
+              const icon = card.card_icon || cardData.icon || "";
+              const image = card.card_image || cardData.card_image;
+              const background =
+                card.card_background || cardData.card_background;
               const features = cardData.features || [];
 
-              // Smart bullet point detection
               const formatDescription = (desc: string) => {
                 if (!desc) return null;
                 const lines = desc.split(/\r?\n/).filter((line) => line.trim());
-
                 return lines.map((line, i) => {
                   const trimmed = line.trim();
-                  // Detect if line should be a bullet
                   const isBullet =
                     trimmed.length < 80 &&
                     !trimmed.endsWith(":") &&
                     (i > 0 || lines.length > 2);
-
                   if (isBullet) {
                     return (
                       <li key={i} className="flex items-start gap-2 mb-2">
@@ -421,14 +440,18 @@ const DynamicContentRenderer: React.FC<{ block: DynamicContentBlock }> = ({
                 "from-cyan-50 to-teal-50 border-cyan-200 hover:border-cyan-400",
                 "from-yellow-50 to-amber-50 border-yellow-200 hover:border-yellow-400",
               ];
-              const bgClass = bgColors[idx % bgColors.length];
+              const bgClass = background ? "" : bgColors[idx % bgColors.length];
 
               return (
                 <ScrollAnimateCard
                   key={idx}
                   bgClass={bgClass}
                   idx={idx}
-                  cardData={cardData}
+                  cardData={{
+                    ...cardData,
+                    card_image: image,
+                    card_background: background,
+                  }}
                   title={title}
                   description={description}
                   icon={icon}
