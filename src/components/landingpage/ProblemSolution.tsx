@@ -32,6 +32,9 @@ interface ProblemSolutionProps {
     color_theme?: {
       primary_color?: string;
       secondary_color?: string;
+      background_color?: string;
+      text_color?: string;
+      neutral_color?: string;
     };
   };
 }
@@ -39,7 +42,7 @@ interface ProblemSolutionProps {
 const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
   const primaryColor = data?.color_theme?.primary_color || "#3B82F6";
   const secondaryColor = data?.color_theme?.secondary_color || "#1E40AF";
-  
+
   const personas =
     data?.items?.map((item, index) => ({
       id: item.name?.toLowerCase().replace(/\s+/g, "-") || `persona-${index}`,
@@ -86,9 +89,14 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
   const canGoNext = currentIndex < personas.length - 1;
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: data?.color_theme?.background_color || '#F9FAFB' }}>
+    <div className="min-h-screen" style={{ backgroundColor: data?.color_theme?.background_color || "#F9FAFB" }}>
       {/* Header Section */}
-      <div className="py-16 px-4" style={{ backgroundColor: data?.color_theme?.background_color || '#FFFFFF' }}>
+      <div
+        className="py-16 px-4"
+        style={{
+          backgroundColor: data?.color_theme?.background_color || "#FFFFFF",
+        }}
+      >
         <div className="max-w-6xl mx-auto">
           <h1 className="text-5xl font-bold text-center mb-16">
             {data?.heading || "Who are you, and what's slowing you down?"}
@@ -109,14 +117,19 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
                 ...(canGoPrevious && { backgroundColor: `${primaryColor}10` }),
               }}
             >
-              <ChevronLeft className="w-6 h-6" style={{ color: primaryColor }} />
+              <ChevronLeft
+                className="w-6 h-6"
+                style={{ color: primaryColor }}
+              />
             </button>
 
             {/* Personas */}
             <div className="flex justify-center items-end gap-8 mb-8">
               {visiblePersonas.map((persona, index) => {
                 const isSelected = index === currentPersonaInVisible;
-                const actualIndex = personas.findIndex(p => p.id === persona.id);
+                const actualIndex = personas.findIndex(
+                  (p) => p.id === persona.id
+                );
 
                 return (
                   <div
@@ -176,8 +189,8 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
                     <p
                       className="text-sm font-medium transition-all"
                       style={{
-                        color: isSelected ? primaryColor : '#9CA3AF',
-                        fontSize: isSelected ? '1rem' : '0.875rem',
+                        color: isSelected ? primaryColor : "#9CA3AF",
+                        fontSize: isSelected ? "1rem" : "0.875rem",
                       }}
                     >
                       {persona.title}
@@ -192,15 +205,16 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
               onClick={handleNext}
               disabled={!canGoNext}
               className={`absolute right-0 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all ${
-                !canGoNext
-                  ? "opacity-30 cursor-not-allowed"
-                  : "hover:shadow-xl"
+                !canGoNext ? "opacity-30 cursor-not-allowed" : "hover:shadow-xl"
               }`}
               style={{
                 ...(canGoNext && { backgroundColor: `${primaryColor}10` }),
               }}
             >
-              <ChevronRight className="w-6 h-6" style={{ color: primaryColor }} />
+              <ChevronRight
+                className="w-6 h-6"
+                style={{ color: primaryColor }}
+              />
             </button>
           </div>
 
@@ -213,7 +227,8 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
                   className="h-2 rounded-full transition-all"
                   style={{
                     width: index === currentIndex ? "2rem" : "0.5rem",
-                    backgroundColor: index === currentIndex ? primaryColor : "#D1D5DB",
+                    backgroundColor:
+                      index === currentIndex ? primaryColor : "#D1D5DB",
                   }}
                 />
               ))}
@@ -227,12 +242,18 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
         selectedPersona.iconTextPairs &&
         selectedPersona.iconTextPairs.length > 0 && (
           <div className="max-w-5xl mx-auto px-4 py-5">
-            <div className="bg-white rounded-3xl shadow-xl p-12 border-2 transition-all duration-300" style={{ borderColor: primaryColor }}>
+            <div
+              className="bg-white rounded-3xl shadow-xl p-12 border-2 transition-all duration-300"
+              style={{ borderColor: primaryColor }}
+            >
               <div className="flex gap-12 items-start">
                 {/* Left Side - Status Header */}
                 <div className="w-1/2">
                   <h2 className="mb-8">
-                    <span className="text-3xl font-bold block mb-2" style={{ color: primaryColor }}>
+                    <span
+                      className="text-3xl font-bold block mb-2"
+                      style={{ color: primaryColor }}
+                    >
                       {selectedPersona.statusHeading}
                     </span>
                     <span className="text-4xl font-bold text-gray-900">
@@ -245,15 +266,25 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
                 <div className="w-1/2 space-y-6">
                   {selectedPersona.iconTextPairs.map(
                     (pair: any, index: number) => {
-                      const iconName = pair.icon?.split('/').pop() || '';
-                      const itemColor = index === 0 ? '#EF4444' : '#10B981';
+                      const iconName = pair.icon?.split("/").pop() || "";
+                      const itemColor = index === 0 ? "#EF4444" : "#10B981";
                       return (
                         <div key={index} className="flex items-start gap-4">
-                          <div className="w-12 h-12 flex-shrink-0 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${itemColor}15` }}>
-                            <EasyIcon icon={iconName} size={24} color={itemColor} />
+                          <div
+                            className="w-12 h-12 flex-shrink-0 rounded-lg flex items-center justify-center"
+                            style={{ backgroundColor: `${itemColor}15` }}
+                          >
+                            <EasyIcon
+                              icon={iconName}
+                              size={24}
+                              color={itemColor}
+                            />
                           </div>
                           <div>
-                            <p className="font-semibold mb-1" style={{ color: itemColor }}>
+                            <p
+                              className="font-semibold mb-1"
+                              style={{ color: itemColor }}
+                            >
                               {pair.text}
                             </p>
                           </div>
