@@ -90,7 +90,7 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
 
   return (
     <section
-      className="py-20 px-4 sm:px-6 lg:px-8"
+      className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8"
       style={{
         backgroundColor: backgroundColor,
         color: textColor,
@@ -98,13 +98,13 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
     >
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4" style={{ color: textColor }}>
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4" style={{ color: textColor }}>
             {heading}
           </h2>
           {introduction && (
             <p
-              className="text-xl opacity-80 max-w-2xl mx-auto"
+              className="text-base sm:text-lg md:text-xl opacity-80 max-w-2xl mx-auto"
               style={{ color: textColor }}
             >
               {introduction}
@@ -114,12 +114,12 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
 
         {/* Category Filter - Only show if we have multiple categories */}
         {categories.length > 1 && (
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
+          <div className="flex flex-wrap justify-center gap-2 mb-6 sm:mb-8">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 ${
                   activeCategory === category ? "text-white" : "bg-opacity-20"
                 }`}
                 style={{
@@ -148,10 +148,10 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
 
         {/* Expand/Collapse All */}
         {filteredFaqs.length > 1 && (
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-end mb-3 sm:mb-4">
             <button
               onClick={toggleAll}
-              className="inline-flex items-center gap-2 text-sm font-medium hover:underline transition-colors duration-200"
+              className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium hover:underline transition-colors duration-200"
               style={{ color: primaryColor }}
             >
               {openItems.size === filteredFaqs.length ? (
@@ -178,7 +178,7 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
         )}
 
         {/* FAQ Items */}
-        <div className="grid md:grid-cols-2 gap-4 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 items-start">
           {filteredFaqs.map((faq) => (
             <div
               key={faq.id}
@@ -190,20 +190,20 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
             >
               <button
                 onClick={() => toggleItem(faq.id)}
-                className="w-full text-left p-6 flex justify-between items-center transition-all duration-200"
+                className="w-full text-left p-4 sm:p-5 md:p-6 flex justify-between items-center transition-all duration-200"
                 style={{
                   color: textColor,
                   outline: "none",
                 }}
               >
                 <h3
-                  className="text-base font-medium pr-4"
+                  className="text-sm sm:text-base font-medium pr-3 sm:pr-4"
                   style={{ color: "#1f2937" }}
                 >
                   {faq.question}
                 </h3>
                 <div
-                  className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-200"
+                  className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-transform duration-200"
                   style={{
                     backgroundColor: primaryColor,
                     transform: openItems.has(faq.id)
@@ -221,17 +221,17 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
                   maxHeight: openItems.has(faq.id) ? "500px" : "0",
                 }}
               >
-                <div className="px-6 pb-6">
+                <div className="px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 md:pb-6">
                   <div
-                    className="text-sm leading-relaxed"
+                    className="text-xs sm:text-sm leading-relaxed"
                     style={{ color: "#4b5563" }}
                     dangerouslySetInnerHTML={{ __html: faq.answer }}
                   />
 
                   {faq.category && faq.category.trim() !== "" && (
-                    <div className="mt-4">
+                    <div className="mt-3 sm:mt-4">
                       <span
-                        className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full"
+                        className="inline-flex items-center gap-1 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium rounded-full"
                         style={{
                           backgroundColor: `${primaryColor}20`,
                           color: primaryColor,

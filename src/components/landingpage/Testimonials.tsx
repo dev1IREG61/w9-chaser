@@ -88,7 +88,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ data }) => {
 
   return (
     <section
-      className="py-16 sm:py-20 relative overflow-hidden"
+      className="py-12 sm:py-16 md:py-20 relative overflow-hidden"
       style={{ backgroundColor: bgColor }}
       aria-labelledby="testimonials-heading"
     >
@@ -106,18 +106,18 @@ const Testimonials: React.FC<TestimonialsProps> = ({ data }) => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-12 max-w-3xl mx-auto">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto">
           {testimonials_head && (
             <div className="relative inline-block mb-4">
               <h2
                 id="testimonials-heading"
-                className="text-3xl sm:text-4xl font-bold relative z-10"
+                className="text-2xl sm:text-3xl md:text-4xl font-bold relative z-10"
                 style={{ color: textColor }}
               >
                 {testimonials_head}
               </h2>
               <div
-                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-1 rounded-full w-20"
+                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-0.5 sm:h-1 rounded-full w-16 sm:w-20"
                 style={{ background: gradientBg }}
               />
             </div>
@@ -125,7 +125,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ data }) => {
 
           {testimonials_introduction && (
             <p
-              className="text-lg leading-relaxed text-balance"
+              className="text-sm sm:text-base md:text-lg leading-relaxed text-balance"
               style={{ color: neutralColor }}
             >
               {testimonials_introduction}
@@ -134,11 +134,11 @@ const Testimonials: React.FC<TestimonialsProps> = ({ data }) => {
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8 max-w-7xl mx-auto">
           {displayTestimonials.map((testimonial) => (
             <div
               key={testimonial.id}
-              className="group relative p-6 rounded-2xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 bg-white/80 backdrop-blur-sm overflow-hidden border"
+              className="group relative p-4 sm:p-5 md:p-6 rounded-2xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 bg-white/80 backdrop-blur-sm overflow-hidden border"
               style={{
                 borderColor: `${primaryColor}15`,
               }}
@@ -151,7 +151,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ data }) => {
 
               {/* Quote Icon */}
               <div
-                className="absolute top-4 right-4 text-4xl opacity-10 font-serif select-none"
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 text-3xl sm:text-4xl opacity-10 font-serif select-none"
                 style={{ color: primaryColor }}
                 aria-hidden="true"
               >
@@ -161,7 +161,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ data }) => {
               {/* Content */}
               <div className="relative z-10">
                 {/* Quote */}
-                <blockquote className="text-base leading-relaxed mb-6 italic text-pretty">
+                <blockquote className="text-sm sm:text-base leading-relaxed mb-4 sm:mb-6 italic text-pretty">
                   <span style={{ color: textColor }}>
                     "{testimonial.quote}"
                   </span>
@@ -169,12 +169,12 @@ const Testimonials: React.FC<TestimonialsProps> = ({ data }) => {
 
                 {/* Author Info */}
                 <div
-                  className="flex items-center gap-4 pt-4 border-t"
+                  className="flex items-center gap-3 sm:gap-4 pt-3 sm:pt-4 border-t"
                   style={{ borderColor: `${primaryColor}20` }}
                 >
                   {/* Avatar */}
                   <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 shadow-md"
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-bold text-xs sm:text-sm flex-shrink-0 shadow-md"
                     style={{ background: gradientBg }}
                     aria-hidden="true"
                   >
@@ -184,19 +184,19 @@ const Testimonials: React.FC<TestimonialsProps> = ({ data }) => {
                   {/* Details */}
                   <div className="min-w-0 flex-1">
                     <p
-                      className="font-bold text-sm truncate"
+                      className="font-bold text-xs sm:text-sm truncate"
                       style={{ color: textColor }}
                     >
                       {testimonial.name}
                     </p>
                     <p
-                      className="text-xs truncate"
+                      className="text-[10px] sm:text-xs truncate"
                       style={{ color: neutralColor }}
                     >
                       {testimonial.title}
                     </p>
                     <p
-                      className="text-xs font-semibold truncate"
+                      className="text-[10px] sm:text-xs font-semibold truncate"
                       style={{ color: accentColor }}
                     >
                       {testimonial.company}
@@ -217,12 +217,12 @@ const Testimonials: React.FC<TestimonialsProps> = ({ data }) => {
 
         {/* Call to add testimonials */}
         {(!testimonials || testimonials.length === 0) && (
-          <div className="text-center mt-12">
-            <p className="text-lg mb-6" style={{ color: neutralColor }}>
+          <div className="text-center mt-8 sm:mt-10 md:mt-12">
+            <p className="text-sm sm:text-base md:text-lg mb-4 sm:mb-6" style={{ color: neutralColor }}>
               Have experience with our platform? We'd love to hear from you!
             </p>
             <button
-              className="px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl active:scale-95"
+              className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl active:scale-95"
               style={{
                 backgroundColor: primaryColor,
                 color: "#FFFFFF",

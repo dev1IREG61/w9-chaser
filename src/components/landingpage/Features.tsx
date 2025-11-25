@@ -47,11 +47,11 @@ const Features: React.FC<FeaturesProps> = ({ data }) => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16 max-w-2xl mx-auto">
+        <div className="text-center mb-12 sm:mb-16 max-w-2xl mx-auto px-4">
           {features_head && (
             <div className="mb-4">
               <div
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-4 border bg-theme-primary/5 text-theme-primary border-theme-primary/20"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-3 sm:mb-4 border bg-theme-primary/5 text-theme-primary border-theme-primary/20"
               >
                 <div
                   className="w-1.5 h-1.5 rounded-full animate-pulse bg-theme-primary"
@@ -59,7 +59,7 @@ const Features: React.FC<FeaturesProps> = ({ data }) => {
                 Features
               </div>
               <h2
-                className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight leading-tight mb-4 text-balance text-theme-text"
+                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-tight mb-3 sm:mb-4 text-balance text-theme-text"
               >
                 {features_head}
               </h2>
@@ -68,7 +68,7 @@ const Features: React.FC<FeaturesProps> = ({ data }) => {
 
           {features_introduction && (
             <p
-              className="text-base sm:text-lg leading-relaxed text-balance text-theme-neutral"
+              className="text-sm sm:text-base md:text-lg leading-relaxed text-balance text-theme-neutral"
             >
               {features_introduction}
             </p>
@@ -77,7 +77,7 @@ const Features: React.FC<FeaturesProps> = ({ data }) => {
 
         {/* Features Grid */}
         {features && features.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-6xl mx-auto px-4">
             {features.map((feature: Feature) => (
               <div
                 key={feature.id}
@@ -106,15 +106,15 @@ const Features: React.FC<FeaturesProps> = ({ data }) => {
 
                   {/* Icon container */}
                   {feature.icon && (
-                    <div className="mb-4">
+                    <div className="mb-3 sm:mb-4">
                       <div
-                        className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 relative overflow-hidden bg-theme-primary/10"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 relative overflow-hidden bg-theme-primary/10"
                       >
                         <EasyIcon
                           icon={feature.icon}
-                          size={22}
+                          size={20}
                           color="var(--color-primary)"
-                          className="relative z-10 transition-transform duration-300 group-hover:rotate-6"
+                          className="relative z-10 transition-transform duration-300 group-hover:rotate-6 sm:w-[22px] sm:h-[22px]"
                         />
 
                         {/* Shine effect */}
@@ -130,14 +130,14 @@ const Features: React.FC<FeaturesProps> = ({ data }) => {
 
                   {/* Title */}
                   <h3
-                    className="text-xl font-bold mb-3 leading-tight transition-colors duration-300 line-clamp-2 text-theme-text"
+                    className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 leading-tight transition-colors duration-300 line-clamp-2 text-theme-text"
                   >
                     {feature.title}
                   </h3>
 
                   {/* Description */}
                   <p
-                    className="text-sm leading-relaxed text-pretty line-clamp-3 text-theme-neutral"
+                    className="text-xs sm:text-sm leading-relaxed text-pretty line-clamp-3 text-theme-neutral"
                   >
                     {feature.description}
                   </p>
@@ -157,17 +157,17 @@ const Features: React.FC<FeaturesProps> = ({ data }) => {
           </div>
         ) : (
           // Empty state
-          <div className="text-center py-12 max-w-xl mx-auto">
+          <div className="text-center py-12 max-w-xl mx-auto px-4">
             <div
-              className="w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4 bg-theme-primary/10"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center mx-auto mb-4 bg-theme-primary/10"
             >
-              <EasyIcon icon="FiSettings" size={32} color="var(--color-primary)" />
+              <EasyIcon icon="FiSettings" size={28} color="var(--color-primary)" className="sm:w-8 sm:h-8" />
             </div>
-            <h3 className="text-xl font-bold mb-3 text-theme-text">
+            <h3 className="text-lg sm:text-xl font-bold mb-3 text-theme-text">
               Features Coming Soon
             </h3>
             <p
-              className="text-base leading-relaxed text-pretty text-theme-neutral"
+              className="text-sm sm:text-base leading-relaxed text-pretty text-theme-neutral"
             >
               We're working on adding amazing features to enhance your
               experience. Check back soon for updates!
