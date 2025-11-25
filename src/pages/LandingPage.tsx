@@ -25,6 +25,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
   const [data, setData] = useState<LandingPageData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [themeColors, setThemeColors] = useState<any>(null);
 
   // Scroll animation observer - triggers on both scroll down and up
   useEffect(() => {
@@ -61,12 +62,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
       try {
         setLoading(true);
         const pageData = await fetchLandingPageData();
-        setData(pageData);
-
-        // Apply theme from API
+        
+        // Set theme colors first for loading screen
         if (pageData.color_theme) {
+          setThemeColors(pageData.color_theme);
           setTheme(pageData.color_theme);
         }
+        
+        setData(pageData);
 
         // Set dynamic meta tags
         if (pageData.meta_title || pageData.title) {
@@ -210,11 +213,27 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
   };
 
   if (loading) {
+    const loadingPrimary = themeColors?.primary_color || "#3B82F6";
+    const loadingBg = themeColors?.background_color || "#FFFFFF";
+    const loadingText = themeColors?.text_color || "#1F2937";
+    
     return (
-      <div className="min-h-screen flex items-center justify-center bg-theme-background">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: loadingBg }}>
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-20 w-20 border-4 border-solid border-theme-primary border-t-transparent mb-4"></div>
-          <p className="text-theme-neutral text-xl font-medium">
+          <div className="relative inline-block mb-6">
+            <div 
+              className="animate-spin rounded-full h-20 w-20 border-4 border-solid"
+              style={{ 
+                borderColor: `${loadingPrimary}30`,
+                borderTopColor: loadingPrimary 
+              }}
+            ></div>
+            <div 
+              className="absolute inset-0 animate-ping rounded-full opacity-20"
+              style={{ backgroundColor: loadingPrimary }}
+            ></div>
+          </div>
+          <p className="text-xl font-medium" style={{ color: loadingText }}>
             Loading amazing content...
           </p>
         </div>

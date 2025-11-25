@@ -86,9 +86,9 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
   const canGoNext = currentIndex < personas.length - 1;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: data?.color_theme?.background_color || '#F9FAFB' }}>
       {/* Header Section */}
-      <div className="bg-white py-16 px-4">
+      <div className="py-16 px-4" style={{ backgroundColor: data?.color_theme?.background_color || '#FFFFFF' }}>
         <div className="max-w-6xl mx-auto">
           <h1 className="text-5xl font-bold text-center mb-16">
             {data?.heading || "Who are you, and what's slowing you down?"}
@@ -174,9 +174,11 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
                       </div>
                     </div>
                     <p
-                      className={`text-sm font-medium transition-all ${
-                        isSelected ? "text-gray-900 text-base" : "text-gray-400"
-                      }`}
+                      className="text-sm font-medium transition-all"
+                      style={{
+                        color: isSelected ? primaryColor : '#9CA3AF',
+                        fontSize: isSelected ? '1rem' : '0.875rem',
+                      }}
                     >
                       {persona.title}
                     </p>
@@ -244,13 +246,14 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
                   {selectedPersona.iconTextPairs.map(
                     (pair: any, index: number) => {
                       const iconName = pair.icon?.split('/').pop() || '';
+                      const itemColor = index === 0 ? '#EF4444' : '#10B981';
                       return (
                         <div key={index} className="flex items-start gap-4">
-                          <div className="w-12 h-12 flex-shrink-0 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${primaryColor}15` }}>
-                            <EasyIcon icon={iconName} size={24} color={primaryColor} />
+                          <div className="w-12 h-12 flex-shrink-0 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${itemColor}15` }}>
+                            <EasyIcon icon={iconName} size={24} color={itemColor} />
                           </div>
                           <div>
-                            <p className="font-semibold text-gray-900 mb-1">
+                            <p className="font-semibold mb-1" style={{ color: itemColor }}>
                               {pair.text}
                             </p>
                           </div>
