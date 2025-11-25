@@ -185,9 +185,14 @@ export interface ProblemSolutionSection {
 
 export interface HowItWorksStep {
   step_number?: string;
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   icon?: string;
+  content?: Array<{
+    icon?: string;
+    title?: string;
+    description?: string;
+  }>;
   video?: {
     id?: number;
     title?: string;

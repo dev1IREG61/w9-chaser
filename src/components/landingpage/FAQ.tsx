@@ -83,10 +83,8 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
     }
   };
 
-  // Get theme colors with fallbacks
   const primaryColor = data.color_theme?.primary_color || "#3b82f6";
-  // const secondaryColor = data.color_theme?.secondary_color || "#1e40af";
-  // const neutralColor = data.color_theme?.neutral_color || "#6b7280";
+  const neutralColor = data.color_theme?.neutral_color || "#6b7280";
   const backgroundColor = data.color_theme?.background_color || "#ffffff";
   const textColor = data.color_theme?.text_color || "#1f2937";
 
@@ -184,9 +182,10 @@ const FAQ: React.FC<FAQProps> = ({ data }) => {
           {filteredFaqs.map((faq) => (
             <div
               key={faq.id}
-              className="rounded-2xl transition-all duration-200"
+              className="rounded-2xl transition-all duration-200 border-2"
               style={{
                 backgroundColor: openItems.has(faq.id) ? "#ffffff" : "#f8f9fa",
+                borderColor: openItems.has(faq.id) ? primaryColor : `${neutralColor}40`,
               }}
             >
               <button

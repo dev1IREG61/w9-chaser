@@ -29,11 +29,17 @@ interface ProblemSolutionProps {
       }>;
     }>;
     background_image?: any;
+    color_theme?: {
+      primary_color?: string;
+      secondary_color?: string;
+    };
   };
 }
 
 const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
-  // Map API data to personas format
+  const primaryColor = data?.color_theme?.primary_color || "#3B82F6";
+  const secondaryColor = data?.color_theme?.secondary_color || "#1E40AF";
+  
   const personas =
     data?.items?.map((item, index) => ({
       id: item.name?.toLowerCase().replace(/\s+/g, "-") || `persona-${index}`,
@@ -97,21 +103,26 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
               className={`absolute left-0 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all ${
                 !canGoPrevious
                   ? "opacity-30 cursor-not-allowed"
-                  : "hover:bg-blue-50 hover:shadow-xl"
+                  : "hover:shadow-xl"
               }`}
+              style={{
+                ...(canGoPrevious && { backgroundColor: `${primaryColor}10` }),
+              }}
             >
-              <ChevronLeft className="w-6 h-6 text-blue-600" />
+              <ChevronLeft className="w-6 h-6" style={{ color: primaryColor }} />
             </button>
 
             {/* Personas */}
             <div className="flex justify-center items-end gap-8 mb-8">
               {visiblePersonas.map((persona, index) => {
                 const isSelected = index === currentPersonaInVisible;
+                const actualIndex = personas.findIndex(p => p.id === persona.id);
 
                 return (
                   <div
                     key={persona.id}
-                    className="flex flex-col items-center transition-all duration-300"
+                    className="flex flex-col items-center transition-all duration-300 cursor-pointer"
+                    onClick={() => setCurrentIndex(actualIndex)}
                   >
                     <div
                       className={`relative rounded-full transition-all duration-300 ${
@@ -121,11 +132,12 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
                       }`}
                     >
                       <div
-                        className={`absolute inset-0 rounded-full ${
-                          isSelected
-                            ? "bg-gradient-to-br from-blue-400 to-blue-600 p-1"
-                            : "bg-gray-200"
-                        }`}
+                        className="absolute inset-0 rounded-full p-1"
+                        style={{
+                          background: isSelected
+                            ? `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`
+                            : "#E5E7EB",
+                        }}
                       >
                         <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
                           <div
@@ -149,7 +161,8 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
                               <div
                                 className={`${
                                   isSelected ? "w-32 h-32" : "w-24 h-24"
-                                } rounded-full bg-blue-500 flex items-center justify-center`}
+                                } rounded-full flex items-center justify-center`}
+                                style={{ backgroundColor: primaryColor }}
                               >
                                 <div className="text-white text-2xl font-bold">
                                   {persona.title?.charAt(0) || "?"}
@@ -179,10 +192,13 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
               className={`absolute right-0 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all ${
                 !canGoNext
                   ? "opacity-30 cursor-not-allowed"
-                  : "hover:bg-blue-50 hover:shadow-xl"
+                  : "hover:shadow-xl"
               }`}
+              style={{
+                ...(canGoNext && { backgroundColor: `${primaryColor}10` }),
+              }}
             >
-              <ChevronRight className="w-6 h-6 text-blue-600" />
+              <ChevronRight className="w-6 h-6" style={{ color: primaryColor }} />
             </button>
           </div>
 
@@ -192,11 +208,11 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
               {personas.map((_, index) => (
                 <div
                   key={index}
-                  className={`h-2 rounded-full transition-all ${
-                    index === currentIndex
-                      ? "w-8 bg-blue-600"
-                      : "w-2 bg-gray-300"
-                  }`}
+                  className="h-2 rounded-full transition-all"
+                  style={{
+                    width: index === currentIndex ? "2rem" : "0.5rem",
+                    backgroundColor: index === currentIndex ? primaryColor : "#D1D5DB",
+                  }}
                 />
               ))}
             </div>
@@ -209,12 +225,12 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
         selectedPersona.iconTextPairs &&
         selectedPersona.iconTextPairs.length > 0 && (
           <div className="max-w-5xl mx-auto px-4 py-5">
-            <div className="bg-white rounded-3xl shadow-xl p-12 border border-blue-500 transition-all duration-300">
+            <div className="bg-white rounded-3xl shadow-xl p-12 border-2 transition-all duration-300" style={{ borderColor: primaryColor }}>
               <div className="flex gap-12 items-start">
                 {/* Left Side - Status Header */}
                 <div className="w-1/2">
                   <h2 className="mb-8">
-                    <span className="text-blue-600 text-3xl font-bold block mb-2">
+                    <span className="text-3xl font-bold block mb-2" style={{ color: primaryColor }}>
                       {selectedPersona.statusHeading}
                     </span>
                     <span className="text-4xl font-bold text-gray-900">
@@ -230,8 +246,8 @@ const MarketingProblemSolution = ({ data }: ProblemSolutionProps) => {
                       const iconName = pair.icon?.split('/').pop() || '';
                       return (
                         <div key={index} className="flex items-start gap-4">
-                          <div className="w-12 h-12 flex-shrink-0 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <EasyIcon icon={iconName} size={24} color="#2563eb" />
+                          <div className="w-12 h-12 flex-shrink-0 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${primaryColor}15` }}>
+                            <EasyIcon icon={iconName} size={24} color={primaryColor} />
                           </div>
                           <div>
                             <p className="font-semibold text-gray-900 mb-1">

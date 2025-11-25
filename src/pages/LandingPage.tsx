@@ -128,7 +128,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
       ),
       problem_solution: (
         <div key={`problem-solution-${index}`} className="scroll-scale-up">
-          <ProblemSolution data={data?.problem_solution_section as any} />
+          <ProblemSolution data={{ ...data?.problem_solution_section, color_theme: data?.color_theme } as any} />
         </div>
       ),
       how_it_works: (
@@ -442,7 +442,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
 
           {/* Problem Solution Section */}
           <div className="scroll-scale-up">
-            <ProblemSolution data={data?.problem_solution_section as any} />
+            <ProblemSolution data={{ ...data?.problem_solution_section, color_theme: data?.color_theme } as any} />
           </div>
 
           {/* How It Works Section */}
