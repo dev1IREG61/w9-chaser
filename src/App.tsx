@@ -1,13 +1,15 @@
+// App.tsx
 import { useState, useEffect } from "react";
 import LandingPage from "./pages/LandingPage";
-import { FeaturesPage } from "../src/components/features/features-page/FeaturesPage"; // Updated import
+import { FeaturesPage } from "./components/features/features-page/FeaturesPage";
+import { BlogPage } from "./components/blogs/BlogPage";
 import DebugFeaturesAPI from "./pages/DebugFeaturesApi";
 import DebugLandingAPI from "./pages/DebugLandingApi";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
   const [currentView, setCurrentView] = useState<{
-    type: "landing" | "features" | "debug-features" | "debug-landing";
+    type: "landing" | "features" | "blog" | "debug-features" | "debug-landing";
     slug?: string;
   }>({ type: "landing" });
 
@@ -18,25 +20,46 @@ function App() {
       const hash = window.location.hash;
 
       // Debug pages
-      if (path.includes("/debug-features") || hash.includes("#debug-features")) {
+      if (
+        path.includes("/debug-features") ||
+        hash.includes("#debug-features")
+      ) {
         setCurrentView({ type: "debug-features" });
         return;
       }
-      
+
       if (path.includes("/debug-landing") || hash.includes("#debug-landing")) {
         setCurrentView({ type: "debug-landing" });
         return;
       }
-      
+
       // Legacy debug route defaults to features
       if (path.includes("/debug") || hash.includes("#debug")) {
         setCurrentView({ type: "debug-features" });
         return;
       }
 
+      // Check if we're on a blog post page
+      if (path.includes("/blog/") || hash.includes("#blog/")) {
+        const slugMatch =
+          path.match(/\/blog\/([^\/]+)/) || hash.match(/#blog\/([^\/]+)/);
+
+        if (slugMatch && slugMatch[1]) {
+          setCurrentView({ type: "blog", slug: slugMatch[1] });
+        } else {
+          setCurrentView({ type: "blog" });
+        }
+        return;
+      }
+
+      // Check if we're on blog index
+      if (path.includes("/blog") || hash.includes("#blog")) {
+        setCurrentView({ type: "blog" });
+        return;
+      }
+
       // Check if we're on a features page
       if (path.includes("/features/") || hash.includes("#features/")) {
-        // Extract slug from path or hash
         const slugMatch =
           path.match(/\/features\/([^\/]+)/) ||
           hash.match(/#features\/([^\/]+)/);
@@ -46,9 +69,11 @@ function App() {
         } else {
           setCurrentView({ type: "features", slug: "sales-marketing" });
         }
-      } else {
-        setCurrentView({ type: "landing" });
+        return;
       }
+
+      // Default to landing page
+      setCurrentView({ type: "landing" });
     };
 
     checkRoute();
@@ -64,6 +89,14 @@ function App() {
   }, []);
 
   // Render based on current view
+  if (currentView.type === "blog") {
+    return (
+      <ThemeProvider>
+        <BlogPage slug={currentView.slug} />
+      </ThemeProvider>
+    );
+  }
+
   if (currentView.type === "features") {
     return (
       <ThemeProvider>

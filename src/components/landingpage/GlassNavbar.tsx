@@ -105,6 +105,14 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
             order: 4,
             children: [],
           },
+          {
+            id: 3,
+            title: "Blog",
+            url: "/blog",
+            link_type: "url" as const,
+            order: 3,
+            children: [],
+          },
         ].sort((a, b) => a.order - b.order);
 
   const getFullImageUrl = (url: string) => {

@@ -17,8 +17,6 @@ const Benefits: React.FC<BenefitsProps> = ({ data }) => {
     return null;
   }
 
-
-
   const sampleBenefits = [
     {
       id: 1,
@@ -62,9 +60,7 @@ const Benefits: React.FC<BenefitsProps> = ({ data }) => {
     benefits && benefits.length > 0 ? benefits : sampleBenefits;
 
   return (
-    <section
-      className="py-16 sm:py-24 relative overflow-hidden bg-theme-background"
-    >
+    <section className="py-16 sm:py-24 relative overflow-hidden bg-theme-background">
       {/* Subtle grid pattern overlay */}
       <div
         className="absolute inset-0 opacity-[0.015]"
@@ -93,31 +89,23 @@ const Benefits: React.FC<BenefitsProps> = ({ data }) => {
         <div className="text-center mb-12 sm:mb-16 max-w-2xl mx-auto px-4">
           {benefits_head && (
             <div className="mb-4">
-              <div
-                className="inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 sm:mb-4 bg-theme-primary/10 text-theme-primary border border-theme-primary/20"
-              >
+              <div className="inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 sm:mb-4 bg-theme-primary/10 text-theme-primary border border-theme-primary/20">
                 Benefits
               </div>
-              <h2
-                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight mb-3 sm:mb-4 text-theme-text"
-              >
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight mb-3 sm:mb-4 text-theme-text">
                 {benefits_head}
               </h2>
             </div>
           )}
 
           {benefits_introduction && (
-            <p
-              className="text-sm sm:text-base md:text-lg leading-relaxed text-balance text-theme-neutral"
-            >
+            <p className="text-sm sm:text-base md:text-lg leading-relaxed text-balance text-theme-neutral">
               {benefits_introduction}
             </p>
           )}
 
           {(!benefits || benefits.length === 0) && (
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs mt-4 border bg-theme-primary/5 text-theme-primary border-theme-primary/20"
-            >
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs mt-4 border bg-theme-primary/5 text-theme-primary border-theme-primary/20">
               <EasyIcon icon="FiInfo" size={14} color="var(--color-primary)" />
               <span>Discover the benefits of our platform</span>
             </div>
@@ -129,9 +117,7 @@ const Benefits: React.FC<BenefitsProps> = ({ data }) => {
           {displayBenefits.map((benefit: Benefit) => (
             <div key={benefit.id} className="group relative">
               {/* Card */}
-              <div
-                className="relative h-full p-6 rounded-2xl transition-all duration-500 hover:shadow-lg border backdrop-blur-sm bg-theme-background border-theme-primary/10"
-              >
+              <div className="relative h-full p-6 rounded-2xl transition-all duration-500 hover:shadow-lg border backdrop-blur-sm bg-theme-background border-theme-primary/10">
                 {/* Hover gradient overlay */}
                 <div
                   className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"
@@ -143,9 +129,7 @@ const Benefits: React.FC<BenefitsProps> = ({ data }) => {
                 {/* Icon container */}
                 <div className="flex items-start justify-between mb-4">
                   {benefit.icon && (
-                    <div
-                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 relative overflow-hidden bg-theme-primary/10"
-                    >
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 relative overflow-hidden bg-theme-primary/10">
                       <EasyIcon
                         icon={benefit.icon}
                         size={20}
@@ -179,16 +163,12 @@ const Benefits: React.FC<BenefitsProps> = ({ data }) => {
                 </div>
 
                 {/* Title */}
-                <h3
-                  className="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3 transition-colors duration-300 line-clamp-2 text-theme-text"
-                >
+                <h3 className="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3 transition-colors duration-300 line-clamp-2 text-theme-text">
                   {benefit.title}
                 </h3>
 
                 {/* Description */}
-                <p
-                  className="text-xs sm:text-sm leading-relaxed text-pretty line-clamp-3 text-theme-neutral"
-                >
+                <p className="text-xs sm:text-sm leading-relaxed text-pretty line-clamp-3 text-theme-neutral">
                   {benefit.description}
                 </p>
 
@@ -209,14 +189,10 @@ const Benefits: React.FC<BenefitsProps> = ({ data }) => {
         {/* CTA */}
         {(!benefits || benefits.length === 0) && (
           <div className="text-center mt-12 sm:mt-16 px-4">
-            <p
-              className="text-sm sm:text-base mb-4 sm:mb-6 text-balance text-theme-neutral"
-            >
+            <p className="text-sm sm:text-base mb-4 sm:mb-6 text-balance text-theme-neutral">
               Ready to experience these benefits for your business?
             </p>
-            <button
-              className="group/btn inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold text-xs sm:text-sm transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl gradient-theme-primary text-white"
-            >
+            <button className="group/btn inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold text-xs sm:text-sm transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl gradient-theme-primary text-white">
               Start Saving Today
               <EasyIcon
                 icon="FiArrowRight"

@@ -74,6 +74,14 @@ const HowItWorks: React.FC<HowItWorksProps> = ({ data }) => {
       }}
     >
       <div className="max-w-7xl mx-auto relative">
+        {section.heading && (
+          <div className="mb-4 sm:mb-6 text-center">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-3 sm:mb-4 border bg-theme-primary/5 text-theme-primary border-theme-primary/20">
+              <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-theme-primary" />
+              {section.heading || "How It Works"}
+            </div>
+          </div>
+        )}
         {hasMultipleSteps && (
           <button
             onClick={() => setCurrentStep((prev) => Math.max(0, prev - 1))}
