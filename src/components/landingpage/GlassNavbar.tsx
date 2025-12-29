@@ -351,14 +351,16 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
           {/* CTA Button */}
           <div className="flex items-center gap-4">
             {navbarCTA?.text ? (
-              <button
-                onClick={onShowLogin}
+              <a
+                href={navbarCTA.url || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl relative overflow-hidden group gradient-theme-primary"
               >
                 <span className="relative z-10">{navbarCTA.text}</span>
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 gradient-theme-secondary" />
                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              </button>
+              </a>
             ) : header_cta_primary ? (
               <button
                 onClick={onShowLogin}
@@ -488,18 +490,16 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
 
             {/* Mobile CTA */}
             {navbarCTA?.text ? (
-              <button
-                onClick={() => {
-                  if (onShowLogin) {
-                    onShowLogin();
-                    setOpen(false);
-                  }
-                }}
+              <a
+                href={navbarCTA.url || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
                 className="mt-2 w-full px-4 py-3 rounded-xl text-white font-semibold text-center shadow-lg transition-all duration-300 hover:scale-105 relative overflow-hidden group gradient-theme-primary"
               >
                 <span className="relative z-10">{navbarCTA.text}</span>
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 gradient-theme-secondary" />
-              </button>
+              </a>
             ) : header_cta_primary ? (
               <button
                 onClick={() => {
