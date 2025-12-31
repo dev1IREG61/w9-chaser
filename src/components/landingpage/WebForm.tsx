@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import EasyIcon from "./IconRenderer";
 
@@ -38,6 +38,17 @@ const WebForm: React.FC<WebFormProps> = ({ isOpen, onClose, data, frontendUrl })
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
 
   const handleChange = (fieldId: number, value: any) => {
     setFormData((prev) => ({ ...prev, [fieldId]: value }));
@@ -207,7 +218,7 @@ const WebForm: React.FC<WebFormProps> = ({ isOpen, onClose, data, frontendUrl })
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-start justify-center p-4 bg-gray-100 overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-start justify-center p-4 bg-gray-100 overflow-y-auto pt-20"
           onClick={onClose}
         >
           <motion.div
@@ -215,7 +226,7 @@ const WebForm: React.FC<WebFormProps> = ({ isOpen, onClose, data, frontendUrl })
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl my-8 bg-white rounded-lg shadow-sm"
+            className="relative w-full max-w-2xl mb-8 bg-white rounded-lg shadow-sm"
           >
             <button
               onClick={onClose}
