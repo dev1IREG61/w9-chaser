@@ -12,6 +12,16 @@ const iconMap: Record<string, () => Promise<any>> = {
   FiMail: () => import("react-icons/fi").then(m => ({ default: m.FiMail })),
   FiPhone: () => import("react-icons/fi").then(m => ({ default: m.FiPhone })),
   FiMapPin: () => import("react-icons/fi").then(m => ({ default: m.FiMapPin })),
+  FiChevronDown: () => import("react-icons/fi").then(m => ({ default: m.FiChevronDown })),
+  FiList: () => import("react-icons/fi").then(m => ({ default: m.FiList })),
+  FiFolder: () => import("react-icons/fi").then(m => ({ default: m.FiFolder })),
+  FiMinusSquare: () => import("react-icons/fi").then(m => ({ default: m.FiMinusSquare })),
+  FiPlusSquare: () => import("react-icons/fi").then(m => ({ default: m.FiPlusSquare })),
+  FiTag: () => import("react-icons/fi").then(m => ({ default: m.FiTag })),
+  FiGift: () => import("react-icons/fi").then(m => ({ default: m.FiGift })),
+  FiCreditCard: () => import("react-icons/fi").then(m => ({ default: m.FiCreditCard })),
+  FiXCircle: () => import("react-icons/fi").then(m => ({ default: m.FiXCircle })),
+  FiHeadphones: () => import("react-icons/fi").then(m => ({ default: m.FiHeadphones })),
 };
 
 interface EasyIconProps {

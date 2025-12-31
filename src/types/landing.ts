@@ -320,6 +320,7 @@ export interface LandingPageData {
   pricing_section?: PricingSection;
   section_order?: string[];
   webform?: WebFormData;
+  web_form_section?: WebFormData;
 }
 
 // ===== NEW: FeaturesPage Interface =====
