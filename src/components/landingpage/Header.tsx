@@ -6,9 +6,10 @@ import EasyIcon from "./IconRenderer";
 interface HeaderProps {
   data: LandingPageData;
   onShowLogin?: () => void;
+  onShowWebForm?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ data, onShowLogin }) => {
+const Header: React.FC<HeaderProps> = ({ data, onShowLogin, onShowWebForm }) => {
   const {
     header_title,
     header_subtitle,
@@ -237,13 +238,21 @@ const Header: React.FC<HeaderProps> = ({ data, onShowLogin }) => {
                     whileTap={{ scale: 0.98 }}
                   >
                     {header_cta_secondary_url &&
-                    header_cta_secondary_url !== "#login" ? (
+                    header_cta_secondary_url !== "#login" &&
+                    header_cta_secondary_url !== "#webform" ? (
                       <motion.a
                         href={header_cta_secondary_url}
                         className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold cursor-pointer inline-flex items-center justify-center gap-2 text-sm sm:text-base border-2 border-theme-neutral/30 text-theme-neutral hover:border-theme-neutral/50 hover:text-theme-text transition-all duration-200"
                       >
                         {header_cta_secondary}
                       </motion.a>
+                    ) : header_cta_secondary_url === "#webform" ? (
+                      <motion.button
+                        onClick={onShowWebForm}
+                        className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold cursor-pointer inline-flex items-center justify-center gap-2 text-sm sm:text-base border-2 border-theme-neutral/30 text-theme-neutral hover:border-theme-neutral/50 hover:text-theme-text transition-all duration-200"
+                      >
+                        {header_cta_secondary}
+                      </motion.button>
                     ) : (
                       <motion.button
                         onClick={onShowLogin}

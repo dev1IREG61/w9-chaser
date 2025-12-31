@@ -229,6 +229,30 @@ export interface PricingSection {
   };
 }
 
+export interface FormField {
+  id: number;
+  label: string;
+  field_type: string;
+  placeholder: string;
+  required: boolean;
+  choices: string[];
+  order: number;
+}
+
+export interface WebFormData {
+  heading: string;
+  description: string;
+  form: {
+    id: number;
+    name: string;
+    form_title: string;
+    form_description: string;
+    success_message: string;
+    button_text: string;
+    fields: FormField[];
+  };
+}
+
 export interface LandingPageData {
   header_config?: HeaderConfig;
   footer_config?: FooterConfig;
@@ -295,6 +319,7 @@ export interface LandingPageData {
   how_it_works_section?: HowItWorksSection;
   pricing_section?: PricingSection;
   section_order?: string[];
+  webform?: WebFormData;
 }
 
 // ===== NEW: FeaturesPage Interface =====
