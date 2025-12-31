@@ -27,7 +27,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [themeColors, setThemeColors] = useState<any>(null);
-  const [isWebFormOpen, setIsWebFormOpen] = useState(false);
 
   // Scroll animation observer - triggers on both scroll down and up
   useEffect(() => {
@@ -123,7 +122,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
     const sectionComponents: Record<string, React.ReactElement | null> = {
       header: (
         <div key={`header-${index}`} className="scroll-fade-up animate-in">
-          <Header data={data!} onShowLogin={onShowLogin} onShowWebForm={() => setIsWebFormOpen(true)} />
+          <Header data={data!} onShowLogin={onShowLogin} />
         </div>
       ),
       features: (
@@ -439,16 +438,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
       {/* Navbar Section - Always at top */}
       <GlassNavbar data={data} onShowLogin={onShowLogin} />
 
-      {/* WebForm Modal */}
-      {data.webform && (
-        <WebForm
-          isOpen={isWebFormOpen}
-          onClose={() => setIsWebFormOpen(false)}
-          data={data.webform}
-          frontendUrl={window.location.origin}
-        />
-      )}
-
       {/* ===== DYNAMIC SECTION RENDERING ===== */}
       {data.section_order && data.section_order.length > 0 ? (
         // If section_order exists in API, render sections dynamically
@@ -463,7 +452,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onShowLogin }) => {
         <>
           {/* Header Section */}
           <div className="scroll-fade-up animate-in">
-            <Header data={data} onShowLogin={onShowLogin} onShowWebForm={() => setIsWebFormOpen(true)} />
+            <Header data={data} onShowLogin={onShowLogin} />
           </div>
 
           {/* Features Section */}
