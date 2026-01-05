@@ -23,6 +23,7 @@ const CTA: React.FC<CTAProps> = ({ data }) => {
 
   return (
     <section
+      id="cta"
       className="py-12 sm:py-16 md:py-20 lg:py-32 relative overflow-hidden gradient-theme-primary"
     >
       {/* Subtle background pattern */}

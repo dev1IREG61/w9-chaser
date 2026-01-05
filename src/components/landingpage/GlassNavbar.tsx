@@ -140,6 +140,10 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
     if (item.title.toLowerCase() === "pricing") {
       return "#pricing";
     }
+    // Handle Contact navigation
+    if (item.title.toLowerCase() === "contact") {
+      return "#cta";
+    }
     return item.url || "#";
   }
 

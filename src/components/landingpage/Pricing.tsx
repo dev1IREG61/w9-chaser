@@ -42,7 +42,7 @@ export default function Pricing({ data }: { data: LandingPageData }) {
   }, [slug]);
 
   return (
-    <div className="w-full mx-auto max-w-6xl">
+    <div id="pricing" className="w-full mx-auto max-w-6xl">
       {data.pricing_section?.heading && (
         <h2 className="text-3xl font-bold text-center mb-4">{data.pricing_section.heading}</h2>
       )}
