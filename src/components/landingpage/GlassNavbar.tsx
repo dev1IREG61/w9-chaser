@@ -132,6 +132,14 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
     if (item.link_type === "page" && !item.url) {
       return "#";
     }
+    // Handle Home navigation
+    if (item.title.toLowerCase() === "home") {
+      return "/";
+    }
+    // Handle Pricing navigation
+    if (item.title.toLowerCase() === "pricing") {
+      return "#pricing";
+    }
     return item.url || "#";
   }
 
@@ -182,27 +190,17 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
           }`}
         >
           {/* Logo Section */}
-          <div className="flex items-center gap-2 flex-shrink-0 group cursor-pointer -my-2">
-            {logo ? (
-              <div className="flex items-center gap-2">
-                <img
-                  src={getFullImageUrl(logo.url)}
-                  alt={logo.title || siteName}
-                  className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center rounded-xl text-white transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 gradient-theme-primary shadow-lg border border-theme-primary/30">
-                  <span className="font-bold text-base sm:text-lg">
-                    {siteName.charAt(0)}
-                  </span>
-                </div>
-                <div className="font-bold text-lg sm:text-xl md:text-2xl transition-all duration-300 group-hover:scale-105 text-theme-text">
-                  {siteName}
-                </div>
-              </div>
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 group cursor-pointer -my-2">
+            {logo && (
+              <img
+                src={getFullImageUrl(logo.url)}
+                alt={logo.title || siteName}
+                className="h-10 w-10 sm:h-12 sm:w-12 object-contain transition-transform duration-300 group-hover:scale-105"
+              />
             )}
+            <div className="font-bold text-lg sm:text-xl md:text-2xl transition-all duration-300 group-hover:scale-105 text-theme-text">
+              {siteName}
+            </div>
           </div>
           {/* Desktop Navigation */}
           {navbarStyle !== "centered" && (
@@ -212,30 +210,30 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                 .map((link) => (
                   <div key={link.id} className="relative">
                     {isFeatureDropdown(link) ? (
-                      <div
-                        className="relative h-full"
-                        onMouseEnter={() => setActiveDropdown(link.id)}
-                        onMouseLeave={() => {
-                          setActiveDropdown(null);
-                        }}
-                      >
-                        <div className="h-full flex items-center">
-                          <button className="flex items-center gap-1 text-sm font-semibold transition-all duration-300 hover:scale-105 relative group py-2 text-theme-text">
-                            {link.title}
-                            <ChevronDown
-                              size={16}
-                              className={`transition-transform duration-300 ${
-                                activeDropdown === link.id ? "rotate-180" : ""
-                              }`}
-                            />
-                            <span className="absolute -bottom-1 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 rounded-full gradient-theme-primary" />
-                          </button>
-                        </div>
+                      featuresPages.length > 0 ? (
+                        <div
+                          className="relative h-full"
+                          onMouseEnter={() => setActiveDropdown(link.id)}
+                          onMouseLeave={() => {
+                            setActiveDropdown(null);
+                          }}
+                        >
+                          <div className="h-full flex items-center">
+                            <button className="flex items-center gap-1 text-sm font-semibold transition-all duration-300 hover:scale-105 relative group py-2 text-theme-text">
+                              {link.title}
+                              <ChevronDown
+                                size={16}
+                                className={`transition-transform duration-300 ${
+                                  activeDropdown === link.id ? "rotate-180" : ""
+                                }`}
+                              />
+                              <span className="absolute -bottom-1 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 rounded-full gradient-theme-primary" />
+                            </button>
+                          </div>
 
-                        {/* Features Pages Dropdown - Connected to button with padding */}
+                          {/* Features Pages Dropdown - Connected to button with padding */}
 
-                        {activeDropdown === link.id &&
-                          featuresPages.length > 0 && (
+                          {activeDropdown === link.id && (
                             <div
                               className="absolute top-full left-1/2 mt-2 w-[650px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl z-50"
                               style={{
@@ -289,7 +287,16 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                               </div>
                             </div>
                           )}
-                      </div>
+                        </div>
+                      ) : (
+                        <a
+                          href="#features"
+                          className="text-sm font-semibold transition-all duration-300 hover:scale-105 relative group py-2 inline-block text-theme-text"
+                        >
+                          {link.title}
+                          <span className="absolute -bottom-1 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 rounded-full gradient-theme-primary" />
+                        </a>
+                      )
                     ) : hasDropdownChildren(link) ? (
                       // Regular dropdown
                       <div
@@ -397,25 +404,25 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
               .map((link) => (
                 <div key={link.id}>
                   {isFeatureDropdown(link) ? (
-                    <div>
-                      <button
-                        onClick={() =>
-                          setActiveDropdown(
-                            activeDropdown === link.id ? null : link.id
-                          )
-                        }
-                        className="w-full flex items-center justify-between text-base font-semibold py-2 px-2 transition-all duration-300 hover:scale-105 relative text-theme-text"
-                      >
-                        {link.title}
-                        <ChevronDown
-                          size={16}
-                          className={`transform transition-transform duration-300 ${
-                            activeDropdown === link.id ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-                      {activeDropdown === link.id &&
-                        featuresPages.length > 0 && (
+                    featuresPages.length > 0 ? (
+                      <div>
+                        <button
+                          onClick={() =>
+                            setActiveDropdown(
+                              activeDropdown === link.id ? null : link.id
+                            )
+                          }
+                          className="w-full flex items-center justify-between text-base font-semibold py-2 px-2 transition-all duration-300 hover:scale-105 relative text-theme-text"
+                        >
+                          {link.title}
+                          <ChevronDown
+                            size={16}
+                            className={`transform transition-transform duration-300 ${
+                              activeDropdown === link.id ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+                        {activeDropdown === link.id && (
                           <div className="ml-4 mt-2 space-y-1 max-h-64 overflow-y-auto">
                             {featuresPages.map((page) => (
                               <a
@@ -440,7 +447,16 @@ function GlassNavbar({ data, onShowLogin }: GlassNavbarProps) {
                             ))}
                           </div>
                         )}
-                    </div>
+                      </div>
+                    ) : (
+                      <a
+                        href="#features"
+                        className="block text-base font-medium py-2 px-2 rounded transition hover:text-blue-600 text-theme-text"
+                        onClick={() => setOpen(false)}
+                      >
+                        {link.title}
+                      </a>
+                    )
                   ) : hasDropdownChildren(link) ? (
                     <div>
                       <button
